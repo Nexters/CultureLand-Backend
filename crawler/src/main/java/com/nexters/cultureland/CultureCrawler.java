@@ -11,7 +11,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -28,12 +27,12 @@ public class CultureCrawler {
 
     @Transactional
     public void getCultureRawdatas(String cultureName){
-        Document doc = null;
         Culture culture = cultureRepsitory.findByCultureName(cultureName);
         String queryUrl = getQueryUrl(cultureName);
         List<CultureRawData> cultureRawDataList = new ArrayList<>();
         while(true) {
             try {
+                Document doc = null;
                 var response = Jsoup.connect(baseUrl + queryUrl).timeout(2000).execute();
                 if (response.statusCode() == HttpStatus.OK.value()) {
                     doc = response.parse();

@@ -1,7 +1,9 @@
-debug: true
+---
+server:
+  port: 8080
 spring:
   profiles:
-  active: dev
+    active: local
 
   datasource:
     platform: h2
@@ -14,7 +16,7 @@ spring:
     database-platform: H2
     show-sql: false
     hibernate:
-      ddl-auto: 'create-drop'
+      ddl-auto: none
       use-new-id-generator-mappings: false
 
     properties:
@@ -22,3 +24,26 @@ spring:
         show_sql=true:h2:
     console:
       enabled: true
+
+---
+server:
+  port: 8082
+spring:
+  profiles: dev
+  jpa:
+    hibernate:
+      #      use-new-id-generator-mappings: false
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8
+    username: ${DB_USER_NAME:user}
+    password: ${DB_PASSWORD:password}
+    initialize: true
