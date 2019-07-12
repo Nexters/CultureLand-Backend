@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306 #외부포트 3306
+    volumes:
+      - C:\Users\ddd41\data\mysql\data:/var/lib/mysql
+      - C:\Users\ddd41\data\mysql\config:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root # Mysql 관리자 비밀번호, 관리자 계정은 root
+      - MYSQL_USER=user #Mysql 사용자 계정
+      - MYSQL_PASSWORD=password #Mysql 사용자 계정 비밀번호
+      - MYSQL_DATABASE=testdb
+    user: 1000:100
