@@ -1,0 +1,15 @@
+debug: true
+server:
+  port: 8080
+spring:
+  profiles:
+  active: dev
+  jpa:
+    show-sql=true: true
+
+    show-sql: false
+    hibernate:
+      ddl-auto: 'create-drop'
+
+  console:
+    enabled: true
