@@ -2,6 +2,7 @@ package org.nexters.cultureland.config;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.nexters.cultureland.handler.RestTemplateErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -21,7 +22,10 @@ public class CommonConfig {
         factory.setHttpClient(client);
         factory.setConnectTimeout(2000);
         factory.setReadTimeout(5000);
-        return new RestTemplate(factory);
+
+        RestTemplate restTemplate = new RestTemplate(factory);
+        restTemplate.setErrorHandler(new RestTemplateErrorHandler());
+        return restTemplate;
     }
 
 }

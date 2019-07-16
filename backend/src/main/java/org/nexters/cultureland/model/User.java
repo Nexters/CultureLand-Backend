@@ -1,14 +1,12 @@
 package org.nexters.cultureland.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.List;
 
 
 @Entity(name = "USER") @NoArgsConstructor

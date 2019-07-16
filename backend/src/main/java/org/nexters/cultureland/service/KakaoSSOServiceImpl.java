@@ -1,9 +1,12 @@
 package org.nexters.cultureland.service;
 
 import org.nexters.cultureland.common.KakaoTokenResponse;
+import org.nexters.cultureland.exception.BadRequestException;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.repo.UserRepository;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,16 +31,18 @@ public class KakaoSSOServiceImpl implements SSOService {
         Long requestUserId = Optional.ofNullable(kakaoResponse.getId())
                 .orElse(-1L);
 
-        if(requestUserId == -1L //401 처리
-            || requestUserId != Long.parseLong(currentUserId.split("\\s")[1])) return false; // 403 처리
+        if(requestUserId == -1L
+            || requestUserId != Long.parseLong(currentUserId.split("\\s")[1])) throw new BadRequestException("Not Matched your id");
 
-        boolean userExists = userRepository.existsByuserId(currentUserId);
-        if(!userExists) {
-            User user = User.builder()
-                    .userId(currentUserId)
-                    .accessToken(accessToken)
-                    .build();
-            userRepository.save(user);
+        synchronized (this){
+            boolean userExists = userRepository.existsByuserId(currentUserId);
+            if(!userExists) {
+                User user = User.builder()
+                        .userId(currentUserId)
+                        .accessToken(accessToken)
+                        .build();
+                userRepository.save(user);
+            }
         }
         return true;
     }
