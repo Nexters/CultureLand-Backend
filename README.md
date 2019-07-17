@@ -22,7 +22,7 @@
 - Spring Data JPA
 - Maven
 - git & slack & Zeplin
-- MySQL 8.0.11
+- MySQL
 - AWS EC2
 - jenkins
 
