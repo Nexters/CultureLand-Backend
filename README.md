@@ -21,9 +21,10 @@
 - Spring boot 2.1.6
 - Spring Data JPA
 - Maven
-- git & slack
-- MySQL
+- git & slack & Zeplin
+- MySQL 8.0.11
 - AWS EC2
+- jenkins
 
 ## 주요 기능
 
