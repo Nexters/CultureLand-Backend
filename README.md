@@ -44,58 +44,28 @@
 
 ### User (CRUD)
 
-- /users            POST
-
-  유저 회원가입
-
-- /users/{userid}  GET
-
-  마이페이지
-
-- /users/{userid}  PUT
-
-  유저 수정
-
-- /users/{userid}  DELETE
-
-  회원 탈퇴
+URL | 요청 | 설명
+:--: | :--: | :--:
+/users | POST | 회원가입
+/users/{userId} | GET | 마이페이지
+/users/{userid} |  PUT | 회원 수정
+/users/{userid} |  DELETE | 회원 탈퇴
 
 ### Diary (CRUD)
 
-- /users/{userid}/diarys GET
-
-  유저의 모든 소감을 조회하는 uri
-
-- /users/{userid}/diarys/{diaryid}  GET
-
-  유저의 기록 중 `diaryid`에 해당하는 소감을 상세 조회하는 uri
-
-- /users/{userid}/diarys/{diaryid}  POST
-
-  로그인한 유저가 소감을 작성하는 uri
-
-- /users/{userid}/diarys/{diaryid}  PUT
-
-  이미 기록한 소감을 수정하는 uri
-
-- /users/{userid}/diarys/{diaryid}  DELETE
-
-  이미 기록한 소감을 삭제하는 uri
+URL | 요청 | 설명
+:--: | :--: | :--:
+/users/{userid}/diarys | GET |  유저의 모든 소감을 조회하는 uri
+/users/{userid}/diarys/{diaryid} | GET |  유저의 기록 중 `diaryid`에 해당하는 소감을 상세 조회하는 uri
+/users/{userid}/diarys/{diaryid} | POST | 로그인한 유저가 소감을 작성하는 uri
+/users/{userid}/diarys/{diaryid} | PUT | 이미 기록한 소감을 수정하는 uri
+/users/{userid}/diarys/{diaryid} | DELETE | 이미 기록한 소감을 삭제하는 uri
 
 ### CultureInfo (R)
 
-- /cultureInfos    GET ALL
-
-  문화생활 전체 목록 조회
-
-- /cultureInfos?category={category} GET category
-
-  카테고리에 맞는 문화생활 조회
-
-- /cultureInfos?find={query} GET query
-
-  검색어`query`에 맞는 문화생활 조회
-
-- /cultureInfos/{cultureinfo-id} GET
-
-  문화생활 상세조회
+URL | 요청 | 설명
+:--: | :--: | :--:
+/cultureInfos | GET | 문화생활 전체 목록 조회
+/cultureInfos?category={category} | GET | 카테고리에 맞는 문화생활 조회
+/cultureInfos?find={query} | GET | 검색어`query`에 맞는 문화생활 조회
+/cultureInfos/{cultureinfo-id} | GET | 문화생활 상세조회
