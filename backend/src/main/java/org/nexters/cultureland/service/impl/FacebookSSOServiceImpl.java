@@ -1,8 +1,9 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.service.impl;
 
 import org.nexters.cultureland.common.FacebookUserResponse;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.repo.UserRepository;
+import org.nexters.cultureland.service.SSOService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class FacebookSSOServiceImpl implements SSOService{
+public class FacebookSSOServiceImpl implements SSOService {
     private String baseUrl = "https://graph.facebook.com";
     //    private String tokenUrl = "/v1/user/access_token_info";
     private String userUrl = "/me";

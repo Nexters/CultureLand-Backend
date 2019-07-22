@@ -1,8 +1,9 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.service.impl;
 
 import org.nexters.cultureland.common.KakaoUserResponse;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.repo.UserRepository;
+import org.nexters.cultureland.service.SSOService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

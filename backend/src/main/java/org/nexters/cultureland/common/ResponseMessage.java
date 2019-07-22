@@ -12,7 +12,7 @@ public class ResponseMessage {
     private Timestamp timestamp;
     private String error;
     private int code;
-    private String message;
+    private Object message;
 
     @Builder
     public ResponseMessage(String error, int code, String message) {
