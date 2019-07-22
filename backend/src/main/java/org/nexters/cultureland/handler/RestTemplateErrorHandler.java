@@ -1,5 +1,6 @@
 package org.nexters.cultureland.handler;
 
+import org.nexters.cultureland.exception.BadRequestException;
 import org.nexters.cultureland.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -17,8 +18,11 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
-        if(clientHttpResponse.getRawStatusCode() == 401){
-            throw new UnauthorizedException("TOKEN NOT AVAILABLE");
+        switch (clientHttpResponse.getStatusCode()){
+            case BAD_REQUEST:
+                throw new BadRequestException("Your request is bad request, please check you token or others");
+            case UNAUTHORIZED:
+                throw new UnauthorizedException("TOKEN NOT AVAILABLE");
         }
     }
 }

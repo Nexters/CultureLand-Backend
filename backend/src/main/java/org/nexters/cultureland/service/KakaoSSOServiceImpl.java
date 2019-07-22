@@ -1,8 +1,6 @@
 package org.nexters.cultureland.service;
 
-import org.nexters.cultureland.common.KakaoTokenResponse;
 import org.nexters.cultureland.common.KakaoUserResponse;
-import org.nexters.cultureland.exception.BadRequestException;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.repo.UserRepository;
 import org.springframework.http.HttpEntity;
@@ -10,8 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Optional;
 
 @Service
 public class KakaoSSOServiceImpl implements SSOService {
