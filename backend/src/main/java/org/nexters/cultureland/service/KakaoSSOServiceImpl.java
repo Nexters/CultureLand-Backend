@@ -15,7 +15,8 @@ import java.util.Optional;
 @Service
 public class KakaoSSOServiceImpl implements SSOService {
     private final String url = "https://kapi.kakao.com/v1/user/access_token_info";
-
+    private final boolean SUCCESS = true;
+    private final boolean FAILED = false;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
 
@@ -32,7 +33,7 @@ public class KakaoSSOServiceImpl implements SSOService {
                 .orElse(-1L);
 
         if(requestUserId == -1L
-            || requestUserId != Long.parseLong(currentUserId.split("\\s")[1])) throw new BadRequestException("Not Matched your id");
+            || requestUserId != Long.parseLong(currentUserId.split("\\s")[1])) {throw new BadRequestException("Not Matched your id");}
 
         synchronized (this){
             boolean userExists = userRepository.existsByuserId(currentUserId);
@@ -44,7 +45,7 @@ public class KakaoSSOServiceImpl implements SSOService {
                 userRepository.save(user);
             }
         }
-        return true;
+        return SUCCESS;
     }
 
     private KakaoTokenResponse getAccessToken(String accessToken){

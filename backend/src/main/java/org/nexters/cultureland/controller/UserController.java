@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ResponseMessage> signInorSignUp(@RequestBody User user){
-        if(user.getAccessToken() == null || user.getUserId() == null) throw new BadRequestException("No AccessToken or No userId");
+        if(user.getAccessToken() == null || user.getUserId() == null) {throw new BadRequestException("No AccessToken or No userId");}
         boolean signUpSucceed = ssoService.singInOrSignUp(user.getAccessToken(), user.getUserId());
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         return new ResponseEntity<>(resp, HttpStatus.OK);
