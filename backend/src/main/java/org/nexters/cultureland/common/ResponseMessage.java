@@ -11,18 +11,18 @@ import java.sql.Timestamp;
 public class ResponseMessage {
     private Timestamp timestamp;
     private String error;
-    private String status;
+    private int code;
     private String message;
 
     @Builder
-    public ResponseMessage(String error, String status, String message) {
+    public ResponseMessage(String error, int code, String message) {
         this.timestamp = CurrentTime.getCurrentTimeStamp();
         this.error = error;
-        this.status = status;
+        this.code = code;
         this.message = message;
     }
 
     public static ResponseMessage getOkResponseMessage(){
-        return ResponseMessage.builder().status("200").message("SUCCESS").build();
+        return ResponseMessage.builder().code(200).message("Your request is succeed").build();
     }
 }

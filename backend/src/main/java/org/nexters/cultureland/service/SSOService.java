@@ -1,5 +1,7 @@
 package org.nexters.cultureland.service;
 
 public interface SSOService {
-    boolean singInOrSignUp(String accessToken, String userId);
+    boolean signInOrSignUp(String accessToken);
+    long requestUserid(String accessToken);
+
 }

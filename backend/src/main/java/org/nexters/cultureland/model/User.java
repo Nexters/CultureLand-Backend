@@ -17,7 +17,7 @@ public class User {
     private Long seq;
 
     @Column(unique = true, nullable = false)
-    private String userId;
+    private Long userId;
 
     private String userName;
 
@@ -29,7 +29,7 @@ public class User {
     //    private List<Post> posts;
 
     @Builder
-    public User(String userId, String userName, String accessToken) {
+    public User(Long userId, String userName, String accessToken) {
         this.userId = userId;
         this.userName = userName;
         this.accessToken = accessToken;

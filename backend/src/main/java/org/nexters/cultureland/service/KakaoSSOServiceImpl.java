@@ -1,6 +1,7 @@
 package org.nexters.cultureland.service;
 
 import org.nexters.cultureland.common.KakaoTokenResponse;
+import org.nexters.cultureland.common.KakaoUserResponse;
 import org.nexters.cultureland.exception.BadRequestException;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.repo.UserRepository;
@@ -14,32 +15,29 @@ import java.util.Optional;
 
 @Service
 public class KakaoSSOServiceImpl implements SSOService {
-    private final String url = "https://kapi.kakao.com/v1/user/access_token_info";
+    private String baseUrl = "https://kapi.kakao.com";
+    private String tokenUrl = "/v1/user/access_token_info";
+    private String userUrl = "/v2/user/me";
     private final boolean SUCCESS = true;
     private final boolean FAILED = false;
+    private final long NotFoundKakaoId = -1L;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
 
-    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository) {
-        this.restTemplate = restTemplate;
-        this.userRepository = userRepository;
-    }
-
     @Override
-    public boolean singInOrSignUp(String accessToken, String currentUserId) {
-        KakaoTokenResponse kakaoResponse = getAccessToken(accessToken);
+    public boolean signInOrSignUp(String accessToken){
+//                이 부분이 필요한가에 대한 의문
+//        KakaoTokenResponse kakaoResponse = requestKakaoToken(accessToken);
+//        Long requestUserId = getIdFromRespsonse(kakaoResponse);
+//        if(requestUserId == NotFoundKakaoId) {throw new BadRequestException("Not Matched Your id");}
 
-        Long requestUserId = Optional.ofNullable(kakaoResponse.getId())
-                .orElse(-1L);
-
-        if(requestUserId == -1L
-            || requestUserId != Long.parseLong(currentUserId.split("\\s")[1])) {throw new BadRequestException("Not Matched your id");}
+        long userId = requestUserid(accessToken);
 
         synchronized (this){
-            boolean userExists = userRepository.existsByuserId(currentUserId);
+            boolean userExists = userRepository.existsByuserId(userId);
             if(!userExists) {
                 User user = User.builder()
-                        .userId(currentUserId)
+                        .userId(userId)
                         .accessToken(accessToken)
                         .build();
                 userRepository.save(user);
@@ -48,10 +46,34 @@ public class KakaoSSOServiceImpl implements SSOService {
         return SUCCESS;
     }
 
-    private KakaoTokenResponse getAccessToken(String accessToken){
+//    private Long getIdFromRespsonse(KakaoTokenResponse kakaoTokenResponse){
+//        return Optional.ofNullable(kakaoTokenResponse.getId())
+//                .orElse(NotFoundKakaoId);
+//    }
+//
+//    private KakaoTokenResponse requestKakaoToken(String accessToken){
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(accessToken);
+//        HttpEntity<KakaoTokenResponse> kakaoEntity = restTemplate.exchange(baseUrl + tokenUrl, HttpMethod.GET, new HttpEntity<>(headers), KakaoTokenResponse.class);
+//        return kakaoEntity.getBody();
+//    }
+
+    public KakaoUserResponse getUserInfoFromKakao(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
-        HttpEntity<KakaoTokenResponse> kakaoEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), KakaoTokenResponse.class);
+        HttpEntity<KakaoUserResponse> kakaoEntity = restTemplate.exchange(baseUrl + userUrl, HttpMethod.POST, new HttpEntity<>(headers), KakaoUserResponse.class);
+        System.out.println(kakaoEntity);
         return kakaoEntity.getBody();
+    }
+
+    @Override
+    public long requestUserid(String accessToken) {
+        KakaoUserResponse kakaoUserResponse = getUserInfoFromKakao(accessToken);
+        return kakaoUserResponse.getId();
+    }
+
+    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository) {
+        this.restTemplate = restTemplate;
+        this.userRepository = userRepository;
     }
 }
