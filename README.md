@@ -57,7 +57,7 @@ URL | 요청 | 설명
 :--: | :--: | :--:
 /users/{userid}/diarys | GET |  유저의 모든 소감을 조회하는 uri
 /users/{userid}/diarys/{diaryid} | GET |  유저의 기록 중 `diaryid`에 해당하는 소감을 상세 조회하는 uri
-/users/{userid}/diarys/{diaryid} | POST | 로그인한 유저가 소감을 작성하는 uri
+/users/{userid}/diarys | POST | 로그인한 유저가 소감을 작성하는 uri
 /users/{userid}/diarys/{diaryid} | PUT | 이미 기록한 소감을 수정하는 uri
 /users/{userid}/diarys/{diaryid} | DELETE | 이미 기록한 소감을 삭제하는 uri
 
