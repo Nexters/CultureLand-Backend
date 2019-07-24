@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ApiExceptionAdvice {
 
-    @ExceptionHandler({ NotFoundResouceException.class })
+    @ExceptionHandler({NotFoundResouceException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundResouceException exception) {

@@ -9,7 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @NoArgsConstructor
+@Getter
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class Diary {
     @Id
