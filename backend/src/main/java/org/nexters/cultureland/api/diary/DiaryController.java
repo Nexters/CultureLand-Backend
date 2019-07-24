@@ -2,12 +2,13 @@ package org.nexters.cultureland.api.diary;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users/{userId}/diaries")
+@RequestMapping(path = "/users/{userId}/diaries")
 public class DiaryController {
 
     private final DiaryService diaryService;
@@ -35,5 +36,10 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public ResponseEntity<Diary> readUserDiary(@PathVariable Long userId, @PathVariable Long diaryId) {
         return new ResponseEntity<>(diaryService.getDiaryOf(diaryId), HttpStatus.OK);
+    }
+
+    @PutMapping("/{diaryId}")
+    public ResponseEntity<Diary> updateUserDiary(@PathVariable Long userId, @PathVariable Long diaryId, DiaryDto diaryDto) {
+        return new ResponseEntity<>(diaryService.updateDiaryOf(diaryId, diaryDto), HttpStatus.OK);
     }
 }
