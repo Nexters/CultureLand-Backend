@@ -2,7 +2,6 @@ package org.nexters.cultureland.api.diary;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +40,11 @@ public class DiaryController {
     @PutMapping("/{diaryId}")
     public ResponseEntity<Diary> updateUserDiary(@PathVariable Long userId, @PathVariable Long diaryId, DiaryDto diaryDto) {
         return new ResponseEntity<>(diaryService.updateDiaryOf(diaryId, diaryDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{diaryId}")
+    public ResponseEntity delteteUserDiary(@PathVariable Long userId, @PathVariable Long diaryId) {
+        diaryService.deleteDiaryOf(diaryId);
+        return ResponseEntity.status(200).build();
     }
 }
