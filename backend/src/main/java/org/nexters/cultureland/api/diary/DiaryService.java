@@ -37,4 +37,8 @@ public class DiaryService {
         diary.update(diaryDto);
         return diaryRepository.save(diary);
     }
+
+    public void deleteDiaryOf(final Long diaryId) {
+        diaryRepository.deleteById(diaryId);
+    }
 }
