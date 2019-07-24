@@ -30,4 +30,9 @@ public class Diary {
         this.title = title;
         this.content = content;
     }
+
+    public void update(final DiaryDto diaryDto) {
+        title = diaryDto.getTitle();
+        content = diaryDto.getContent();
+    }
 }
