@@ -22,7 +22,7 @@ public class DiaryController {
     }
 
     @PostMapping
-    public ResponseEntity createUserDiary(@PathVariable Long userId, DiaryDto diaryDto) {
+    public ResponseEntity<Diary> createUserDiary(@PathVariable Long userId, DiaryDto diaryDto) {
         Diary diary = diaryService.create(diaryDto);
 
         String location = String.format("/users/%d/diaries/%d", userId, diary.getId());
@@ -32,5 +32,8 @@ public class DiaryController {
         return new ResponseEntity<>(diary, headers, HttpStatus.CREATED);
     }
 
-
+    @GetMapping("/{diaryId}")
+    public ResponseEntity<Diary> readUserDiary(@PathVariable Long userId, @PathVariable Long diaryId) {
+        return new ResponseEntity<>(diaryService.getDiaryOf(diaryId), HttpStatus.OK);
+    }
 }

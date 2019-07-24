@@ -1,6 +1,7 @@
 package org.nexters.cultureland.api.diary;
 
 import org.modelmapper.ModelMapper;
+import org.nexters.cultureland.api.diary.excepion.NotFoundDiaryException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +23,10 @@ public class DiaryService {
         Diary diary = diaryRepository.save(modelMapper.map(diaryDto, Diary.class));
 
         return diary;
+    }
+
+    public Diary getDiaryOf(final Long diaryId) {
+        return diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new NotFoundDiaryException("존재하지 않는 기록입니다."));
     }
 }
