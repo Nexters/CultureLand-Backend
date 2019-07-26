@@ -10,6 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
+
 @Service
 public class KakaoSSOServiceImpl implements SSOService {
     private String baseUrl = "https://kapi.kakao.com";
@@ -21,6 +23,7 @@ public class KakaoSSOServiceImpl implements SSOService {
     private RestTemplate restTemplate;
     private UserRepository userRepository;
 
+    @Transactional
     @Override
     public boolean signInOrSignUp(String accessToken){
 //                이 부분이 필요한가에 대한 의문

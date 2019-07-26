@@ -6,6 +6,8 @@ import org.nexters.cultureland.repo.UserRepository;
 import org.nexters.cultureland.service.UserService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -17,6 +19,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByuserId(userId);
     }
 
+    @Transactional
     @Override
     public void deleteUserbyId(long userId) {
         boolean existUser = userRepository.existsByuserId(userId);

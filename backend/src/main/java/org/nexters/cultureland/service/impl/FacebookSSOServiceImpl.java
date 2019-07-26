@@ -10,6 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
+
 @Service
 public class FacebookSSOServiceImpl implements SSOService {
     private String baseUrl = "https://graph.facebook.com";
@@ -18,7 +20,7 @@ public class FacebookSSOServiceImpl implements SSOService {
     private boolean SUCCESS = true;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
-
+    @Transactional
     @Override
     public boolean signInOrSignUp(String accessToken) {
         long userId = requestUserid(accessToken);
