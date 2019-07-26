@@ -41,6 +41,13 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<ResponseMessage> deleteUserInfos(@PathVariable Long userId){
+        userService.deleteUserbyId(userId);
+        ResponseMessage resp = ResponseMessage.getOkResponseMessage();
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
     public SSOService getSSOService(String snsName) {
         SSOService ssoService = null;
         switch (snsName.toUpperCase()){

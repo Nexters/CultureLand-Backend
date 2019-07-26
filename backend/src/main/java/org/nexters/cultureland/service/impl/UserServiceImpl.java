@@ -17,6 +17,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByuserId(userId);
     }
 
+    @Override
+    public void deleteUserbyId(long userId) {
+        boolean existUser = userRepository.existsByuserId(userId);
+        if(!existUser) throw new BadRequestException("YOUR ID IS NOT FOUND");
+
+        userRepository.deleteByuserId(userId);
+    }
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
