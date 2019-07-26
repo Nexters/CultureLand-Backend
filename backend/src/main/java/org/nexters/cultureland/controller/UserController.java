@@ -1,6 +1,7 @@
 package org.nexters.cultureland.controller;
 
 import org.nexters.cultureland.common.ResponseMessage;
+import org.nexters.cultureland.dto.UserDto;
 import org.nexters.cultureland.exception.BadRequestException;
 import org.nexters.cultureland.model.User;
 import org.nexters.cultureland.service.UserService;
@@ -24,10 +25,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ResponseMessage> signInorSignUp(@RequestParam String snsName,
-                                                          @RequestBody User user){
-        if(user.getAccessToken() == null) {throw new BadRequestException("No AccessToken or No userId");}
+                                                          @RequestBody UserDto userDto){
+        if(userDto.getAccessToken() == null) {throw new BadRequestException("No AccessToken or No userId");}
         ssoService = this.getSSOService(snsName);
-        boolean signUpSucceed = ssoService.signInOrSignUp(user.getAccessToken());
+        boolean signUpSucceed = ssoService.signInOrSignUp(userDto.getAccessToken());
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
