@@ -20,7 +20,7 @@ public class CultureRawData {
     private String imageUrl;
     private String title;
     private String place;
-    private String date;
+
     @ManyToOne
     private Culture culture;
 
