@@ -22,7 +22,6 @@ public class Diary {
     private String content;
 
     @Column(name = "CREATED_BY")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdBy = LocalDateTime.now();
 
     @Builder
