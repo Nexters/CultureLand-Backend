@@ -2,6 +2,9 @@ package org.nexters.cultureland.api.diary;
 
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+import org.nexters.cultureland.api.diary.model.Diary;
+import org.nexters.cultureland.api.diary.repository.DiaryRepository;
+import org.nexters.cultureland.api.diary.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,13 +1,13 @@
-package org.nexters.cultureland.controller;
+package org.nexters.cultureland.api.user.controller;
 
 import org.nexters.cultureland.common.ResponseMessage;
-import org.nexters.cultureland.dto.UserDto;
-import org.nexters.cultureland.exception.BadRequestException;
-import org.nexters.cultureland.model.User;
-import org.nexters.cultureland.service.UserService;
-import org.nexters.cultureland.service.impl.FacebookSSOServiceImpl;
-import org.nexters.cultureland.service.impl.KakaoSSOServiceImpl;
-import org.nexters.cultureland.service.SSOService;
+import org.nexters.cultureland.api.user.dto.UserDto;
+import org.nexters.cultureland.api.user.exception.BadRequestException;
+import org.nexters.cultureland.api.user.model.User;
+import org.nexters.cultureland.api.user.service.UserService;
+import org.nexters.cultureland.api.user.service.impl.FacebookSSOServiceImpl;
+import org.nexters.cultureland.api.user.service.impl.KakaoSSOServiceImpl;
+import org.nexters.cultureland.api.user.service.SSOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;

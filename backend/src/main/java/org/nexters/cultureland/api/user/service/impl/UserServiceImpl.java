@@ -1,9 +1,9 @@
-package org.nexters.cultureland.service.impl;
+package org.nexters.cultureland.api.user.service.impl;
 
-import org.nexters.cultureland.exception.BadRequestException;
-import org.nexters.cultureland.model.User;
-import org.nexters.cultureland.repo.UserRepository;
-import org.nexters.cultureland.service.UserService;
+import org.nexters.cultureland.api.user.exception.BadRequestException;
+import org.nexters.cultureland.api.user.model.User;
+import org.nexters.cultureland.api.user.repo.UserRepository;
+import org.nexters.cultureland.api.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

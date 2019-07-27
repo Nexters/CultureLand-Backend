@@ -1,4 +1,4 @@
-package org.nexters.cultureland.dto;
+package org.nexters.cultureland.api.user.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

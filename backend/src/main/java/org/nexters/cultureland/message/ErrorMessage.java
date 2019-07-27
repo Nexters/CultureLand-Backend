@@ -1,4 +1,4 @@
-package org.nexters.cultureland.api.message;
+package org.nexters.cultureland.message;
 
 import lombok.Getter;
 

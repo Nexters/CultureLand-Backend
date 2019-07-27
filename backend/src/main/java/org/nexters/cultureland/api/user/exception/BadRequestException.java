@@ -1,4 +1,4 @@
-package org.nexters.cultureland.exception;
+package org.nexters.cultureland.api.user.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

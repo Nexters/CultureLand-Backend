@@ -1,7 +1,7 @@
-package org.nexters.cultureland.handler;
+package org.nexters.cultureland.api.user.handler;
 
-import org.nexters.cultureland.exception.BadRequestException;
-import org.nexters.cultureland.exception.UnauthorizedException;
+import org.nexters.cultureland.api.user.exception.BadRequestException;
+import org.nexters.cultureland.api.user.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;

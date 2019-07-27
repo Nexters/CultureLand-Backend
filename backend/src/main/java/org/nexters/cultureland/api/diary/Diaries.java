@@ -1,5 +1,7 @@
 package org.nexters.cultureland.api.diary;
 
+import org.nexters.cultureland.api.diary.model.Diary;
+
 import java.util.Collections;
 import java.util.List;
 

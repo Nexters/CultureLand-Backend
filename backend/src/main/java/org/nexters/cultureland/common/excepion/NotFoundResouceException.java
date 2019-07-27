@@ -1,4 +1,4 @@
-package org.nexters.cultureland.api.diary.excepion;
+package org.nexters.cultureland.common.excepion;
 
 public class NotFoundResouceException extends RuntimeException {
     public NotFoundResouceException(final String message) {

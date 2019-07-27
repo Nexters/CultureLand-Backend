@@ -1,7 +1,7 @@
 package org.nexters.cultureland.api;
 
-import org.nexters.cultureland.api.diary.excepion.NotFoundResouceException;
-import org.nexters.cultureland.api.message.ErrorMessage;
+import org.nexters.cultureland.common.excepion.NotFoundResouceException;
+import org.nexters.cultureland.message.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

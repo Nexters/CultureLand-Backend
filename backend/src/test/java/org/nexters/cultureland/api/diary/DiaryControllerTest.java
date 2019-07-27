@@ -2,7 +2,10 @@ package org.nexters.cultureland.api.diary;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.nexters.cultureland.api.diary.excepion.NotFoundDiaryException;
+import org.nexters.cultureland.api.diary.controller.DiaryController;
+import org.nexters.cultureland.api.diary.model.Diary;
+import org.nexters.cultureland.api.diary.service.DiaryService;
+import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
