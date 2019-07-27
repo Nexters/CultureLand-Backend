@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DiaryService {
 
+    private static final String NOT_FOUND_ERROR_MESSAGE = "존재하지 않는 기록입니다.";
     private final DiaryRepository diaryRepository;
     private final ModelMapper modelMapper;
 
@@ -29,7 +30,7 @@ public class DiaryService {
 
     public Diary getDiaryOf(final Long diaryId) {
         return diaryRepository.findById(diaryId)
-                .orElseThrow(() -> new NotFoundDiaryException("존재하지 않는 기록입니다."));
+                .orElseThrow(() -> new NotFoundDiaryException(NOT_FOUND_ERROR_MESSAGE));
     }
 
     public Diary updateDiaryOf(final Long diaryId, DiaryDto diaryDto) {
@@ -39,6 +40,7 @@ public class DiaryService {
     }
 
     public void deleteDiaryOf(final Long diaryId) {
-        diaryRepository.deleteById(diaryId);
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> new NotFoundDiaryException(NOT_FOUND_ERROR_MESSAGE));
+        diaryRepository.delete(diary);
     }
 }
