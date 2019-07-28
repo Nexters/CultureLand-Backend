@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DiaryController.class)
 public class DiaryControllerTest {
 
-    private static final String BASE_URL = "/users/1/diaries";
+    private static final String BASE_URL = "/diaries";
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,6 +42,9 @@ public class DiaryControllerTest {
                 .id(1L)
                 .title("title")
                 .content("content")
+                .sometime(LocalDateTime.now())
+                .where("강남역 메리츠타워")
+                .withWho("컬쳐랜드")
                 .build();
     }
 
@@ -53,29 +57,30 @@ public class DiaryControllerTest {
         ).andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("diaries.[0].id").value(1L))
-                .andExpect(jsonPath("diaries.[0].title").value("title"))
-                .andExpect(jsonPath("diaries.[0].content").value("content"));
+                .andExpect(jsonPath("message.diaries.[0].id").value(1L))
+                .andExpect(jsonPath("message.diaries.[0].title").value("title"))
+                .andExpect(jsonPath("message.diaries.[0].content").value("content"));
     }
 
     @Test
     void diary_생성() throws Exception {
         String title = "title";
         String content = "content";
-        Diary createDiary = Diary.builder()
-                .id(1L)
-                .title(title)
-                .content(content)
-                .build();
 
-        given(diaryService.create(any(DiaryDto.class))).willReturn(createDiary);
+        given(diaryService.create(any(DiaryDto.class))).willReturn(diary);
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("title", title)
                 .param("content", content)
+                .param("when", "2019-08-03")
+                .param("where", "강남역 메리츠타워")
+                .param("with", "컬쳐랜드")
         ).andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("message.id").value(1L))
+                .andExpect(jsonPath("message.title").value("title"))
+                .andExpect(jsonPath("message.content").value("content"));
     }
 
     @Test
@@ -87,9 +92,9 @@ public class DiaryControllerTest {
         ).andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.title").value("title"))
-                .andExpect(jsonPath("$.content").value("content"));
+                .andExpect(jsonPath("message.id").value(1L))
+                .andExpect(jsonPath("message.title").value("title"))
+                .andExpect(jsonPath("message.content").value("content"));
     }
 
     @Test
@@ -101,8 +106,8 @@ public class DiaryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
         ).andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value(errorMessage));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("error").value(errorMessage));
     }
 
     @Test
