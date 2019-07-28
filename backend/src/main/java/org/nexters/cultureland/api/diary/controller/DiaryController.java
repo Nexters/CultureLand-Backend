@@ -4,6 +4,7 @@ import org.nexters.cultureland.api.diary.Diaries;
 import org.nexters.cultureland.api.diary.DiaryDto;
 import org.nexters.cultureland.api.diary.service.DiaryService;
 import org.nexters.cultureland.api.diary.model.Diary;
+import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/users/{userId}/diaries")
+@RequestMapping(path = "/diaries")
 public class DiaryController {
 
     private final DiaryService diaryService;
@@ -21,34 +22,48 @@ public class DiaryController {
     }
 
     @GetMapping
-    public ResponseEntity<Diaries> readAllUserDiaries() {
-        return ResponseEntity.ok(diaryService.fetchDiaries());
+    public ResponseMessage readAllUserDiaries() {
+        Diaries diaries = diaryService.fetchDiaries();
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diaries);
+        return responseMessage;
     }
 
     @PostMapping
-    public ResponseEntity<Diary> createUserDiary(@PathVariable Long userId, DiaryDto diaryDto) {
+    public ResponseMessage createUserDiary(DiaryDto diaryDto) {
         Diary diary = diaryService.create(diaryDto);
 
-        String location = String.format("/users/%d/diaries/%d", userId, diary.getId());
-        MultiValueMap<String, String> headers = new HttpHeaders();
-        headers.add("Location", location);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diary);
 
-        return new ResponseEntity<>(diary, headers, HttpStatus.CREATED);
+        return responseMessage;
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<Diary> readUserDiary(@PathVariable Long userId, @PathVariable Long diaryId) {
-        return new ResponseEntity<>(diaryService.getDiaryOf(diaryId), HttpStatus.OK);
+    public ResponseMessage readUserDiary(@PathVariable Long diaryId) {
+        Diary diary = diaryService.getDiaryOf(diaryId);
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diary);
+        return responseMessage;
     }
 
     @PutMapping("/{diaryId}")
-    public ResponseEntity<Diary> updateUserDiary(@PathVariable Long userId, @PathVariable Long diaryId, DiaryDto diaryDto) {
-        return new ResponseEntity<>(diaryService.updateDiaryOf(diaryId, diaryDto), HttpStatus.OK);
+    public ResponseMessage updateUserDiary(@PathVariable Long diaryId, DiaryDto diaryDto) {
+        Diary diary = diaryService.updateDiaryOf(diaryId, diaryDto);
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diary);
+        return responseMessage;
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity delteteUserDiary(@PathVariable Long userId, @PathVariable Long diaryId) {
+    public ResponseMessage deleteUserDiary(@PathVariable Long diaryId) {
         diaryService.deleteDiaryOf(diaryId);
-        return ResponseEntity.status(200).build();
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage("성공적으로 삭제되었습니다.");
+        return responseMessage;
     }
 }
