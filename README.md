@@ -42,14 +42,18 @@
 
 ## RESTAPI 설계
 
+### Jwt Token(R)
+URL | 요청 | 설명
+:--: | :--: | :--:
+/signInOrUp?snsName={kakao, facebook} | POST | JWT TOKEN 생성/재생성
+
 ### User (CRUD)
 
 URL | 요청 | 설명
 :--: | :--: | :--:
-/users | POST | 회원가입
 /users/{userId} | GET | 마이페이지
-/users/{userid} |  PUT | 회원 수정
-/users/{userid} |  DELETE | 회원 탈퇴
+/users/{userid} | PUT | 회원 수정
+/users/{userid} | DELETE | 회원 탈퇴
 
 ### Diary (CRUD)
 
