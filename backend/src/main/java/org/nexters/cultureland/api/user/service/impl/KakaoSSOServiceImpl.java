@@ -43,7 +43,6 @@ public class KakaoSSOServiceImpl implements SSOService {
             if (!userExists) {
                 user = User.builder()
                         .userId(userId)
-                        .accessToken(accessToken)
                         .build();
                 userRepository.save(user);
             } else {
@@ -52,18 +51,6 @@ public class KakaoSSOServiceImpl implements SSOService {
             return jwtService.makeJwt(user);
         }
     }
-
-//    private Long getIdFromRespsonse(KakaoTokenResponse kakaoTokenResponse){
-//        return Optional.ofNullable(kakaoTokenResponse.getId())
-//                .orElse(NotFoundKakaoId);
-//    }
-//
-//    private KakaoTokenResponse requestKakaoToken(String accessToken){
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setBearerAuth(accessToken);
-//        HttpEntity<KakaoTokenResponse> kakaoEntity = restTemplate.exchange(baseUrl + tokenUrl, HttpMethod.GET, new HttpEntity<>(headers), KakaoTokenResponse.class);
-//        return kakaoEntity.getBody();
-//    }
 
     public KakaoUserResponse getUserInfoFromKakao(String accessToken) {
         HttpHeaders headers = new HttpHeaders();

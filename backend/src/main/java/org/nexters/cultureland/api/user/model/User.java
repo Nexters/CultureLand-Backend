@@ -21,7 +21,6 @@ public class User {
 
     private String userName;
 
-    private String accessToken;
 
     /*
        OneTomMany 설정
@@ -29,9 +28,8 @@ public class User {
     //    private List<Post> posts;
 
     @Builder
-    public User(Long userId, String userName, String accessToken) {
+    public User(Long userId, String userName) {
         this.userId = userId;
         this.userName = userName;
-        this.accessToken = accessToken;
     }
 }

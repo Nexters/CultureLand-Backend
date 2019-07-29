@@ -33,7 +33,6 @@ public class FacebookSSOServiceImpl implements SSOService {
             if(!userExists) {
                 user = User.builder()
                         .userId(userId)
-                        .accessToken(accessToken)
                         .build();
                 userRepository.save(user);
             }
