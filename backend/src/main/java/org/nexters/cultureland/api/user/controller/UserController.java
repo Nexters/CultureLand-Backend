@@ -2,7 +2,7 @@ package org.nexters.cultureland.api.user.controller;
 
 import org.nexters.cultureland.common.ResponseMessage;
 import org.nexters.cultureland.api.user.dto.UserDto;
-import org.nexters.cultureland.api.user.exception.BadRequestException;
+import org.nexters.cultureland.common.excepion.BadRequestException;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.service.UserService;
 import org.nexters.cultureland.api.user.service.impl.FacebookSSOServiceImpl;

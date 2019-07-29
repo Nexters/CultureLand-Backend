@@ -1,4 +1,4 @@
-package org.nexters.cultureland.api;
+package org.nexters.cultureland.common.excepion;
 
 import org.nexters.cultureland.common.excepion.NotFoundResouceException;
 import org.nexters.cultureland.message.ErrorMessage;
