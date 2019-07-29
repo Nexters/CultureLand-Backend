@@ -1,9 +1,11 @@
 package org.nexters.cultureland.api.user.service.impl;
 
-import org.nexters.cultureland.api.user.response.KakaoUserResponse;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.repo.UserRepository;
+import org.nexters.cultureland.api.user.response.KakaoUserResponse;
 import org.nexters.cultureland.api.user.service.SSOService;
+import org.nexters.cultureland.common.JwtServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,10 +24,12 @@ public class KakaoSSOServiceImpl implements SSOService {
     private final long NotFoundKakaoId = -1L;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
+    @Autowired
+    private JwtServiceImpl jwtService;
 
     @Transactional
     @Override
-    public boolean signInOrSignUp(String accessToken){
+    public String signInOrSignUp(String accessToken) {
 //                이 부분이 필요한가에 대한 의문
 //        KakaoTokenResponse kakaoResponse = requestKakaoToken(accessToken);
 //        Long requestUserId = getIdFromRespsonse(kakaoResponse);
@@ -33,17 +37,20 @@ public class KakaoSSOServiceImpl implements SSOService {
 
         long userId = requestUserid(accessToken);
 
-        synchronized (this){
+        synchronized (this) {
             boolean userExists = userRepository.existsByuserId(userId);
-            if(!userExists) {
-                User user = User.builder()
+            User user = null;
+            if (!userExists) {
+                user = User.builder()
                         .userId(userId)
                         .accessToken(accessToken)
                         .build();
                 userRepository.save(user);
+            } else {
+                userRepository.findByuserId(userId);
             }
+            return jwtService.makeJwt(user);
         }
-        return SUCCESS;
     }
 
 //    private Long getIdFromRespsonse(KakaoTokenResponse kakaoTokenResponse){
