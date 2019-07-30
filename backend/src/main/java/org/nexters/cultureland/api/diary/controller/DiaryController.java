@@ -72,7 +72,7 @@ public class DiaryController {
     public ResponseMessage deleteUserDiary(@PathVariable Long diaryId,
                                            HttpServletRequest request) {
         diaryService.deleteDiaryOf(diaryId);
-
+        long userId = (long) request.getAttribute("userId");
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage("성공적으로 삭제되었습니다.");
         responseMessage.setMessage(request.getServletPath());
