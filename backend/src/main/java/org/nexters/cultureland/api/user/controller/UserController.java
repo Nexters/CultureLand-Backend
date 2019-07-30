@@ -7,29 +7,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-
     private UserService userService;
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<ResponseMessage> requestUserInfos(@PathVariable Long userId){
+    @GetMapping
+    public ResponseEntity<ResponseMessage> requestUserInfos(HttpServletRequest request){
+        long userId = (long) request.getAttribute("userId");
         User user = userService.findUserbyuserId(userId);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         resp.setMessage(user);
-
+        resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{userId}")
-    public ResponseEntity<ResponseMessage> deleteUserInfos(@PathVariable Long userId){
+    @DeleteMapping
+    public ResponseEntity<ResponseMessage> deleteUserInfos(HttpServletRequest request){
+        long userId = (long) request.getAttribute("userId");
         userService.deleteUserbyId(userId);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
+        resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
-
-
 
     public UserController(UserService userService) {
         this.userService = userService;

@@ -1,0 +1,1 @@
+insert into user(seq, user_id, created_by) values(null, 1234567, now())

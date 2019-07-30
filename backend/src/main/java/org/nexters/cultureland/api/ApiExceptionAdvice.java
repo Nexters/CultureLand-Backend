@@ -15,7 +15,7 @@ public class ApiExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseMessage handleNotFoundException(NotFoundResouceException exception) {
-        ResponseMessage responseMessage = new ResponseMessage(exception.getMessage(), 400, null);
+        ResponseMessage responseMessage = new ResponseMessage(exception.getMessage(), 400, null,null);
 
         return responseMessage;
     }

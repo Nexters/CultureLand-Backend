@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(path = "/diaries")
 public class DiaryController {
@@ -31,39 +33,49 @@ public class DiaryController {
     }
 
     @PostMapping
-    public ResponseMessage createUserDiary(DiaryDto diaryDto) {
+    public ResponseMessage createUserDiary(DiaryDto diaryDto,
+                                           HttpServletRequest request) {
+        long userId = (long) request.getAttribute("userId");
         Diary diary = diaryService.create(diaryDto);
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
-
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseMessage readUserDiary(@PathVariable Long diaryId) {
+    public ResponseMessage readUserDiary(@PathVariable Long diaryId,
+                                         HttpServletRequest request) {
+        long userId = (long) request.getAttribute("userId");
         Diary diary = diaryService.getDiaryOf(diaryId);
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
     @PutMapping("/{diaryId}")
-    public ResponseMessage updateUserDiary(@PathVariable Long diaryId, DiaryDto diaryDto) {
+    public ResponseMessage updateUserDiary(@PathVariable Long diaryId, DiaryDto diaryDto,
+                                           HttpServletRequest request){
+        long userId = (long) request.getAttribute("userId");
         Diary diary = diaryService.updateDiaryOf(diaryId, diaryDto);
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseMessage deleteUserDiary(@PathVariable Long diaryId) {
+    public ResponseMessage deleteUserDiary(@PathVariable Long diaryId,
+                                           HttpServletRequest request) {
         diaryService.deleteDiaryOf(diaryId);
-
+        long userId = (long) request.getAttribute("userId");
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage("성공적으로 삭제되었습니다.");
+        responseMessage.setMessage(request.getServletPath());
         return responseMessage;
     }
 }

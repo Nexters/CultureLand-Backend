@@ -25,13 +25,15 @@ public class TokenController {
 
     @PostMapping
     public ResponseEntity<ResponseMessage> signInorSignUp(@RequestParam String snsName,
-                                                          @RequestBody Map<String, String> req){
+                                                          @RequestBody Map<String, String> req,
+                                                          HttpServletRequest request){
         String accessToken = req.get("accessToken");
         if(accessToken == null) {throw new BadRequestException("No AccessToken");}
         ssoService = this.getSSOService(snsName);
         String jwtToken = ssoService.signInOrSignUp(accessToken);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         resp.setMessage(jwtToken);
+        resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
