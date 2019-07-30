@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +34,9 @@ public class DiaryServiceTest {
                 .id(1L)
                 .title("title")
                 .content("content")
+                .sometime(LocalDateTime.now())
+                .where("강남역 메리츠타워")
+                .withWho("컬쳐랜드")
                 .build();
 
         given(diaryRepository.findById(1L)).willReturn(Optional.ofNullable(testDiary));
@@ -41,10 +45,16 @@ public class DiaryServiceTest {
         // when
         String updateTitle = "제목";
         String updateContent = "내용";
-        Diary updateDiary = diaryService.updateDiaryOf(1L, new DiaryDto(updateTitle, updateContent));
+        String updateWhen = "2019-08-03T00:00:00";
+        String updateWhere = "공덕역 창업센터";
+        String updateWith = "넥스터즈";
+        Diary updateDiary = diaryService.updateDiaryOf(1L, new DiaryDto(updateTitle, updateWhen, updateWhere, updateWith, updateContent));
 
         // then
         assertThat(updateDiary.getTitle()).isEqualTo(updateTitle);
         assertThat(updateDiary.getContent()).isEqualTo(updateContent);
+        assertThat(updateDiary.getSometime()).isEqualTo(LocalDateTime.parse(updateWhen));
+        assertThat(updateDiary.getPlace()).isEqualTo(updateWhere);
+        assertThat(updateDiary.getWithWho()).isEqualTo(updateWith);
     }
 }
