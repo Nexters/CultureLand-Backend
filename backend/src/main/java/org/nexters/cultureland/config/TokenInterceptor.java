@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TokenInterceptor extends HandlerInterceptorAdapter {
     @Autowired
-    JwtServiceImpl jwtService;
-    private final int BEARER_LENGTH = 6;
+    final private JwtServiceImpl jwtService;
+    final private int BEARER_LENGTH = 6;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,5 +30,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         Claims claims = jwtService.checkJwt(tokenBody);
         request.setAttribute("userId", claims.get("userId"));
         return true;
+    }
+
+    public TokenInterceptor(JwtServiceImpl jwtService) {
+        this.jwtService = jwtService;
     }
 }

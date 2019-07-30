@@ -13,13 +13,15 @@ public class ResponseMessage {
     private String error;
     private int code;
     private Object message;
+    private String path;
 
     @Builder
-    public ResponseMessage(String error, int code, String message) {
+    public ResponseMessage(String error, int code, String message, String path) {
         this.timestamp = CurrentTime.getCurrentTimeStamp();
         this.error = error;
         this.code = code;
         this.message = message;
+        this.path = path;
     }
 
     public static ResponseMessage getOkResponseMessage(){

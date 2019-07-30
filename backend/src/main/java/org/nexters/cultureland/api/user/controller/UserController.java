@@ -1,7 +1,5 @@
 package org.nexters.cultureland.api.user.controller;
 
-import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.api.user.dto.UserDto;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.service.UserService;
 import org.nexters.cultureland.common.ResponseMessage;
@@ -15,29 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/users")
 public class UserController {
     private UserService userService;
-    private ModelMapper modelMapper;
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping
     public ResponseEntity<ResponseMessage> requestUserInfos(HttpServletRequest request){
         long userId = (long) request.getAttribute("userId");
         User user = userService.findUserbyuserId(userId);
-        UserDto userDto = modelMapper.map(user, UserDto.class);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
-        resp.setMessage(userDto);
-
+        resp.setMessage(user);
+        resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{userId}")
+    @DeleteMapping
     public ResponseEntity<ResponseMessage> deleteUserInfos(HttpServletRequest request){
         long userId = (long) request.getAttribute("userId");
         userService.deleteUserbyId(userId);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
+        resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.modelMapper = modelMapper;
     }
 }

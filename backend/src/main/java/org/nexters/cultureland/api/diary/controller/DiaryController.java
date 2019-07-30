@@ -40,7 +40,7 @@ public class DiaryController {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
-
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
@@ -52,6 +52,7 @@ public class DiaryController {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
@@ -63,15 +64,18 @@ public class DiaryController {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
+        responseMessage.setPath(request.getServletPath());
         return responseMessage;
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseMessage deleteUserDiary(@PathVariable Long diaryId) {
+    public ResponseMessage deleteUserDiary(@PathVariable Long diaryId,
+                                           HttpServletRequest request) {
         diaryService.deleteDiaryOf(diaryId);
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage("성공적으로 삭제되었습니다.");
+        responseMessage.setMessage(request.getServletPath());
         return responseMessage;
     }
 }
