@@ -1,9 +1,11 @@
 package org.nexters.cultureland.api.user.service.impl;
 
-import org.nexters.cultureland.common.FacebookUserResponse;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.repo.UserRepository;
+import org.nexters.cultureland.api.user.response.FacebookUserResponse;
 import org.nexters.cultureland.api.user.service.SSOService;
+import org.nexters.cultureland.common.JwtServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,27 +17,30 @@ import javax.transaction.Transactional;
 @Service
 public class FacebookSSOServiceImpl implements SSOService {
     private String baseUrl = "https://graph.facebook.com";
-    //    private String tokenUrl = "/v1/user/access_token_info";
     private String userUrl = "/me";
-    private boolean SUCCESS = true;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
+    @Autowired
+    private JwtServiceImpl jwtService;
+
     @Transactional
     @Override
-    public boolean signInOrSignUp(String accessToken) {
+    public String signInOrSignUp(String accessToken) {
         long userId = requestUserid(accessToken);
-
+        User user = null;
         synchronized (this){
             boolean userExists = userRepository.existsByuserId(userId);
             if(!userExists) {
-                User user = User.builder()
+                user = User.builder()
                         .userId(userId)
-                        .accessToken(accessToken)
                         .build();
                 userRepository.save(user);
             }
+            else{
+                user = userRepository.findByuserId(userId);
+            }
+            return jwtService.makeJwt(user);
         }
-        return SUCCESS;
     }
 
     public FacebookUserResponse getUserInfoFromFacebook(String accessToken) {

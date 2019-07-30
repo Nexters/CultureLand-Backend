@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private Long userId;
     private String userName;
-    private String accessToken;
 
-    public UserDto(Long userId, String userName, String accessToken) {
+    public UserDto(Long userId, String userName) {
         this.userId = userId;
         this.userName = userName;
-        this.accessToken = accessToken;
     }
 }

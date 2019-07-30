@@ -1,8 +1,11 @@
-package org.nexters.cultureland.api.user.exception;
+package org.nexters.cultureland.common.excepion;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/*
+    401 UNAUTHORIZED
+ */
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException(String message){
