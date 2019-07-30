@@ -4,6 +4,7 @@ import lombok.*;
 import org.nexters.cultureland.model.vo.CultureRawData;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +19,7 @@ public class Culture {
     private String cultureName;
 
     @OneToMany(mappedBy = "culture")
-    @JoinColumn(name="culture_id")
-    private List<CultureRawData> cultureRawDatas;
+    private List<CultureRawData> cultureRawDatas = new ArrayList<>();
 
     @Builder
     public Culture(String cultureName, List<CultureRawData> cultureRawDatas) {

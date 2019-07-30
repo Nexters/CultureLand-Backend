@@ -16,7 +16,7 @@ public class CultureRawData {
     @Id
     @GeneratedValue
     private Long id;
-
+    private String date;
     private String imageUrl;
     private String title;
     private String place;

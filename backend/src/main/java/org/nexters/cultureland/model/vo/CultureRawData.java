@@ -1,6 +1,8 @@
 package org.nexters.cultureland.model.vo;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.Table;
 
@@ -11,7 +13,6 @@ public class CultureRawData {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
 	private Long id;
 
 	@Column
@@ -27,7 +28,7 @@ public class CultureRawData {
 	private String date;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JsonIgnore
 	Culture culture;
 
 	public CultureRawData(String imageUrl, String title, String place, String date, Culture culture) {

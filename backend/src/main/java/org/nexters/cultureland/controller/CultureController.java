@@ -5,9 +5,7 @@ import org.nexters.cultureland.model.service.CultureServiceImpl;
 import org.nexters.cultureland.model.vo.Culture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,11 +17,12 @@ public class CultureController {
     private CultureServiceImpl cultureService;
 
     @GetMapping
-    public ResponseEntity<List> readAllCultures() {
-        return ResponseEntity.ok(cultureService.getAllCulture());
+    public ResponseEntity<List<Culture>> readAllCultures() {
+        return ResponseEntity.ok(cultureService.getList());
     }
+
     @GetMapping("/{category}")
-    public ResponseEntity<List> readCultureByKind(String cultureName) {
-        return ResponseEntity.ok(cultureService.getCultureByKind(cultureName));
+    public ResponseEntity<List> readCultureByKind(@PathVariable String category) {
+        return ResponseEntity.ok(cultureService.getByCategory(category));
     }
 }

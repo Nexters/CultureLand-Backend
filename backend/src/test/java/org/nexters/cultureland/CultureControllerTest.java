@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.nexters.cultureland.controller.CultureController;
 import org.nexters.cultureland.model.service.CultureService;
+import org.nexters.cultureland.model.service.CultureServiceImpl;
 import org.nexters.cultureland.model.vo.Culture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,12 +29,12 @@ public class CultureControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CultureService cultureService;
+    private CultureServiceImpl cultureService;
 
     private Culture culture;
 
     @Test
-    void diary_전체_조회() throws Exception {
+    void culture_전체_조회() throws Exception {
         when(cultureService.getAllCulture()).thenReturn(Arrays.asList(culture));
 
         mockMvc.perform(get(BASE_URL)

@@ -1,17 +1,17 @@
-debug: true
+debug: false
+---
 server:
   port: 8080
 spring:
   profiles:
-  active: dev
+    active: local
 
   datasource:
     platform: h2
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db
+    url: jdbc:h2:mem:testdb
     username: sa
     password:
-
+    driver-class-name: org.h2.Driver
   jpa:
     show-sql=true: true
     database-platform: H2
@@ -19,9 +19,22 @@ spring:
     hibernate:
       ddl-auto: 'create-drop'
       use-new-id-generator-mappings: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
     properties:
       hibernate:
         show_sql=true:h2:
-    console:
-      enabled: true
+---
+spring:
+  profiles: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties.hibernate.format_sql: true
+
+---

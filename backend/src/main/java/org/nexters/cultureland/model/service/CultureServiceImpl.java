@@ -15,12 +15,17 @@ public class CultureServiceImpl implements CultureService{
     private CultureRepo cultureRepo;
 
     @Transactional
-    public List getAllCulture() {
+    public List<Culture> getAllCulture() {
         return cultureRepo.findAll();
     }
 
+    @Override
+    public List getList() {
+        return cultureRepo.findList();
+    }
+
     @Transactional
-    public List getCultureByKind(String cultureName) {
-        return cultureRepo.findByCultureName(cultureName);
+    public List getByCategory(String category) {
+        return cultureRepo.findByCultureName(category);
     }
 }
