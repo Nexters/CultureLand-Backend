@@ -1,4 +1,5 @@
 debug: true
+jwtSecretKey: cultureLand  #실행시에 Argument로 주입
 ---
 server:
   port: 8080

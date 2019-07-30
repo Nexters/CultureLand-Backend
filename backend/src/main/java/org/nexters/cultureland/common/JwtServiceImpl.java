@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -15,7 +16,8 @@ import java.util.Map;
 
 @Service
 public class JwtServiceImpl {
-    private String secretKey = "cultureland"; // -> 추후 yml, argument로 주입
+    @Value("${jwtSecretKey}")
+    private String secretKey; //argument로 주입
 
     public String makeJwt(User user) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
