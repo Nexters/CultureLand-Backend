@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping(path= "/cultureInfos")
 public class CultureController {
 
+    /////
     @Autowired
     private CultureServiceImpl cultureService;
 
