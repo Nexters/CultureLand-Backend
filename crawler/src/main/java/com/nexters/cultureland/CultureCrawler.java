@@ -43,8 +43,9 @@ public class CultureCrawler {
                         String imgSrc = e.select("img").attr("src");
                         String title = e.select("span.tk_title").text();
                         String place = e.select("span.tk_place").text();
-                        String date = e.select("span.tk_date").text();
-                        cultureRawDataList.add(new CultureRawData(imgSrc, title, place, date, culture));
+                        String startdate = e.select("span.tk_date").text().split("-")[0];
+                        String enddate = e.select("span.tk_date").text().split("-")[1];
+                        cultureRawDataList.add(new CultureRawData(imgSrc, title, place, startdate, enddate, culture));
                     }
                     if (nextUrl == null) break;
                     queryUrl = nextUrl.attr("href");
