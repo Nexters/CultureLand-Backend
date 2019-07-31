@@ -1,5 +1,7 @@
 package org.nexters.cultureland.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.nexters.cultureland.model.vo.CultureRawData;
 
@@ -18,7 +20,9 @@ public class Culture {
     @Column(unique = true)
     private String cultureName;
 
-    @OneToMany(mappedBy = "culture")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "culture")
+    @JsonBackReference
     private List<CultureRawData> cultureRawDatas = new ArrayList<>();
 
     @Builder
