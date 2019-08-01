@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.user.controller;
 
+import org.nexters.cultureland.api.user.dto.UserDto;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.service.UserService;
 import org.nexters.cultureland.common.ResponseMessage;
@@ -20,7 +21,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ResponseMessage> requestUserInfos(HttpServletRequest request){
         long userId = (long) request.getAttribute("userId");
-        User user = userService.findUserbyuserId(userId);
+        UserDto user = userService.findUserbyuserId(userId);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         resp.setMessage(user);
         resp.setPath(request.getServletPath());
