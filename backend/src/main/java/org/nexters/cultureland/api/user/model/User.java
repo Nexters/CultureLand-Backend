@@ -2,12 +2,11 @@ package org.nexters.cultureland.api.user.model;
 
 
 import lombok.*;
+import org.nexters.cultureland.api.diary.model.Diary;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity(name = "USER") @NoArgsConstructor
@@ -27,7 +26,8 @@ public class User {
     /*
        OneTomMany 설정
      */
-    //    private List<Post> posts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Diary> posts;
 
     @Builder
     public User(Long userId, String userName) {
