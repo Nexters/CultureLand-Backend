@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.diary.model;
 
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id"})
 public class Diary {
     @Id
@@ -31,31 +31,22 @@ public class Diary {
     private String content;
     @Column(name = "CREATED_BY")
     private LocalDateTime createdBy = LocalDateTime.now();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "DIARY_USER_FK"), nullable = false)
     private User user;
 
-    @Builder
-    private Diary(final Long id, final String title, final String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
-
-    @Builder
-    private Diary(final Long id, final String title, final LocalDateTime sometime, final String where, final String withWho, final String content, final User user) {
-        this.id = id;
-        this.title = title;
-        this.sometime = sometime;
-        this.place = where;
-        this.withWho = withWho;
-        this.content = content;
+    public Diary(DiaryDto diaryDto, User user){
+        this.title = diaryDto.getTitle();
+        this.sometime = diaryDto.getSometime();
+        this.place = diaryDto.getPlace();
+        this.withWho = diaryDto.getWithWho();
+        this.content = diaryDto.getContent();
         this.user = user;
     }
 
     public void update(final DiaryDto diaryDto) {
         title = diaryDto.getTitle();
-        sometime = LocalDateTime.parse(diaryDto.getSometime());
+        sometime = diaryDto.getSometime();
         place = diaryDto.getPlace();
         withWho = diaryDto.getWithWho();
         content = diaryDto.getContent();

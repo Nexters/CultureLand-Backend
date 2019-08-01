@@ -1,18 +1,25 @@
 package org.nexters.cultureland.api.diary;
 
-import org.nexters.cultureland.api.diary.model.Diary;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@NoArgsConstructor
 public class Diaries {
-    private final List<Diary> diaries;
+    private List<DiaryDto> diaries;
 
-    public Diaries(final List<Diary> diaries) {
+    public Diaries(final List<DiaryDto> diaries) {
         this.diaries = Collections.unmodifiableList(diaries);
     }
-
-    public List<Diary> getDiaries() {
+    public void addDiary(DiaryDto diary){
+        if(this.diaries == null){
+            diaries = new ArrayList<>();
+        }
+        diaries.add(diary);
+    }
+    public List<DiaryDto> getDiaries() {
         return diaries;
     }
 }
