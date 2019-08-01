@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>org.nexters</groupId>
     <artifactId>cultureland</artifactId>
@@ -29,7 +29,10 @@
             <version>1.18.8</version>
             <scope>provided</scope>
         </dependency>
+<<<<<<< HEAD
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+=======
+>>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -71,12 +74,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+<<<<<<< HEAD
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
+=======
+>>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

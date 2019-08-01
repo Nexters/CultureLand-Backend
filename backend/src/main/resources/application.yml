@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 debug: false
+=======
+debug: true
+>>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
 jwtSecretKey: cultureLand  #실행시에 Argument로 주입
 ---
 server:
   port: 8080
+<<<<<<< HEAD
 spring:
   profiles:
     active: local
@@ -31,11 +36,53 @@ spring:
 ---
 spring:
   profiles: dev
+=======
 
+spring:
+  profiles:
+    active: local
+>>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
+
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql=true: true
+    database-platform: H2
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+    properties:
+      hibernate:
+        show_sql=true:h2:
+---
+server:
+  port: 8080
+spring:
+  profiles: dev
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties.hibernate.format_sql: true
-
----
+      #      use-new-id-generator-mappings: false
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8
+    username: ${DB_USER_NAME:user}
+    password: ${DB_PASSWORD:password}
+    initialization-mode: always # 하면 안됨 prod일 땐
