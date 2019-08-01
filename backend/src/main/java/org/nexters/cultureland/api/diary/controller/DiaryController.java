@@ -5,6 +5,7 @@ import org.nexters.cultureland.api.diary.DiaryDto;
 import org.nexters.cultureland.api.diary.model.Diary;
 import org.nexters.cultureland.api.diary.service.DiaryService;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,11 @@ public class DiaryController {
 
     @GetMapping
     public ResponseMessage readUserDiaries(HttpServletRequest request) {
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setPath(request.getServletPath());
+
         long userId = (long) request.getAttribute("userId");
         Diaries diaries = diaryService.fetchUserDiaries(userId);
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diaries);
         return responseMessage;
     }
@@ -39,12 +42,13 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public ResponseMessage readUserDiary(@PathVariable Long diaryId,
                                          HttpServletRequest request) {
-        long userId = (long) request.getAttribute("userId");
-        DiaryDto diary = diaryService.getDiaryDto(userId, diaryId);
-
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        responseMessage.setMessage(diary);
         responseMessage.setPath(request.getServletPath());
+
+        long userId = (long) request.getAttribute("userId");
+        DiaryDto diary = diaryService.getDiaryOf(userId, diaryId);
+        responseMessage.setMessage(diary);
+
         return responseMessage;
     }
 
@@ -52,12 +56,13 @@ public class DiaryController {
     public ResponseMessage createUserDiary(@RequestBody DiaryDto diaryDto,
                                            HttpServletRequest request) {
         System.out.println(diaryDto);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setPath(request.getServletPath());
+
         long userId = (long) request.getAttribute("userId");
         DiaryDto diary = diaryService.create(userId, diaryDto);
-
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage(diary);
-        responseMessage.setPath(request.getServletPath());
+
         return responseMessage;
     }
 
@@ -65,23 +70,25 @@ public class DiaryController {
     @PutMapping("/{diaryId}")
     public ResponseMessage updateUserDiary(@PathVariable Long diaryId, @RequestBody DiaryDto diaryDto,
                                            HttpServletRequest request) {
-        long userId = (long) request.getAttribute("userId");
-        Diary diary = diaryService.updateDiaryOf(userId, diaryId, diaryDto);
-
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        responseMessage.setMessage(diary);
         responseMessage.setPath(request.getServletPath());
+
+        long userId = (long) request.getAttribute("userId");
+        DiaryDto diary = diaryService.updateDiaryOf(userId, diaryId, diaryDto);
+        responseMessage.setMessage(diary);
         return responseMessage;
     }
 
     @DeleteMapping("/{diaryId}")
     public ResponseMessage deleteUserDiary(@PathVariable Long diaryId,
                                            HttpServletRequest request) {
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setPath(request.getServletPath());
+
         long userId = (long) request.getAttribute("userId");
         diaryService.deleteDiaryOf(userId, diaryId);
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         responseMessage.setMessage("성공적으로 삭제되었습니다.");
-        responseMessage.setPath(request.getServletPath());
+
         return responseMessage;
     }
 }
