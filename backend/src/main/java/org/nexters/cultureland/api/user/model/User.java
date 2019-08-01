@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Entity(name = "USER") @NoArgsConstructor
-@Getter @ToString @Setter
+@Getter @ToString
 public class User {
     @Id
     @GeneratedValue
