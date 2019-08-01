@@ -1,5 +1,8 @@
 debug: true
 jwtSecretKey: cultureLand  #실행시에 Argument로 주입
+spring:
+  application:
+    name: '@artifactId@'
 ---
 server:
   port: 8080

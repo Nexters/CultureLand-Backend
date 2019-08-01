@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.user.service.impl;
 
+import org.nexters.cultureland.api.user.exception.UserNotFoundException;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.repo.UserRepository;
 import org.nexters.cultureland.api.user.service.UserService;
@@ -16,7 +17,8 @@ public class UserServiceImpl implements UserService {
         boolean existUser = userRepository.existsByuserId(userId);
         if(!existUser) throw new BadRequestException("YOUR ID IS NOT FOUND!");
 
-        return userRepository.findByuserId(userId);
+        return userRepository.findByuserId(userId)
+                .orElseThrow(() -> new UserNotFoundException("USER NOT FOUND"));
     }
 
     @Transactional
