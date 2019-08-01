@@ -1,9 +1,8 @@
-package org.nexters.cultureland.model.vo;
+package org.nexters.cultureland.api.culture.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.nexters.cultureland.model.vo.CultureRawData;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,10 +21,9 @@ public class Culture {
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "culture")
-    @JsonBackReference
+    @JsonManagedReference
     private List<CultureRawData> cultureRawDatas = new ArrayList<>();
 
-    @Builder
     public Culture(String cultureName, List<CultureRawData> cultureRawDatas) {
         this.cultureName = cultureName;
         this.cultureRawDatas = cultureRawDatas;

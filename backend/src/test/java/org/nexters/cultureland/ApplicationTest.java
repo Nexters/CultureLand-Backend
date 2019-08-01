@@ -1,8 +1,7 @@
 package org.nexters.cultureland;
 
 import org.junit.jupiter.api.Test;
-import org.nexters.cultureland.model.service.CultureService;
-import org.nexters.cultureland.model.service.CultureServiceImpl;
+import org.nexters.cultureland.api.culture.service.CultureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +31,7 @@ public class ApplicationTest {
                 .andExpect(jsonPath("$").exists());
     }
 
+
     @Test
     void 카테고리로조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos?category=concert"))
@@ -56,12 +56,12 @@ public class ApplicationTest {
                 .andExpect(jsonPath("$").exists());
     }
 
-    @Test
-    void 그냥_테스트() throws Exception {
+/*    @Test
+    void 테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos/test/test"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
-    }
+    }*/
 
 }

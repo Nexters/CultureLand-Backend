@@ -1,3 +1,7 @@
+debug: false
+jwtSecretKey: cultureLand  #실행시에 Argument로 주입
+---
+
 jpa:
   show-sql=true: true
   show-sql: true
@@ -16,6 +20,10 @@ server:
   port: 8080
 spring:
   profiles: dev
+
+  security:
+    basic:
+      enabled: false # security 기본 인증 옵션 제거
 
   datasource:
     driver-class-name: org.h2.Driver

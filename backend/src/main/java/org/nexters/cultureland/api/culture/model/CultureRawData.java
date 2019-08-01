@@ -1,4 +1,4 @@
-package org.nexters.cultureland.model.vo;
+package org.nexters.cultureland.api.culture.model;
 
 import javax.persistence.*;
 
@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+
 import javax.persistence.Table;
 
 @Entity
@@ -33,10 +36,11 @@ public class CultureRawData {
 	@Column
 	private String endDate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "culture_id")
 	//@JsonIgnore
-	@JsonManagedReference
+	@LazyToOne(value = LazyToOneOption.NO_PROXY)
+	@JsonBackReference
 	Culture culture;
 
 	@Builder
