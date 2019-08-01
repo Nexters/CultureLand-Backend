@@ -8,11 +8,11 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.nexters</groupId>
+    <groupId>org.nexters</groupId>
     <artifactId>cultureland</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cultureland</name>
-    <description>Demo project for Spring Boot</description>
+    <description>nexters 15th cultureland team project</description>
 
     <properties>
         <java.version>1.8</java.version>
