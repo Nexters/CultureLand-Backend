@@ -1,8 +1,8 @@
 package org.nexters.cultureland.api.user.service;
 
-import org.nexters.cultureland.api.user.model.User;
+import org.nexters.cultureland.api.user.dto.UserDto;
 
 public interface UserService {
-    User findUserbyuserId(long userId);
+    UserDto findUserbyuserId(long userId);
     void deleteUserbyId(long userId);
 }

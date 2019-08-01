@@ -37,7 +37,8 @@ public class FacebookSSOServiceImpl implements SSOService {
                 userRepository.save(user);
             }
             else{
-                user = userRepository.findByuserId(userId);
+                user = userRepository.findByuserId(userId)
+                .orElseThrow(RuntimeException::new);
             }
             return jwtService.makeJwt(user);
         }
