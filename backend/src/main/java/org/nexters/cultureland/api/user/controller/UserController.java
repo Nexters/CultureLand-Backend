@@ -5,14 +5,9 @@ import org.nexters.cultureland.api.user.service.UserService;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-=======
+
 import org.springframework.web.bind.annotation.*;
->>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
+
 
 import javax.servlet.http.HttpServletRequest;
 

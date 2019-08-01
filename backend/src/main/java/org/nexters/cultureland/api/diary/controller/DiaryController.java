@@ -2,19 +2,10 @@ package org.nexters.cultureland.api.diary.controller;
 
 import org.nexters.cultureland.api.diary.Diaries;
 import org.nexters.cultureland.api.diary.DiaryDto;
-<<<<<<< HEAD
 import org.nexters.cultureland.api.diary.model.Diary;
 import org.nexters.cultureland.api.diary.service.DiaryService;
 import org.nexters.cultureland.common.ResponseMessage;
-=======
-import org.nexters.cultureland.api.diary.service.DiaryService;
-import org.nexters.cultureland.api.diary.model.Diary;
-import org.nexters.cultureland.common.ResponseMessage;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
->>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

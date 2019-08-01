@@ -26,24 +26,27 @@ public class CultureController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category, @RequestParam(value = "find", required = false, defaultValue = "") String find) {
+    public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category,
+                                        @RequestParam(value = "find", required = false, defaultValue = "") String find) {
+
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
         //전체 목록 조회
         if(category.equals("") && find.equals("")) {
             List<CultureDto> cultures = cultureService.getList();
             responseMessage.setMessage(cultures);
-            return responseMessage;
+
         }
         //카테고리에 맞는 문화생활 조회
         else if(category.length() != 0 && find.equals("")) {
             List<CultureDto> cultures = cultureService.getByCategory(category);
             responseMessage.setMessage(cultures);
-            return responseMessage;
         }
         //검색어 query에 맞는 문화생활 조회
-        List<Object> cultureRawDatas = cultureService.getBySearch(find);
-        responseMessage.setMessage(cultureRawDatas);
+        else {
+            List<Object> cultureRawDatas = cultureService.getBySearch(find);
+            responseMessage.setMessage(cultureRawDatas);
+        }
 
         return responseMessage;
     }
@@ -53,7 +56,7 @@ public class CultureController {
     public ResponseMessage readDetailById(@PathVariable("cultureInfoId") Long id) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        Optional<CultureRawData> cultureRawDatas = cultureService.getByCultureId(id);
+        CultureRawData cultureRawDatas = cultureService.getByCultureId(id);
         responseMessage.setMessage(cultureRawDatas);
 
         return responseMessage;

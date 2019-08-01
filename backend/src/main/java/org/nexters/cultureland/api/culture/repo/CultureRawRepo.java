@@ -11,5 +11,5 @@ public interface CultureRawRepo extends JpaRepository<CultureRawData, Long>{
 
     @Query(value="select new org.nexters.cultureland.api.culture.dto.CultureDto(c.id, c.imageUrl) from CultureRawData c order by startDate desc")
     public List<CultureDto> findList();
-    public List<Object> findByTitleIgnoreCaseContaining(String title);
+    public List<CultureRawData> findByTitleIgnoreCaseContaining(String title);
 }

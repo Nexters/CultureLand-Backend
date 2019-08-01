@@ -3,13 +3,8 @@ package org.nexters.cultureland.api.diary.service;
 import org.modelmapper.ModelMapper;
 import org.nexters.cultureland.api.diary.Diaries;
 import org.nexters.cultureland.api.diary.DiaryDto;
-<<<<<<< HEAD
 import org.nexters.cultureland.api.diary.model.Diary;
 import org.nexters.cultureland.api.diary.repository.DiaryRepository;
-=======
-import org.nexters.cultureland.api.diary.repository.DiaryRepository;
-import org.nexters.cultureland.api.diary.model.Diary;
->>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
 import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

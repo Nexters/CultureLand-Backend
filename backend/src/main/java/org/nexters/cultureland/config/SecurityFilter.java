@@ -1,11 +1,6 @@
 package org.nexters.cultureland.config;
 
-
 import org.springframework.stereotype.Component;
-<<<<<<< HEAD
-
-=======
->>>>>>> 70dcb2ed5f100a7f957668c6b2e51e47645c6064
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

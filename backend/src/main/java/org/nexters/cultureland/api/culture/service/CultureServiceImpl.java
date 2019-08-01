@@ -1,22 +1,21 @@
 package org.nexters.cultureland.api.culture.service;
 
 import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.api.culture.dto.CultureDto;
 import org.nexters.cultureland.api.culture.repo.CultureRawRepo;
 import org.nexters.cultureland.api.culture.repo.CultureRepo;
-import org.nexters.cultureland.api.culture.model.Culture;
 import org.nexters.cultureland.api.culture.model.CultureRawData;
+import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service("CultureService")
 @Transactional
 public class CultureServiceImpl implements CultureService{
+
+    private static final String NOT_FOUND_ERROR_MESSAGE = "존재하지 않습니다.";
 
     @Autowired
     private  ModelMapper modelMapper;
@@ -39,8 +38,9 @@ public class CultureServiceImpl implements CultureService{
     }
 
 
-    public Optional<CultureRawData> getByCultureId(Long id) {
-        return cultureRawRepo.findById(id);
+    public CultureRawData getByCultureId(Long id) {
+        return cultureRawRepo.findById(id)
+                .orElseThrow(() -> new NotFoundDiaryException(NOT_FOUND_ERROR_MESSAGE));
     }
 
 

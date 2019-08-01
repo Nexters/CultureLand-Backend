@@ -50,7 +50,7 @@ public class ApplicationTest {
 
     @Test
     void 상세조회_테스트() throws Exception {
-        mockMvc.perform(get("/cultureInfos/64007"))
+        mockMvc.perform(get("/cultureInfos/230"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());

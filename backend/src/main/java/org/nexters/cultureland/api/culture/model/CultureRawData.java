@@ -41,7 +41,7 @@ public class CultureRawData {
 	//@JsonIgnore
 	@LazyToOne(value = LazyToOneOption.NO_PROXY)
 	@JsonBackReference
-	Culture culture;
+	private Culture culture;
 
 	@Builder
 	public CultureRawData(String imageUrl, String title, String place, String startDate, String endDate, Culture culture) {
