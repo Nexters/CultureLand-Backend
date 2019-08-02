@@ -54,12 +54,12 @@ public class CultureController {
     }
 
     //인기순으로 전체조회
-    @GetMapping("/{sort}")
-    public ResponseMessage getListBySort(Sort sort) {
+    @GetMapping("/{pNo}/{size}/{sort}")
+    public ResponseMessage getListBySort(@PathVariable("pNo") int pNo, @PathVariable("size") int size, @PathVariable("sort") String sort) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        List cultureRawDatas = cultureService.getSortList(sort);
-        responseMessage.setMessage(cultureRawDatas);
+        PageRequest request = new PageRequest(pNo-1,size, Sort.Direction.ASC,sort);
+        responseMessage.setMessage(cultureService.getAll(request));
 
         return responseMessage;
     }

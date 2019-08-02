@@ -34,8 +34,8 @@ public class CultureServiceImpl implements CultureService{
         return cultureRawRepo.findList();
     }
 
-    public List getSortList(Sort sort) {
-        return cultureRawRepo.findAll(sort);
+    public Page<CultureRawData> getSortList(Pageable page) {
+        return cultureRawRepo.findAll(page);
     }
 
 
