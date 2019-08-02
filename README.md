@@ -72,5 +72,5 @@ URL | 요청 | 설명
 /cultureInfos | GET | 문화생활 전체 목록 조회
 /cultureInfos?category={category} | GET | 카테고리에 맞는 문화생활 조회
 /cultureInfos?find={query} | GET | 검색어`query`에 맞는 문화생활 조회
-/cultureInfos/{culturenfoId} | GET | 문화생활 상세조회
+/cultureInfos/{cultureInfoId} | GET | 문화생활 상세조회
 
