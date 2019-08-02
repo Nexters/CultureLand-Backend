@@ -2,8 +2,8 @@ package org.nexters.cultureland.api.user.exception;
 
 import org.nexters.cultureland.common.excepion.NotFoundResouceException;
 
-public class UserNotFoundException extends NotFoundResouceException {
-    public UserNotFoundException(String message) {
+public class AccessTokenNotFoundException  extends NotFoundResouceException {
+    public AccessTokenNotFoundException(String message) {
         super(message);
     }
 }
