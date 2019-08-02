@@ -6,6 +6,9 @@ import org.nexters.cultureland.api.culture.repo.CultureRepo;
 import org.nexters.cultureland.api.culture.model.CultureRawData;
 import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +34,10 @@ public class CultureServiceImpl implements CultureService{
         return cultureRawRepo.findList();
     }
 
+    public List getSortList(Sort sort) {
+        return cultureRawRepo.findAll(sort);
+    }
+
 
     public List getByCategory(String category) {
         //return cultureRepo.findByCultureName(category).stream().map(culture -> modelMapper.map(culture,CultureDto.class)).collect(Collectors.toList());
@@ -48,12 +55,8 @@ public class CultureServiceImpl implements CultureService{
         return cultureRawRepo.findByTitleIgnoreCaseContaining(query);
     }
 
-/*  //테스트 코드
-    public List<CultureRawData> getAll(){
-        List<CultureRawData> test  = cultureRawRepo.findAll();
-        for(CultureRawData c : test) {
-           c.setCulture(c.getCulture());
-        }
-        return test;
-    }*/
+  //테스트 코드
+    public Page<CultureRawData> getAll(Pageable page){
+        return cultureRawRepo.findAll(page);
+    }
 }

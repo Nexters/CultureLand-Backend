@@ -8,6 +8,8 @@ import org.nexters.cultureland.api.culture.service.CultureService;
 import org.nexters.cultureland.api.culture.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,17 @@ public class CultureController {
         return responseMessage;
     }
 
+    //인기순으로 전체조회
+    @GetMapping("/{sort}")
+    public ResponseMessage getListBySort(Sort sort) {
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        List cultureRawDatas = cultureService.getSortList(sort);
+        responseMessage.setMessage(cultureRawDatas);
+
+        return responseMessage;
+    }
+
     //문화생활 상세조회
     @GetMapping("/{cultureInfoId}")
     public ResponseMessage readDetailById(@PathVariable("cultureInfoId") Long id) {
@@ -63,8 +76,12 @@ public class CultureController {
     }
 
     // 전체 리스트 조회 테스트
-/*    @GetMapping("/test/test")
-    public ResponseEntity testall() {
-        return ResponseEntity.ok(cultureService.getAll());
-    }*/
+    @GetMapping("/test/{pNo}/{size}")
+    public ResponseMessage testall(@PathVariable("pNo") int pNo, @PathVariable("size") int size) {
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        PageRequest request = new PageRequest(pNo-1,size, Sort.Direction.DESC,"id");
+        responseMessage.setMessage(cultureService.getAll(request));
+        return responseMessage;
+    }
 }

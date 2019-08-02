@@ -31,6 +31,14 @@ public class ApplicationTest {
                 .andExpect(jsonPath("$").exists());
     }
 
+    @Test
+    void 정렬_전체조회_테스트() throws Exception {
+        mockMvc.perform(get("/cultureInfos/id"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists());
+    }
+
 
     @Test
     void 카테고리로조회_테스트() throws Exception {
@@ -49,6 +57,14 @@ public class ApplicationTest {
     }
 
     @Test
+    void 검색어로_제목_조회_테스트() throws Exception {
+        mockMvc.perform(get("/cultureInfos?find=스릴"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists());
+    }
+
+    @Test
     void 상세조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos/230"))
                 .andDo(print())
@@ -56,12 +72,12 @@ public class ApplicationTest {
                 .andExpect(jsonPath("$").exists());
     }
 
-/*    @Test
+    @Test
     void 테스트() throws Exception {
-        mockMvc.perform(get("/cultureInfos/test/test"))
+        mockMvc.perform(get("/cultureInfos/test/1/3"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
-    }*/
+    }
 
 }
