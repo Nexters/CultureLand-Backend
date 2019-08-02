@@ -5,7 +5,7 @@ import org.nexters.cultureland.api.diary.DiaryDto;
 import org.nexters.cultureland.api.diary.model.Diary;
 import org.nexters.cultureland.api.diary.service.DiaryService;
 import org.nexters.cultureland.common.ResponseMessage;
-import org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

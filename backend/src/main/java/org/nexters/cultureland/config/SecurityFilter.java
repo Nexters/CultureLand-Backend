@@ -1,6 +1,5 @@
 package org.nexters.cultureland.config;
 
-
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
