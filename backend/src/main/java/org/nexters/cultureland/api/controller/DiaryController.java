@@ -1,7 +1,9 @@
 package org.nexters.cultureland.api.controller;
 
 import org.nexters.cultureland.api.dto.Diaries;
+import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
+import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
@@ -18,6 +20,7 @@ public class DiaryController {
         this.diaryService = diaryService;
     }
 
+    // TODO : 모든 유저 기록 보여주기 삭제
     @GetMapping("/all")
     public ResponseMessage readAllUserDiaries() {
         Diaries diaries = diaryService.fetchDiaries();
@@ -49,9 +52,8 @@ public class DiaryController {
     }
 
     @PostMapping
-    public ResponseMessage createUserDiary(@RequestBody DiaryDto diaryDto,
+    public ResponseMessage createUserDiary(@RequestBody DiaryCreateDto diaryDto,
                                            @LoginUser long userId) {
-        System.out.println(diaryDto);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
@@ -63,7 +65,7 @@ public class DiaryController {
 
 
     @PutMapping("/{diaryId}")
-    public ResponseMessage updateUserDiary(@PathVariable Long diaryId, @RequestBody DiaryDto diaryDto,
+    public ResponseMessage updateUserDiary(@PathVariable Long diaryId, @RequestBody DiatyUpdateDto diaryDto,
                                            @LoginUser long userId) {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
