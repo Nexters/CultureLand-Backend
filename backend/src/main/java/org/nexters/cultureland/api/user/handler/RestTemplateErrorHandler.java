@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.user.handler;
 
-import org.nexters.cultureland.common.excepion.BadRequestException;
+import org.nexters.cultureland.api.user.exception.AccessTokenNotFoundException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -20,7 +20,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
         switch (clientHttpResponse.getStatusCode()){
             case BAD_REQUEST:
-                throw new BadRequestException("YOUR REQUEST IS BAD REQUEST, PLEASE CHECK YOUR ACCESS TOKEN");
+                throw new AccessTokenNotFoundException("YOUR REQUEST IS BAD REQUEST, PLEASE CHECK YOUR ACCESS TOKEN");
             case UNAUTHORIZED:
                 throw new UnauthorizedException("ACCESS TOKEN IS UNAUTHORIZED");
         }

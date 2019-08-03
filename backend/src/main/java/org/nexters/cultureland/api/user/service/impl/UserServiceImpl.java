@@ -5,7 +5,6 @@ import org.nexters.cultureland.api.user.exception.UserNotFoundException;
 import org.nexters.cultureland.api.user.model.User;
 import org.nexters.cultureland.api.user.repo.UserRepository;
 import org.nexters.cultureland.api.user.service.UserService;
-import org.nexters.cultureland.common.excepion.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private void userExist(long userId){
         boolean existUser = userRepository.existsByuserId(userId);
-        if(!existUser) throw new BadRequestException("YOUR ID IS NOT FOUND");
+        if(!existUser) throw new UserNotFoundException("YOUR ID IS NOT FOUND");
     }
 
     public UserServiceImpl(UserRepository userRepository) {
