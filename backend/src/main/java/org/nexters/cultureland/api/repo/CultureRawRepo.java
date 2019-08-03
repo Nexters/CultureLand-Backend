@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CultureRawRepo extends JpaRepository<CultureRawData, Long>{
 
-    @Query(value="select new org.nexters.cultureland.api.culture.dto.CultureDto(c.id, c.imageUrl) from CultureRawData c order by startDate desc")
+    @Query(value="select new org.nexters.cultureland.api.dto.CultureDto(c.id, c.imageUrl) from CultureRawData c order by startDate desc")
     public List<CultureDto> findList();
     public List<CultureRawData> findByTitleIgnoreCaseContaining(String title);
 }
