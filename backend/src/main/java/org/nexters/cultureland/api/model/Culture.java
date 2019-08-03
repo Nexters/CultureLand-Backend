@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -18,6 +19,9 @@ public class Culture {
     @Column(unique = true)
     private String cultureName;
 
+    @OneToMany(mappedBy = "culture")
+    @JsonBackReference
+    private List<Diary> diaries = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "culture")
     @JsonManagedReference
