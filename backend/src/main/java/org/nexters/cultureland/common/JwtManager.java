@@ -1,7 +1,7 @@
 package org.nexters.cultureland.common;
 
 import io.jsonwebtoken.*;
-import org.nexters.cultureland.api.user.model.User;
+import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class JwtServiceImpl {
+public class JwtManager {
     @Value("${jwtSecretKey}")
     private String secretKey; //argument로 주입
 

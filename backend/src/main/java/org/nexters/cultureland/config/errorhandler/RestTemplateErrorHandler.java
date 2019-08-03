@@ -1,6 +1,6 @@
-package org.nexters.cultureland.handler;
+package org.nexters.cultureland.config.errorhandler;
 
-import org.nexters.cultureland.exception.AccessTokenNotFoundException;
+import org.nexters.cultureland.api.exception.AccessTokenNotFoundException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;

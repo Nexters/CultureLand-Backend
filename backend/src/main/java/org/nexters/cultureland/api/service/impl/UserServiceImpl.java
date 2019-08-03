@@ -1,10 +1,10 @@
-package org.nexters.cultureland.service.impl;
+package org.nexters.cultureland.api.service.impl;
 
-import org.nexters.cultureland.dto.UserDto;
-import org.nexters.cultureland.exception.UserNotFoundException;
-import org.nexters.cultureland.model.User;
-import org.nexters.cultureland.repo.UserRepository;
-import org.nexters.cultureland.service.UserService;
+import org.nexters.cultureland.api.dto.UserDto;
+import org.nexters.cultureland.api.exception.UserNotFoundException;
+import org.nexters.cultureland.api.model.User;
+import org.nexters.cultureland.api.repo.UserRepository;
+import org.nexters.cultureland.api.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

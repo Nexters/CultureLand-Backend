@@ -1,8 +1,7 @@
-package org.nexters.cultureland.model;
+package org.nexters.cultureland.api.model;
 
 
 import lombok.*;
-import org.nexters.cultureland.model.Diary;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,8 +1,8 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.dto.CultureDto;
-import org.nexters.cultureland.model.Culture;
-import org.nexters.cultureland.model.CultureRawData;
+import org.nexters.cultureland.api.dto.CultureDto;
+import org.nexters.cultureland.api.model.Culture;
+import org.nexters.cultureland.api.model.CultureRawData;
 
 import java.util.List;
 

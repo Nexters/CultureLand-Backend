@@ -1,7 +1,7 @@
 package org.nexters.cultureland.config;
 
 import io.jsonwebtoken.Claims;
-import org.nexters.cultureland.common.JwtServiceImpl;
+import org.nexters.cultureland.common.JwtManager;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TokenInterceptor extends HandlerInterceptorAdapter {
     @Autowired
-    final private JwtServiceImpl jwtService;
+    final private JwtManager jwtService;
     final private int BEARER_LENGTH = 6;
 
     @Override
@@ -33,7 +33,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    public TokenInterceptor(JwtServiceImpl jwtService) {
+    public TokenInterceptor(JwtManager jwtService) {
         this.jwtService = jwtService;
     }
 }

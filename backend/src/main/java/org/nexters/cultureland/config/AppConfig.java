@@ -3,7 +3,7 @@ package org.nexters.cultureland.config;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.api.user.handler.RestTemplateErrorHandler;
+import org.nexters.cultureland.config.errorhandler.RestTemplateErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;

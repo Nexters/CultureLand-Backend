@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.diary;
 
-import org.nexters.cultureland.api.diary.controller.DiaryController;
+import org.nexters.cultureland.api.controller.DiaryController;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 @WebMvcTest(DiaryController.class)

@@ -1,7 +1,7 @@
-package org.nexters.cultureland.repo;
+package org.nexters.cultureland.api.repo;
 
-import org.nexters.cultureland.model.Diary;
-import org.nexters.cultureland.model.User;
+import org.nexters.cultureland.api.model.Diary;
+import org.nexters.cultureland.api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

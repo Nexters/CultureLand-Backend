@@ -1,8 +1,8 @@
-package org.nexters.cultureland.controller;
+package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.dto.Diaries;
-import org.nexters.cultureland.dto.DiaryDto;
-import org.nexters.cultureland.service.DiaryService;
+import org.nexters.cultureland.api.dto.Diaries;
+import org.nexters.cultureland.api.dto.DiaryDto;
+import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
 

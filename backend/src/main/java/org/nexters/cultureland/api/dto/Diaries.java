@@ -1,4 +1,4 @@
-package org.nexters.cultureland.dto;
+package org.nexters.cultureland.api.dto;
 
 import lombok.NoArgsConstructor;
 

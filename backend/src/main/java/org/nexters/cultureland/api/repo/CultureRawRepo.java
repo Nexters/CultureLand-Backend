@@ -1,7 +1,7 @@
-package org.nexters.cultureland.repo;
+package org.nexters.cultureland.api.repo;
 
-import org.nexters.cultureland.dto.CultureDto;
-import org.nexters.cultureland.model.CultureRawData;
+import org.nexters.cultureland.api.dto.CultureDto;
+import org.nexters.cultureland.api.model.CultureRawData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

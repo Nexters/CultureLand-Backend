@@ -1,10 +1,10 @@
-package org.nexters.cultureland.model;
+package org.nexters.cultureland.api.model;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.nexters.cultureland.dto.DiaryDto;
+import org.nexters.cultureland.api.dto.DiaryDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

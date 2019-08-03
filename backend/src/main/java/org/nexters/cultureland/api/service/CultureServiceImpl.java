@@ -1,12 +1,12 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.api.service;
 
 import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.dto.CultureDto;
-import org.nexters.cultureland.model.Culture;
-import org.nexters.cultureland.model.CultureRawData;
-import org.nexters.cultureland.repo.CultureRawRepo;
-import org.nexters.cultureland.repo.CultureRepo;
-import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
+import org.nexters.cultureland.api.dto.CultureDto;
+import org.nexters.cultureland.api.model.Culture;
+import org.nexters.cultureland.api.model.CultureRawData;
+import org.nexters.cultureland.api.repo.CultureRawRepo;
+import org.nexters.cultureland.api.repo.CultureRepo;
+import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

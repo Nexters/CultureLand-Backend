@@ -1,7 +1,7 @@
 package org.nexters.cultureland;
 
 import org.junit.jupiter.api.Test;
-import org.nexters.cultureland.api.culture.service.CultureServiceImpl;
+import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;

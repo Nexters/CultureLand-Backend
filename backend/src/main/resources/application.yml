@@ -52,6 +52,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8
-    username: ${DB_USER_NAME:user}
-    password: ${DB_PASSWORD:password}
+    username: ${DB_USER_NAME:root}
+    password: ${DB_PASSWORD:root}
     initialization-mode: always # 하면 안됨 prod일 땐

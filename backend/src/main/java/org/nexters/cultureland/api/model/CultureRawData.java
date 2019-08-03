@@ -1,4 +1,4 @@
-package org.nexters.cultureland.model;
+package org.nexters.cultureland.api.model;
 
 import javax.persistence.*;
 

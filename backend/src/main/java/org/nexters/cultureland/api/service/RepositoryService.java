@@ -1,14 +1,14 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.dto.Diaries;
-import org.nexters.cultureland.dto.DiaryDto;
-import org.nexters.cultureland.model.Diary;
-import org.nexters.cultureland.repo.DiaryRepository;
-import org.nexters.cultureland.exception.UserNotFoundException;
-import org.nexters.cultureland.model.User;
-import org.nexters.cultureland.repo.UserRepository;
+import org.nexters.cultureland.api.dto.Diaries;
+import org.nexters.cultureland.api.dto.DiaryDto;
+import org.nexters.cultureland.api.model.Diary;
+import org.nexters.cultureland.api.repo.DiaryRepository;
+import org.nexters.cultureland.api.exception.UserNotFoundException;
+import org.nexters.cultureland.api.model.User;
+import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
-import org.nexters.cultureland.common.excepion.NotFoundDiaryException;
+import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

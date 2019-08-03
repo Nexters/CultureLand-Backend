@@ -1,9 +1,9 @@
-package org.nexters.cultureland.controller;
+package org.nexters.cultureland.api.controller;
 
 import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.dto.CultureDto;
-import org.nexters.cultureland.model.CultureRawData;
-import org.nexters.cultureland.service.CultureServiceImpl;
+import org.nexters.cultureland.api.dto.CultureDto;
+import org.nexters.cultureland.api.model.CultureRawData;
+import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

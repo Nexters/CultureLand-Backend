@@ -1,8 +1,6 @@
 package org.nexters.cultureland.config;
 
-import org.nexters.cultureland.api.user.dto.UserDto;
-import org.nexters.cultureland.api.user.exception.UserNotFoundException;
-import org.nexters.cultureland.api.user.repo.UserRepository;
+import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;

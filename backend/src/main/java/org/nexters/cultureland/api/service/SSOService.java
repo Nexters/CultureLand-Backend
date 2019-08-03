@@ -1,4 +1,4 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.api.service;
 
 public interface SSOService {
     String signInOrSignUp(String accessToken);

@@ -26,7 +26,7 @@ spring:
 
 ---
 server:
-  port: 8080
+  port: 8081
 spring:
   profiles:
     active: dev
@@ -47,3 +47,4 @@ spring:
     url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: root
+    initialization-mode: always

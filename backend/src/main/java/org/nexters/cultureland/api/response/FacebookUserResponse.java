@@ -1,4 +1,4 @@
-package org.nexters.cultureland.response;
+package org.nexters.cultureland.api.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

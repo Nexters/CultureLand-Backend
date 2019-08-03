@@ -1,9 +1,9 @@
-package org.nexters.cultureland.service.impl;
+package org.nexters.cultureland.api.service.impl;
 
-import org.nexters.cultureland.model.User;
-import org.nexters.cultureland.repo.UserRepository;
-import org.nexters.cultureland.response.FacebookUserResponse;
-import org.nexters.cultureland.service.SSOService;
+import org.nexters.cultureland.api.model.User;
+import org.nexters.cultureland.api.repo.UserRepository;
+import org.nexters.cultureland.api.response.FacebookUserResponse;
+import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.common.JwtManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;

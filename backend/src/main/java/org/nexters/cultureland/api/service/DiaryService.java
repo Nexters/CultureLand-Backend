@@ -1,7 +1,7 @@
-package org.nexters.cultureland.service;
+package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.dto.Diaries;
-import org.nexters.cultureland.dto.DiaryDto;
+import org.nexters.cultureland.api.dto.Diaries;
+import org.nexters.cultureland.api.dto.DiaryDto;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

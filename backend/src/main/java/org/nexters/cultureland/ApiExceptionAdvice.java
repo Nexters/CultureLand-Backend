@@ -1,7 +1,7 @@
-package org.nexters.cultureland.api;
+package org.nexters.cultureland;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.nexters.cultureland.api.user.exception.UserNotFoundException;
+import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.nexters.cultureland.common.excepion.NotFoundResouceException;

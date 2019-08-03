@@ -1,6 +1,6 @@
 package org.nexters.cultureland.config;
 
-import org.nexters.cultureland.common.JwtServiceImpl;
+import org.nexters.cultureland.common.JwtManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -28,6 +28,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Bean
     public TokenInterceptor tokenInterceptor(){
-        return new TokenInterceptor(new JwtServiceImpl());
+        return new TokenInterceptor(new JwtManager());
     }
 }

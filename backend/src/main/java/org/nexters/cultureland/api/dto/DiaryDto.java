@@ -1,7 +1,7 @@
-package org.nexters.cultureland.dto;
+package org.nexters.cultureland.api.dto;
 
 import lombok.*;
-import org.nexters.cultureland.model.Diary;
+import org.nexters.cultureland.api.model.Diary;
 
 import java.time.LocalDateTime;
 

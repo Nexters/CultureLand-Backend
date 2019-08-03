@@ -1,9 +1,9 @@
-package org.nexters.cultureland.controller;
+package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.exception.AccessTokenNotFoundException;
-import org.nexters.cultureland.service.SSOService;
-import org.nexters.cultureland.service.impl.FacebookSSOServiceImpl;
-import org.nexters.cultureland.service.impl.KakaoSSOServiceImpl;
+import org.nexters.cultureland.api.exception.AccessTokenNotFoundException;
+import org.nexters.cultureland.api.service.SSOService;
+import org.nexters.cultureland.api.service.impl.FacebookSSOServiceImpl;
+import org.nexters.cultureland.api.service.impl.KakaoSSOServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
