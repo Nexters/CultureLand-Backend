@@ -1,8 +1,6 @@
 package com.nexters.cultureland;
 
 import com.nexters.cultureland.repo.RawDataRepository;
-import org.slf4j.Logger;
-import org.slf4j.event.EventRecodingLogger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

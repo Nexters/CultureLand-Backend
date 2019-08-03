@@ -1,6 +1,59 @@
+debug: false
+jwtSecretKey: cultureLand  #실행시에 Argument로 주입
+---
+
+jpa:
+  show-sql=true: true
+  show-sql: true
+  hibernate:
+    ddl-auto: none
+    use-new-id-generator-mappings: false
+
+  properties:
+    hibernate:
+      show_sql=true
+  console:
+    enabled: true
+---
+debug: false
+server:
+  port: 8080
 spring:
+  profiles: dev
+
+  security:
+    basic:
+      enabled: false # security 기본 인증 옵션 제거
+
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db
+    url: jdbc:h2:mem:testdb
     username: sa
     password:
+
+  jpa:
+    show-sql=true: true
+    database-platform: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+
+    properties:
+      hibernate:
+        show_sql=true:h2:
+    console:
+      enabled: true
+---
+spring:
+  profiles:
+    active: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect

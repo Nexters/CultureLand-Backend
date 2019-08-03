@@ -2,8 +2,7 @@
 server:
   port: 8080
 spring:
-  profiles:
-    active: local
+  profiles: local
 
   datasource:
     platform: h2
@@ -27,12 +26,14 @@ spring:
 
 ---
 server:
-  port: 8082
+  port: 8081
 spring:
-  profiles: dev
+  profiles:
+    active: dev
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      #      use-new-id-generator-mappings: false
+      use-new-id-generator-mappings: false
       ddl-auto: none
     properties:
       hibernate:
@@ -43,7 +44,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
-    url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8
-    username: ${DB_USER_NAME:user}
-    password: ${DB_PASSWORD:password}
-    initialize: true
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+    initialization-mode: always
