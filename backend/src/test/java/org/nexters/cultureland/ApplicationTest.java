@@ -41,7 +41,7 @@ public class ApplicationTest {
     }
 
     @Test
-    void 검색어로조회_테스트() throws Exception {
+    void 검색어버튼조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos?find=스릴"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -51,6 +51,22 @@ public class ApplicationTest {
     @Test
     void 상세조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos/230"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists());
+    }
+
+    @Test
+    void 제목조회_테스트() throws Exception {
+        mockMvc.perform(get("/cultureInfos?title=스릴"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists());
+    }
+
+    @Test
+    void 페이지조회_테스트() throws Exception {
+        mockMvc.perform(get("/cultureInfos/test"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());

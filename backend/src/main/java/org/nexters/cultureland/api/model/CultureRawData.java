@@ -34,9 +34,8 @@ public class CultureRawData {
 	@Column
 	private String endDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "culture_id")
-	//@JsonIgnore
 	@LazyToOne(value = LazyToOneOption.NO_PROXY)
 	@JsonBackReference
 	private Culture culture;
