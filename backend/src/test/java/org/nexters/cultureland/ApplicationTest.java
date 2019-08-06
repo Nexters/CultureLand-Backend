@@ -73,7 +73,6 @@ public class ApplicationTest {
     }
 
     @Test
-<<<<<<< HEAD
     void 제목조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos?title=스릴"))
                 .andDo(print())
@@ -88,15 +87,4 @@ public class ApplicationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
     }
-
-/*    @Test
-=======
->>>>>>> be2a1211eec7a8c1f6a4a3a971bd57f8ca427467
-    void 테스트() throws Exception {
-        mockMvc.perform(get("/cultureInfos/test/1/3"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists());
-    }
-
 }
