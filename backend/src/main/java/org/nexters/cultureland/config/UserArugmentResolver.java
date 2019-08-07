@@ -12,7 +12,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 
 public class UserArugmentResolver implements HandlerMethodArgumentResolver {
-
     @Autowired
     private UserRepository userRepository;
 

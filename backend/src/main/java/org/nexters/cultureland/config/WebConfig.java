@@ -22,10 +22,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/signInOrUp", "/error");
     }
+
     @Bean
     public UserArugmentResolver userArugmentResolver(){
         return new UserArugmentResolver();
     }
+
     @Bean
     public TokenInterceptor tokenInterceptor(){
         return new TokenInterceptor(new JwtManager());
