@@ -23,6 +23,7 @@ public class ApplicationTest {
     @Autowired
     MockMvc mockMvc;
 
+    //cultureInfos?category={category}&sort={sort}&page={page}
     @Test
     void 전체조회_테스트() throws Exception {
         mockMvc.perform(get("/cultureInfos"))

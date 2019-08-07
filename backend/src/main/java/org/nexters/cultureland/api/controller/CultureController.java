@@ -2,16 +2,12 @@ package org.nexters.cultureland.api.controller;
 
 import org.modelmapper.ModelMapper;
 import org.nexters.cultureland.api.dto.CultureDetailDto;
-import org.nexters.cultureland.api.dto.CultureIdImgDto;
-import org.nexters.cultureland.api.dto.CultureResponse;
-import org.nexters.cultureland.api.model.CultureRawData;
 import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +24,7 @@ public class CultureController {
     @Autowired
     private ModelMapper modelMapper;
 
+    ///cultureInfos?category={category}&sort={sort}&page={page} 문화생활 전체 목록 조회(최신순(new), 인기순(popular), 기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
     @GetMapping
     public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category,
                                         @RequestParam(value = "sort", required = false, defaultValue = "new") String sort,
@@ -35,15 +32,16 @@ public class CultureController {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
-        sort = sort.equals("new") ? "startDate" : "id";
-        Pageable p = PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,sort));
+        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
+                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));
 
-        //최신순으로 id,imgUrl 전체 목록 조회
+        //id,imgUrl 전체 목록 조회
         if(category.equals(""))
-            responseMessage.setMessage(cultureService.getAll(p));
+            responseMessage.setMessage(cultureService.getAll(pageable));
+
         //카테고리에 맞는 문화생활 조회
         else
-            responseMessage.setMessage(cultureService.getByCategoryPage(category,p));
+            responseMessage.setMessage(cultureService.getByCategoryPage(category,pageable));
 
         return responseMessage;
     }
@@ -58,7 +56,7 @@ public class CultureController {
     }
 
 
-        //검색어`query`에 맞는 제목 조회
+    //검색어`query`에 맞는 제목 조회
     @GetMapping("/search")
     public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query){
 
@@ -68,7 +66,7 @@ public class CultureController {
         return responseMessage;
     }
 
-        //문화생활 상세조회
+    //문화생활 상세조회
     @GetMapping("/{cultureInfoId}")
     public ResponseMessage readDetailById(@PathVariable("cultureInfoId") Long id) {
 
@@ -89,9 +87,4 @@ public class CultureController {
         return responseMessage;
     }
 
-    // 전체 리스트 조회 테스트
-/*    @GetMapping("/test/test")
-    public ResponseEntity testall() {
-        return ResponseEntity.ok(cultureService.getAll());
-    }*/
 }

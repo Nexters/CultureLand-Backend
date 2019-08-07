@@ -24,4 +24,5 @@ public class CultureIdImgDto {
         this.imageUrl = cultureRawData.getImageUrl();
     }
 
+
 }
