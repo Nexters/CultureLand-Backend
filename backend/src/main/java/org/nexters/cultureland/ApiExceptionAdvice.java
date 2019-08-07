@@ -29,7 +29,7 @@ public class ApiExceptionAdvice {
         return responseMessage;
     }
 
-    @ExceptionHandler({ExpiredJwtException.class})
+    @ExceptionHandler({ExpiredJwtException.class, ForbiddenException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public ResponseMessage ForbiddenException(HttpServletRequest request, ExpiredJwtException e) {
@@ -43,16 +43,6 @@ public class ApiExceptionAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ResponseMessage unAuthorizedException(HttpServletRequest request, UnauthorizedException e) {
-        //String error, int code, String message, String path
-        log.info(e.getMessage());
-        return new ResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN.value(),
-                null, request.getServletPath());
-    }
-
-    @ExceptionHandler({ForbiddenException.class})
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public ResponseMessage forbiddenException(HttpServletRequest request, ForbiddenException e) {
         //String error, int code, String message, String path
         log.info(e.getMessage());
         return new ResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN.value(),
