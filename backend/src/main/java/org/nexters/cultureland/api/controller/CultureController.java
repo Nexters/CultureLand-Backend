@@ -2,6 +2,8 @@ package org.nexters.cultureland.api.controller;
 
 import org.modelmapper.ModelMapper;
 import org.nexters.cultureland.api.dto.CultureDetailDto;
+import org.nexters.cultureland.api.dto.CultureIdImgDto;
+import org.nexters.cultureland.api.dto.CultureTitleDto;
 import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +38,23 @@ public class CultureController {
                 :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));
 
         //id,imgUrl 전체 목록 조회
-        if(category.equals(""))
+        if(category.equals("")) {
             responseMessage.setMessage(cultureService.getAll(pageable));
+        }
 
         //카테고리에 맞는 문화생활 조회
-        else
-            responseMessage.setMessage(cultureService.getByCategoryPage(category,pageable));
+        else {
+            responseMessage.setMessage(cultureService.getByCategoryPage(category, pageable));
+        }
 
         return responseMessage;
     }
 
     //검색어`title`에 맞는 문화생활 조회
-    @GetMapping("/{title}")
+    @GetMapping("/title/{title}")
     public ResponseMessage readListByTitle(@PathVariable("title") String title) {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        List<Object> cultureRawDatas = cultureService.getBySearch(title);
+        List<CultureIdImgDto> cultureRawDatas = cultureService.getBySearch(title);
         responseMessage.setMessage(cultureRawDatas);
         return responseMessage;
     }
@@ -61,13 +65,13 @@ public class CultureController {
     public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query){
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        List<Object> cultureRawDatas = cultureService.getTitleBySearch(query);
+        List<CultureIdImgDto> cultureRawDatas = cultureService.getTitleBySearch(query);
         responseMessage.setMessage(cultureRawDatas);
         return responseMessage;
     }
 
     //문화생활 상세조회
-    @GetMapping("/{cultureInfoId}")
+    @GetMapping("/id/{cultureInfoId}")
     public ResponseMessage readDetailById(@PathVariable("cultureInfoId") Long id) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
@@ -78,13 +82,13 @@ public class CultureController {
     }
 
     //페이지로 반환 전체 리스트
-    @GetMapping("/test")
+/*    @GetMapping("/test")
     public ResponseMessage testall() {
         //@PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 5)
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         Pageable p = PageRequest.of(1, PAGE_SIZE);
         cultureService.getByCategoryPage("play", p);
         return responseMessage;
-    }
+    }*/
 
 }
