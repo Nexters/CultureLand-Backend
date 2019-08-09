@@ -48,10 +48,29 @@ public class UserController {
         return responseMessage;
     }
 
+    @GetMapping(value = "/dibs/{dibsId}")
+    public ResponseMessage allDibsCultures(@LoginUser long userId, @PathVariable long dibsId){
+        log.info("Call delete user information params {" + userId + "}");
+        ResponseMessage responseMessage = new ResponseMessage();
+        DibsDto dibsDto = userService.findDibsDetail(userId, dibsId);
+        responseMessage.setMessage(dibsDto);
+        return responseMessage;
+    }
+
     @PostMapping(value = "/dibs")
     public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody DibsDto dibsDto){
         log.info(dibsDto.toString());
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        userService.addUserDibs(userId, dibsDto);
+        responseMessage.setMessage("SUCCESS");
+        return responseMessage;
+    }
+
+    @DeleteMapping(value = "/dibs/{dibsId}")
+    public ResponseMessage deleteUserDibs(@LoginUser long userId, @PathVariable long dibsId){
+        log.info(userId + " " + dibsId);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        userService.deleteUserDibs(userId, dibsId);
         responseMessage.setMessage("SUCCESS");
         return responseMessage;
     }

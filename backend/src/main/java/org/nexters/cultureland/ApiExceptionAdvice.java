@@ -29,10 +29,20 @@ public class ApiExceptionAdvice {
         return responseMessage;
     }
 
-    @ExceptionHandler({ExpiredJwtException.class, ForbiddenException.class})
+    @ExceptionHandler(ExpiredJwtException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
-    public ResponseMessage ForbiddenException(HttpServletRequest request, ExpiredJwtException e) {
+    public ResponseMessage expriedToken(HttpServletRequest request, ExpiredJwtException e) {
+        //String error, int code, String message, String path
+        log.info(e.getMessage());
+        return new ResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN.value(),
+                null, request.getServletPath());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseMessage forbiddenException(HttpServletRequest request, ForbiddenException e) {
         //String error, int code, String message, String path
         log.info(e.getMessage());
         return new ResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN.value(),

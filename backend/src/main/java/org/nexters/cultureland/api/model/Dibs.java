@@ -32,9 +32,9 @@ public class Dibs {
     private String endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culture_id")
     //@JsonIgnore
     @LazyToOne(value = LazyToOneOption.NO_PROXY)
+    @JoinColumn(name = "USER_SEQ")
     @JsonBackReference
     private User user;
 

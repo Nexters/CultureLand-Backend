@@ -10,4 +10,6 @@ public interface UserService {
     void deleteUserbyId(long userId);
     List<DibsDto> findAllDibs(long userId);
     void addUserDibs(long userId, DibsDto dibsDto);
+    void deleteUserDibs(long userId, long dibsId);
+    DibsDto findDibsDetail(long userId, long dibsId);
 }
