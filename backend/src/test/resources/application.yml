@@ -32,18 +32,15 @@ spring:
     password:
 
   jpa:
-    show-sql=true: true
     database-platform: H2
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       use-new-id-generator-mappings: false
 
     properties:
       hibernate:
-        show_sql=true:h2:
-    console:
-      enabled: true
+        format_sql: true
 ---
 spring:
   profiles:
