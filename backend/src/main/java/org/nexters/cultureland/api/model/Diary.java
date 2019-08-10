@@ -38,6 +38,9 @@ public class Diary {
     @Column(nullable = false)
     private String content;
 
+    @Column(length = 255)
+    private String imageUrl;
+
     @Column(name = "CREATED_BY")
     private LocalDateTime createdBy = LocalDateTime.now();
 

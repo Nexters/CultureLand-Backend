@@ -5,19 +5,25 @@ import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 import org.nexters.cultureland.api.service.DiaryService;
+import org.nexters.cultureland.api.service.S3Service;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
-
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/diaries")
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final S3Service s3Service;
 
-    public DiaryController(final DiaryService diaryService) {
+    public DiaryController(final DiaryService diaryService, final S3Service s3Service) {
         this.diaryService = diaryService;
+        this.s3Service = s3Service;
     }
 
     // TODO : 모든 유저 기록 보여주기 삭제
@@ -57,10 +63,19 @@ public class DiaryController {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
-        DiaryDto diary = diaryService.create(userId, diaryDto);
-        responseMessage.setMessage(diary);
+        DiaryDto diaryResponse = diaryService.create(userId, diaryDto);
+        responseMessage.setMessage(diaryResponse);
 
         return responseMessage;
+    }
+
+    @PostMapping(value = "/upload/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseMessage uploadDiaryImage(@RequestPart MultipartFile image) throws IOException {
+        String imageUrl = s3Service.upload(image);
+        return ResponseMessage.builder()
+                .code(200)
+                .message(imageUrl)
+                .build();
     }
 
 

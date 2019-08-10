@@ -4,15 +4,15 @@ import org.nexters.cultureland.api.dto.Diaries;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
+import org.nexters.cultureland.api.exception.NotFoundDiaryException;
+import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.api.model.Culture;
 import org.nexters.cultureland.api.model.Diary;
+import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.repo.CultureRepo;
 import org.nexters.cultureland.api.repo.DiaryRepository;
-import org.nexters.cultureland.api.exception.UserNotFoundException;
-import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
-import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +33,10 @@ public class RepositoryService {
         this.cultureRepository = cultureRepository;
     }
 
-    public Diaries readAllDiaries(){
+    public Diaries readAllDiaries() {
         return diaryEntityToDto(diaryRepository.findAll());
     }
+
     public Diaries readUserDiaries(long userId) {
         User user = findUser(userId);
 
@@ -44,7 +45,7 @@ public class RepositoryService {
         return diaries;
     }
 
-    public DiaryDto readDiary(long userId, final Long diaryId){
+    public DiaryDto readDiary(long userId, final Long diaryId) {
         Diary diary = findDiaryEntity(userId, diaryId);
         return new DiaryDto(diary);
     }
@@ -67,7 +68,7 @@ public class RepositoryService {
         return new DiaryDto(savedDiary);
     }
 
-    public void deleteDiary(long userId, final Long diaryId){
+    public void deleteDiary(long userId, final Long diaryId) {
         Diary diary = findDiaryEntity(userId, diaryId);
         diaryRepository.delete(diary);
     }
@@ -92,8 +93,8 @@ public class RepositoryService {
         return diary;
     }
 
-    private void checkForbiddenRequest(long userId, Diary diary){
-        if(!diary.getUser().equals(findUser(userId))){
+    private void checkForbiddenRequest(long userId, Diary diary) {
+        if (!diary.getUser().equals(findUser(userId))) {
             throw new ForbiddenException(FORBIDDEN_ERROR_MESSAGE);
         }
     }
