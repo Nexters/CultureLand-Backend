@@ -7,13 +7,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CultureDto {
-    private String cultureName;
+public class CultureTitleDto {
     private Long id;
-    private String imageUrl;
+    private String title;
 
-    public CultureDto(Long id, String imageUrl) {
+    public CultureTitleDto(Long id, String title) {
         this.id = id;
-        this.imageUrl = imageUrl;
+        this.title = title;
     }
 }
