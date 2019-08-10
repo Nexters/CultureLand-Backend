@@ -4,6 +4,8 @@ import com.nexters.cultureland.repo.RawDataRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class CrawlingScheduler {
     private CultureCrawler cultureCrawler;
@@ -14,6 +16,10 @@ public class CrawlingScheduler {
         매분 마다 table drop한 후 crawling 시작.
         나중에는 시간단위로 변경 -> * 0 * * * *
     */
+    @PostConstruct
+    public void runner(){
+        this.startScheduler();
+    }
     @Scheduled(cron = "0 * * * * *")
     public void startScheduler(){
         long start = System.currentTimeMillis(); //시작하는 시점 계산

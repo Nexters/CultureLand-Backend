@@ -5,6 +5,8 @@ import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.FacebookUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.common.JwtManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,39 +18,39 @@ import javax.transaction.Transactional;
 
 @Service
 public class FacebookSSOServiceImpl implements SSOService {
+    private static final Logger log = LoggerFactory.getLogger(FacebookSSOServiceImpl.class);
     private String baseUrl = "https://graph.facebook.com";
     private String userUrl = "/me";
     private RestTemplate restTemplate;
     private UserRepository userRepository;
-    @Autowired
-    private JwtManager jwtService;
+    private JwtManager jwtManager;
 
     @Transactional
     @Override
     public String signInOrSignUp(String accessToken) {
         long userId = requestUserid(accessToken);
         User user = null;
-        synchronized (this){
+        synchronized (this) {
             boolean userExists = userRepository.existsByuserId(userId);
-            if(!userExists) {
+            if (!userExists) {
                 user = User.builder()
                         .userId(userId)
                         .build();
                 userRepository.save(user);
-            }
-            else{
+            } else {
                 user = userRepository.findByuserId(userId)
-                .orElseThrow(RuntimeException::new);
+                        .orElseThrow(RuntimeException::new);
             }
-            return jwtService.makeJwt(user);
+            return jwtManager.makeJwt(user);
         }
     }
 
     public FacebookUserResponse getUserInfoFromFacebook(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
+        log.info("Request user Information from Facebook - " + baseUrl + userUrl);
         HttpEntity<FacebookUserResponse> facebookResponse = restTemplate.exchange(baseUrl + userUrl, HttpMethod.GET, new HttpEntity<>(headers), FacebookUserResponse.class);
-        System.out.println(facebookResponse);
+        log.info("Response user information from Facebook - " + facebookResponse);
         return facebookResponse.getBody();
     }
 
@@ -58,7 +60,8 @@ public class FacebookSSOServiceImpl implements SSOService {
         return facebookUserResponse.getId();
     }
 
-    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository) {
+    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+        this.jwtManager = jwtManager;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
     }

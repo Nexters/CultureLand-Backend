@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,9 +29,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Diary> posts;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Dibs> dibses;
+
     @Builder
     public User(Long userId, String userName) {
         this.userId = userId;
         this.userName = userName;
+    }
+
+    public void addDibsCulture(Dibs dibs){
+        if(this.dibses == null) {this.dibses = new ArrayList<>();}
+        this.dibses.add(dibs);
     }
 }

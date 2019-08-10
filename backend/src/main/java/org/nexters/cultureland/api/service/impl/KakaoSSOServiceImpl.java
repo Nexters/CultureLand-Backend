@@ -5,6 +5,8 @@ import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.KakaoUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.common.JwtManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,25 +18,16 @@ import javax.transaction.Transactional;
 
 @Service
 public class KakaoSSOServiceImpl implements SSOService {
+    private static final Logger log = LoggerFactory.getLogger(KakaoSSOServiceImpl.class);
     private String baseUrl = "https://kapi.kakao.com";
-    private String tokenUrl = "/v1/user/access_token_info";
     private String userUrl = "/v2/user/me";
-    private final boolean SUCCESS = true;
-    private final boolean FAILED = false;
-    private final long NotFoundKakaoId = -1L;
     private RestTemplate restTemplate;
     private UserRepository userRepository;
-    @Autowired
-    private JwtManager jwtService;
+    private JwtManager jwtManager;
 
     @Transactional
     @Override
     public String signInOrSignUp(String accessToken) {
-//                이 부분이 필요한가에 대한 의문
-//        KakaoTokenResponse kakaoResponse = requestKakaoToken(accessToken);
-//        Long requestUserId = getIdFromRespsonse(kakaoResponse);
-//        if(requestUserId == NotFoundKakaoId) {throw new BadRequestException("Not Matched Your id");}
-
         long userId = requestUserid(accessToken);
 
         synchronized (this) {
@@ -48,16 +41,18 @@ public class KakaoSSOServiceImpl implements SSOService {
             } else {
                 userRepository.findByuserId(userId);
             }
-            return jwtService.makeJwt(user);
+            return jwtManager.makeJwt(user);
         }
     }
 
     public KakaoUserResponse getUserInfoFromKakao(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
-        HttpEntity<KakaoUserResponse> kakaoEntity = restTemplate.exchange(baseUrl + userUrl, HttpMethod.POST, new HttpEntity<>(headers), KakaoUserResponse.class);
-        System.out.println(kakaoEntity);
-        return kakaoEntity.getBody();
+        log.info("Request user Information from Kakao - " + baseUrl + userUrl);
+        HttpEntity<KakaoUserResponse> kakaoResponse = restTemplate.exchange(baseUrl + userUrl, HttpMethod.POST, new HttpEntity<>(headers), KakaoUserResponse.class);
+        log.info("Response user information from Facebook - " + kakaoResponse);
+
+        return kakaoResponse.getBody();
     }
 
     @Override
@@ -66,7 +61,8 @@ public class KakaoSSOServiceImpl implements SSOService {
         return kakaoUserResponse.getId();
     }
 
-    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository) {
+    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+        this.jwtManager = jwtManager;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
     }

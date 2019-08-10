@@ -4,7 +4,10 @@ import io.jsonwebtoken.*;
 import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -14,8 +17,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+@Component
 public class JwtManager {
+    private static final Logger log = LoggerFactory.getLogger(JwtManager.class);
     @Value("${jwtSecretKey}")
     private String secretKey; //argument로 주입
 
@@ -45,7 +49,7 @@ public class JwtManager {
         try {
             Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
                     .parseClaimsJws(jwt).getBody(); // 정상 수행된다면 해당 토큰은 정상토큰
-            System.out.println(claims);
+            log.info(claims.toString());
             return claims;
         } catch (ExpiredJwtException exception) {   //토큰 만료 403
             throw new ForbiddenException("Token is expired, Please refresh your token");
