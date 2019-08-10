@@ -26,16 +26,16 @@ public class CultureController {
     @Autowired
     private ModelMapper modelMapper;
 
-    ///cultureInfos?category={category}&sort={sort}&page={page} 문화생활 전체 목록 조회(최신순(new), 인기순(popular), 기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
+    ///cultureInfos?category={category}&sort={sort}&page={page} 문화생활 전체 목록 조회(기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
     @GetMapping
     public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category,
-                                        @RequestParam(value = "sort", required = false, defaultValue = "new") String sort,
                                         @RequestParam(value = "page", required = false, defaultValue = "0") int page){
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
-        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
-                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));
+/*        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
+                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));*/
+        Pageable pageable =  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"));
 
         //id,imgUrl 전체 목록 조회
         if(category.equals("")) {
