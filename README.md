@@ -69,10 +69,8 @@ URL | 요청 | 설명
 
 URL | 요청 | 설명
 :--: | :--: | :--:
-/cultureInfos | GET | 문화생활 전체 목록 조회
-/cultureInfos/{sort} | GET | 문화생활 인기순, 최신순으로 전체 목록 조회
-/cultureInfos?category={category} | GET | 카테고리에 맞는 문화생활 조회
-/cultureInfos?find={query} | GET | 검색어`query`에 맞는 문화생활 조회
-/cultureInfos/{title} | GET | 검색어`title`에 맞는 제목 조회
-/cultureInfos/{cultureInfoId} | GET | 문화생활 상세조회
+/cultureInfos?category={category}&sort={sort}&page={page} | GET |  문화생활 전체 목록 조회(최신순(new), 인기순(popular), 기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
+/cultureInfos/search?query={query} | GET | 검색어`query`에 맞는 제목 조회
+/cultureInfos/title/{title} | GET | 검색어`title`에 맞는 문화생활 조회
+/cultureInfos/id/{cultureInfoId} | GET | 문화생활 상세조회
 

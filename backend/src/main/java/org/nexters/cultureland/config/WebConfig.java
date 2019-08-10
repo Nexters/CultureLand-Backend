@@ -16,16 +16,18 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(userArugmentResolver());
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(tokenInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/signInOrUp", "/error");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(tokenInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/signInOrUp", "/error");
+    }
+
     @Bean
     public UserArugmentResolver userArugmentResolver(){
         return new UserArugmentResolver();
     }
+
     @Bean
     public TokenInterceptor tokenInterceptor(){
         return new TokenInterceptor(new JwtManager());

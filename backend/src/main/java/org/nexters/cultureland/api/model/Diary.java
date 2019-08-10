@@ -46,7 +46,7 @@ public class Diary {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(foreignKey = @ForeignKey(name = "DIARY_CULTURE_FK"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "DIARY_CULTURE_FK"), nullable = false)
     private Culture culture;
 
     @ManyToOne
