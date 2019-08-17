@@ -7,7 +7,7 @@ import lombok.ToString;
 import org.nexters.cultureland.api.model.Culture;
 import org.nexters.cultureland.api.model.Diary;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class DiaryDto {
     private long id;
     private String title;
-    private LocalDateTime sometime;
+    private LocalDate sometime;
     private String place;
     private String withWho;
     private String content;
