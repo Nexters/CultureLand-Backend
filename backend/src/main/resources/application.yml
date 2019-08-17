@@ -1,15 +1,18 @@
-debug: true
 jwtSecretKey: cultureLand  #실행시에 Argument로 주입
 spring:
   application:
     name: '@artifactId@'
+cloud:
+  aws:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+    bucket: cultureland
 ---
 server:
   port: 8080
 
 spring:
-  profiles:
-    active: local
+  profiles: local
 
   datasource:
     platform: h2
@@ -17,6 +20,7 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
   jpa:
     show-sql=true: true
     database-platform: H2
@@ -31,11 +35,15 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+debug: true
 ---
 server:
   port: 8080
+
 spring:
   profiles: dev
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -52,9 +60,16 @@ spring:
     username: ${DB_USER_NAME:root}
     password: ${DB_PASSWORD:root}
     initialization-mode: always # 하면 안됨 prod일 땐
+---
+spring:
+  profiles: prod
 
-cloud:
-  aws:
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_KEY}
-    bucket: cultureland
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_PROD_USER_NAME}
+    password: ${DB_PROD_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
