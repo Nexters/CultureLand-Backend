@@ -1,9 +1,6 @@
 package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.api.dto.Diaries;
-import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
-import org.nexters.cultureland.api.dto.DiatyUpdateDto;
+import org.nexters.cultureland.api.dto.*;
 import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.api.model.Culture;
@@ -16,6 +13,7 @@ import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepositoryService {
@@ -104,5 +102,17 @@ public class RepositoryService {
         diary.like();
 
         return new DiaryDto(diary);
+    }
+
+    public List<DiaryCountDto> countByUserGroupedMonth(Long userId, String year) {
+        List<Object[]> queryResult = diaryRepository.countByUser(userId, year);
+
+        return queryResult.stream()
+                .map((result) ->
+                        DiaryCountDto.builder()
+                                .monthTime((String) result[0])
+                                .count((int) result[1])
+                                .build()
+                ).collect(Collectors.toList());
     }
 }

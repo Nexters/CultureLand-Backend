@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.api.dto.Diaries;
+import org.nexters.cultureland.api.dto.DiaryCountDto;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/diaries")
@@ -26,22 +28,26 @@ public class DiaryController {
         this.s3Service = s3Service;
     }
 
-    // TODO : 모든 유저 기록 보여주기 삭제
-    @GetMapping("/all")
-    public ResponseMessage readAllUserDiaries() {
-        Diaries diaries = diaryService.fetchDiaries();
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        responseMessage.setMessage(diaries);
-        return responseMessage;
-    }
+//    @GetMapping
+//    public ResponseMessage readUserDiaries(@LoginUser long userId) {
+//        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+////        responseMessage.setPath(request.getServletPath());
+//
+//        Diaries diaries = diaryService.fetchUserDiaries(userId);
+//        responseMessage.setMessage(diaries);
+//        return responseMessage;
+//    }
 
     @GetMapping
-    public ResponseMessage readUserDiaries(@LoginUser long userId) {
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-//        responseMessage.setPath(request.getServletPath());
+    public ResponseMessage summaryUserDiaries(@LoginUser long userId, @RequestParam(defaultValue = "today") String year) {
+        if (year.equals("today")) {
+            year = LocalDate.now().getYear() + "";
+        }
 
-        Diaries diaries = diaryService.fetchUserDiaries(userId);
-        responseMessage.setMessage(diaries);
+        List<DiaryCountDto> diaryCountDtos = diaryService.countByUserGroupedMonth(userId, year);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diaryCountDtos);
+
         return responseMessage;
     }
 
