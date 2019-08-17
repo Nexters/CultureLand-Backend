@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CultureRepository extends JpaRepository<Culture, Long>{
+public interface CultureRepository extends JpaRepository<Culture, Long> {
     Optional<Culture> findByCultureName(String cultureName);
 }

@@ -6,12 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -53,7 +51,7 @@ public class Diary {
     @JoinColumn(foreignKey = @ForeignKey(name = "DIARY_USER_FK"), nullable = false)
     private User user;
 
-    public Diary(DiaryCreateDto diaryDto, Culture culture, User user){
+    public Diary(DiaryCreateDto diaryDto, Culture culture, User user) {
         this.title = diaryDto.getTitle();
         this.sometime = LocalDateTime.parse(diaryDto.getSometime());
         this.place = diaryDto.getPlace();

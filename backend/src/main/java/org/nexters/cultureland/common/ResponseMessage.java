@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class ResponseMessage {
     private Timestamp timestamp;
     private String error;
@@ -24,7 +26,7 @@ public class ResponseMessage {
         this.path = path;
     }
 
-    public static ResponseMessage getOkResponseMessage(){
+    public static ResponseMessage getOkResponseMessage() {
         return ResponseMessage.builder().code(200).message("Your request is succeed").build();
     }
 }

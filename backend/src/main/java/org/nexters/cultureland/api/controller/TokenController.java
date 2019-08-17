@@ -26,6 +26,10 @@ public class TokenController {
     private ApplicationContext appContext;
     private SSOService ssoService;
 
+    public TokenController(ApplicationContext appContext) {
+        this.appContext = appContext;
+    }
+
     @PostMapping
     public ResponseEntity<ResponseMessage> signInorSignUp(@RequestParam String snsName,
                                                           @RequestBody Map<String, String> req,
@@ -54,9 +58,5 @@ public class TokenController {
                 break;
         }
         return ssoService;
-    }
-
-    public TokenController(ApplicationContext appContext) {
-        this.appContext = appContext;
     }
 }

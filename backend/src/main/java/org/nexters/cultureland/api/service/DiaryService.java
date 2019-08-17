@@ -3,7 +3,6 @@ package org.nexters.cultureland.api.service;
 import org.nexters.cultureland.api.dto.Diaries;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
-
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

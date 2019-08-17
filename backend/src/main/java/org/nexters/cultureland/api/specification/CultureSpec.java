@@ -12,7 +12,7 @@ public class CultureSpec {
         return new Specification<CultureRawData>() {
             @Override
             public Predicate toPredicate(Root<CultureRawData> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                if(StringUtils.isEmpty(category))
+                if (StringUtils.isEmpty(category))
                     return null;
 
                 Join<CultureRawData, Culture> c = root.join("culture", JoinType.INNER);

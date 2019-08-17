@@ -3,7 +3,6 @@ package org.nexters.cultureland.api.controller;
 import org.modelmapper.ModelMapper;
 import org.nexters.cultureland.api.dto.CultureDetailDto;
 import org.nexters.cultureland.api.dto.CultureIdImgDto;
-import org.nexters.cultureland.api.dto.CultureTitleDto;
 import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path= "/cultureInfos")
+@RequestMapping(path = "/cultureInfos")
 public class CultureController {
 
     private final int PAGE_SIZE = 5;
@@ -29,16 +28,16 @@ public class CultureController {
     ///cultureInfos?category={category}&sort={sort}&page={page} 문화생활 전체 목록 조회(기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
     @GetMapping
     public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category,
-                                        @RequestParam(value = "page", required = false, defaultValue = "0") int page){
+                                        @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
 /*        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
                 :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));*/
-        Pageable pageable =  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"));
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, new Sort(Sort.Direction.DESC, "startDate"));
 
         //id,imgUrl 전체 목록 조회
-        if(category.equals("")) {
+        if (category.equals("")) {
             responseMessage.setMessage(cultureService.getAll(pageable));
         }
 
@@ -62,7 +61,7 @@ public class CultureController {
 
     //검색어`query`에 맞는 제목 조회
     @GetMapping("/search")
-    public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query){
+    public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         List<CultureIdImgDto> cultureRawDatas = cultureService.getTitleBySearch(query);
@@ -75,7 +74,7 @@ public class CultureController {
     public ResponseMessage readDetailById(@PathVariable("cultureInfoId") Long id) {
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        CultureDetailDto culture= cultureService.getByCultureId(id);
+        CultureDetailDto culture = cultureService.getByCultureId(id);
         responseMessage.setMessage(culture);
 
         return responseMessage;

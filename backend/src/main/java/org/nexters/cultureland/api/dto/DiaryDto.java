@@ -1,6 +1,9 @@
 package org.nexters.cultureland.api.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.nexters.cultureland.api.model.Culture;
 import org.nexters.cultureland.api.model.Diary;
 
@@ -19,7 +22,7 @@ public class DiaryDto {
     private String content;
     private Culture culture;
 
-    public DiaryDto(Diary diary){
+    public DiaryDto(Diary diary) {
         this.id = diary.getId();
         this.title = diary.getTitle();
         this.sometime = diary.getSometime();

@@ -53,7 +53,7 @@ public class S3Service {
 
         String concertFileName = convertFileNameForSave(file.getOriginalFilename());
         File convertFile = new File(concertFileName);
-        if(convertFile.createNewFile()) {
+        if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
             }
