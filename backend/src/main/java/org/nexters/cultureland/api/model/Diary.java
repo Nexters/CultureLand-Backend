@@ -63,11 +63,21 @@ public class Diary {
         this.user = user;
     }
 
+    // TODO: 리펙토링 필요!
     public void update(final DiatyUpdateDto diaryDto) {
-        title = diaryDto.getTitle();
-        this.sometime = LocalDateTime.parse(diaryDto.getSometime());
-        place = diaryDto.getPlace();
-        withWho = diaryDto.getWithWho();
-        content = diaryDto.getContent();
+        String title = diaryDto.getTitle();
+        this.title = title == null ? this.title : title;
+
+        String sometime = diaryDto.getSometime();
+        this.sometime = sometime == null ? this.sometime : LocalDateTime.parse(sometime);
+
+        String place = diaryDto.getPlace();
+        this.place = place == null ? this.place : place;
+
+        String withWho = diaryDto.getWithWho();
+        this.withWho = withWho == null ? this.withWho : withWho;
+
+        String content = diaryDto.getContent();
+        this.content = content == null ? this.content : content;
     }
 }
