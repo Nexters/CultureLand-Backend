@@ -9,6 +9,7 @@ import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +25,7 @@ public class Diary {
     private String title;
 
     @Column(nullable = false)
-    private LocalDateTime sometime;
+    private LocalDate sometime;
 
     @Column(nullable = false)
     private String place;
@@ -56,7 +57,7 @@ public class Diary {
 
     public Diary(DiaryCreateDto diaryDto, Culture culture, User user) {
         this.title = diaryDto.getTitle();
-        this.sometime = LocalDateTime.parse(diaryDto.getSometime());
+        this.sometime = LocalDate.parse(diaryDto.getSometime());
         this.place = diaryDto.getPlace();
         this.withWho = diaryDto.getWithWho();
         this.content = diaryDto.getContent();
@@ -71,7 +72,7 @@ public class Diary {
         this.title = title == null ? this.title : title;
 
         String sometime = diaryDto.getSometime();
-        this.sometime = sometime == null ? this.sometime : LocalDateTime.parse(sometime);
+        this.sometime = sometime == null ? this.sometime : LocalDate.parse(sometime);
 
         String place = diaryDto.getPlace();
         this.place = place == null ? this.place : place;
