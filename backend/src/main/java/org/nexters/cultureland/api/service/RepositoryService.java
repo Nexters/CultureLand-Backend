@@ -9,7 +9,7 @@ import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.api.model.Culture;
 import org.nexters.cultureland.api.model.Diary;
 import org.nexters.cultureland.api.model.User;
-import org.nexters.cultureland.api.repo.CultureRepo;
+import org.nexters.cultureland.api.repo.CultureRepository;
 import org.nexters.cultureland.api.repo.DiaryRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
@@ -24,10 +24,10 @@ public class RepositoryService {
 
     private final DiaryRepository diaryRepository; // repository 리팩토링 필요
     private final UserRepository userRepository;
-    private final CultureRepo cultureRepository;
+    private final CultureRepository cultureRepository;
 
     public RepositoryService(final DiaryRepository diaryRepository,
-                             final UserRepository userRepository, final CultureRepo cultureRepository) {
+                             final UserRepository userRepository, final CultureRepository cultureRepository) {
         this.diaryRepository = diaryRepository;
         this.userRepository = userRepository;
         this.cultureRepository = cultureRepository;
