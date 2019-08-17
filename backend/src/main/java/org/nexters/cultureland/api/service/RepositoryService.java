@@ -98,4 +98,11 @@ public class RepositoryService {
             throw new ForbiddenException(FORBIDDEN_ERROR_MESSAGE);
         }
     }
+
+    public DiaryDto like(final long userId, final Long diaryId) {
+        Diary diary = findDiaryEntity(userId, diaryId);
+        diary.like();
+
+        return new DiaryDto(diary);
+    }
 }

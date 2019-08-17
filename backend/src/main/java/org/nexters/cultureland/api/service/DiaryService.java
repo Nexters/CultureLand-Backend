@@ -43,4 +43,8 @@ public class DiaryService {
     public void deleteDiaryOf(long userId, final Long diaryId) {
         repositoryService.deleteDiary(userId, diaryId);
     }
+
+    public DiaryDto like(final long userId, final Long diaryId) {
+        return repositoryService.like(userId, diaryId);
+    }
 }

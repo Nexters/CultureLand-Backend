@@ -101,4 +101,14 @@ public class DiaryController {
 
         return responseMessage;
     }
+
+    @GetMapping("/{diaryId}/like")
+    public ResponseMessage like(@PathVariable final long diaryId, @LoginUser long userId) {
+        DiaryDto diary = diaryService.like(userId, diaryId);
+
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diary);
+
+        return responseMessage;
+    }
 }

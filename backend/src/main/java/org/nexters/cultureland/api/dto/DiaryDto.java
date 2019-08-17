@@ -21,6 +21,7 @@ public class DiaryDto {
     private String withWho;
     private String content;
     private String imageUrl;
+    private boolean favorite;
     private Culture culture;
 
     public DiaryDto(Diary diary) {
@@ -30,6 +31,7 @@ public class DiaryDto {
         this.content = diary.getContent();
         this.place = diary.getPlace();
         this.withWho = diary.getWithWho();
+        this.favorite = diary.isFavorite();
         this.imageUrl = diary.getImageUrl();
         this.culture = diary.getCulture();
     }

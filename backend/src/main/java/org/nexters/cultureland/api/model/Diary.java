@@ -39,6 +39,9 @@ public class Diary {
     @Column
     private String imageUrl;
 
+    @Column
+    private boolean favorite;
+
     @Column(name = "CREATED_BY")
     private LocalDateTime createdBy = LocalDateTime.now();
 
@@ -78,5 +81,9 @@ public class Diary {
 
         String content = diaryDto.getContent();
         this.content = content == null ? this.content : content;
+    }
+
+    public void like() {
+        this.favorite ^= true;
     }
 }
