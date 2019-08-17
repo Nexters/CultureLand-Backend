@@ -36,7 +36,7 @@ public class Diary {
     @Column(nullable = false)
     private String content;
 
-    @Column(length = 255)
+    @Column
     private String imageUrl;
 
     @Column(name = "CREATED_BY")
@@ -57,6 +57,7 @@ public class Diary {
         this.place = diaryDto.getPlace();
         this.withWho = diaryDto.getWithWho();
         this.content = diaryDto.getContent();
+        this.imageUrl = diaryDto.getImageUrl();
         this.culture = culture;
         this.user = user;
     }
