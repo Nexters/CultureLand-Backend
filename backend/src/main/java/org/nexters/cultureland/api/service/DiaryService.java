@@ -4,6 +4,7 @@ import org.nexters.cultureland.api.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -13,10 +14,6 @@ public class DiaryService {
 
     public DiaryService(final RepositoryService repositoryService) {
         this.repositoryService = repositoryService;
-    }
-
-    public Diaries fetchDiaries() {
-        return repositoryService.readAllDiaries();
     }
 
     public Diaries fetchUserDiaries(long userId) {
@@ -49,5 +46,9 @@ public class DiaryService {
 
     public List<DiaryCountDto> countByUserGroupedMonth(Long userId, String year) {
         return repositoryService.countByUserGroupedMonth(userId, year);
+    }
+
+    public HashMap<String, Integer> countByUserGroupedCategory(Long userId) {
+        return repositoryService.countByUserGroupedCategory(userId);
     }
 }

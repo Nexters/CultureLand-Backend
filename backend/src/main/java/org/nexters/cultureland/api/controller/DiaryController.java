@@ -1,9 +1,6 @@
 package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.api.dto.DiaryCountDto;
-import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
-import org.nexters.cultureland.api.dto.DiatyUpdateDto;
+import org.nexters.cultureland.api.dto.*;
 import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.api.service.S3Service;
 import org.nexters.cultureland.common.LoginUser;
@@ -14,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -28,17 +26,27 @@ public class DiaryController {
         this.s3Service = s3Service;
     }
 
-//    @GetMapping
-//    public ResponseMessage readUserDiaries(@LoginUser long userId) {
-//        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-////        responseMessage.setPath(request.getServletPath());
-//
-//        Diaries diaries = diaryService.fetchUserDiaries(userId);
-//        responseMessage.setMessage(diaries);
-//        return responseMessage;
-//    }
-
     @GetMapping
+    public ResponseMessage readUserDiaries(@LoginUser long userId) {
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+//        responseMessage.setPath(request.getServletPath());
+
+        Diaries diaries = diaryService.fetchUserDiaries(userId);
+        responseMessage.setMessage(diaries);
+        return responseMessage;
+    }
+
+    @GetMapping("/counts")
+    public ResponseMessage countByUserGroupedCategory(@LoginUser long userId) {
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+//        responseMessage.setPath(request.getServletPath());
+
+        HashMap<String, Integer> counts = diaryService.countByUserGroupedCategory(userId);
+        responseMessage.setMessage(counts);
+        return responseMessage;
+    }
+
+    @GetMapping("/summaries")
     public ResponseMessage summaryUserDiaries(@LoginUser long userId, @RequestParam(defaultValue = "today") String year) {
         if (year.equals("today")) {
             year = LocalDate.now().getYear() + "";

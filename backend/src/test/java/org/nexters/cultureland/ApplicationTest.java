@@ -72,5 +72,9 @@ public class ApplicationTest {
                 .andExpect(jsonPath("$").exists());
     }
 
-
+    @Test
+    void counts_조회() throws Exception {
+        mockMvc.perform(get("/diaries/counts"))
+                .andDo(print());
+    }
 }

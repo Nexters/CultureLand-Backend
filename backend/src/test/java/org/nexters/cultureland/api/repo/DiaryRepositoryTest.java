@@ -10,6 +10,9 @@ import java.util.List;
 public class DiaryRepositoryTest {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private DiaryRepository diaryRepository;
 
     @Test
@@ -21,5 +24,21 @@ public class DiaryRepositoryTest {
             System.out.println(diaryCountDto[0]);
             System.out.println(diaryCountDto[1]);
         }
+    }
+
+    @Test
+    void 전쳬_기록_갯수() {
+        List<Object[]> results = diaryRepository.countByCategories(1L);
+        for (Object[] result : results) {
+            System.out.println(result[0]);
+            System.out.println(result[1]);
+        }
+    }
+
+    @Test
+    void 좋아요_갯수() {
+        Integer result = diaryRepository.countByUserFavoriteDiary(1L);
+
+        System.out.println(result);
     }
 }

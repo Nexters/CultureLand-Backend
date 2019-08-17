@@ -12,6 +12,7 @@ import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +30,6 @@ public class RepositoryService {
         this.diaryRepository = diaryRepository;
         this.userRepository = userRepository;
         this.cultureRepository = cultureRepository;
-    }
-
-    public Diaries readAllDiaries() {
-        return diaryEntityToDto(diaryRepository.findAll());
     }
 
     public Diaries readUserDiaries(long userId) {
@@ -114,5 +111,23 @@ public class RepositoryService {
                                 .count((int) result[1])
                                 .build()
                 ).collect(Collectors.toList());
+    }
+
+    public HashMap<String, Integer> countByUserGroupedCategory(final Long userId) {
+        HashMap<String, Integer> diaryCategoryCount = new HashMap<>();
+        List<Object[]> countOfGroupedCategory = diaryRepository.countByCategories(userId);
+
+        int total = 0;
+
+        for (Object[] countOfCategory : countOfGroupedCategory) {
+            Integer count = (Integer) countOfCategory[1];
+            diaryCategoryCount.put(countOfCategory[0] + "Count", count);
+            total += count;
+        }
+
+        diaryCategoryCount.put("totalNumberOfDiaryCount", total);
+        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(userId));
+
+        return diaryCategoryCount;
     }
 }
