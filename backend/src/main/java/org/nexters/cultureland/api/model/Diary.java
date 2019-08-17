@@ -6,12 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -38,8 +36,11 @@ public class Diary {
     @Column(nullable = false)
     private String content;
 
-    @Column(length = 255)
+    @Column
     private String imageUrl;
+
+    @Column
+    private boolean favorite;
 
     @Column(name = "CREATED_BY")
     private LocalDateTime createdBy = LocalDateTime.now();
@@ -53,21 +54,36 @@ public class Diary {
     @JoinColumn(foreignKey = @ForeignKey(name = "DIARY_USER_FK"), nullable = false)
     private User user;
 
-    public Diary(DiaryCreateDto diaryDto, Culture culture, User user){
+    public Diary(DiaryCreateDto diaryDto, Culture culture, User user) {
         this.title = diaryDto.getTitle();
         this.sometime = LocalDateTime.parse(diaryDto.getSometime());
         this.place = diaryDto.getPlace();
         this.withWho = diaryDto.getWithWho();
         this.content = diaryDto.getContent();
+        this.imageUrl = diaryDto.getImageUrl();
         this.culture = culture;
         this.user = user;
     }
 
+    // TODO: 리펙토링 필요!
     public void update(final DiatyUpdateDto diaryDto) {
-        title = diaryDto.getTitle();
-        this.sometime = LocalDateTime.parse(diaryDto.getSometime());
-        place = diaryDto.getPlace();
-        withWho = diaryDto.getWithWho();
-        content = diaryDto.getContent();
+        String title = diaryDto.getTitle();
+        this.title = title == null ? this.title : title;
+
+        String sometime = diaryDto.getSometime();
+        this.sometime = sometime == null ? this.sometime : LocalDateTime.parse(sometime);
+
+        String place = diaryDto.getPlace();
+        this.place = place == null ? this.place : place;
+
+        String withWho = diaryDto.getWithWho();
+        this.withWho = withWho == null ? this.withWho : withWho;
+
+        String content = diaryDto.getContent();
+        this.content = content == null ? this.content : content;
+    }
+
+    public void like() {
+        this.favorite ^= true;
     }
 }

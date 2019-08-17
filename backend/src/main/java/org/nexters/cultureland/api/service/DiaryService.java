@@ -3,7 +3,6 @@ package org.nexters.cultureland.api.service;
 import org.nexters.cultureland.api.dto.Diaries;
 import org.nexters.cultureland.api.dto.DiaryCreateDto;
 import org.nexters.cultureland.api.dto.DiaryDto;
-
 import org.nexters.cultureland.api.dto.DiatyUpdateDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +42,9 @@ public class DiaryService {
 
     public void deleteDiaryOf(long userId, final Long diaryId) {
         repositoryService.deleteDiary(userId, diaryId);
+    }
+
+    public DiaryDto like(final long userId, final Long diaryId) {
+        return repositoryService.like(userId, diaryId);
     }
 }

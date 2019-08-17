@@ -18,10 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ApplicationTest {
 
     @Autowired
-    private CultureServiceImpl cultureService;
-
-    @Autowired
     MockMvc mockMvc;
+    @Autowired
+    private CultureServiceImpl cultureService;
 
     //cultureInfos?category={category}&sort={sort}&page={page}
     @Test
@@ -72,7 +71,6 @@ public class ApplicationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
     }
-
 
 
 }

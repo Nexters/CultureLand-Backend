@@ -7,7 +7,6 @@ import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.common.JwtManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,6 +23,12 @@ public class FacebookSSOServiceImpl implements SSOService {
     private RestTemplate restTemplate;
     private UserRepository userRepository;
     private JwtManager jwtManager;
+
+    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+        this.jwtManager = jwtManager;
+        this.restTemplate = restTemplate;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     @Override
@@ -58,11 +63,5 @@ public class FacebookSSOServiceImpl implements SSOService {
     public long requestUserid(String accessToken) {
         FacebookUserResponse facebookUserResponse = getUserInfoFromFacebook(accessToken);
         return facebookUserResponse.getId();
-    }
-
-    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
-        this.jwtManager = jwtManager;
-        this.restTemplate = restTemplate;
-        this.userRepository = userRepository;
     }
 }

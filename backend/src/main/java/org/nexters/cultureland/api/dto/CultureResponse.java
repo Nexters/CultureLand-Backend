@@ -4,7 +4,10 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter @Setter @ToString @NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class CultureResponse {
     private boolean nextPage;
     private int count;

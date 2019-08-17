@@ -13,12 +13,14 @@ public class Diaries {
     public Diaries(final List<DiaryDto> diaries) {
         this.diaries = Collections.unmodifiableList(diaries);
     }
-    public void addDiary(DiaryDto diary){
-        if(this.diaries == null){
+
+    public void addDiary(DiaryDto diary) {
+        if (this.diaries == null) {
             diaries = new ArrayList<>();
         }
         diaries.add(diary);
     }
+
     public List<DiaryDto> getDiaries() {
         return diaries;
     }

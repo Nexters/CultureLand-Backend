@@ -1,13 +1,17 @@
 package org.nexters.cultureland.api.service;
 
 import org.modelmapper.ModelMapper;
-import org.nexters.cultureland.api.dto.*;
+import org.nexters.cultureland.api.dto.CultureDetailDto;
+import org.nexters.cultureland.api.dto.CultureIdImgDto;
+import org.nexters.cultureland.api.dto.CultureResponse;
+import org.nexters.cultureland.api.dto.CultureTitleDto;
 import org.nexters.cultureland.api.model.CultureRawData;
 import org.nexters.cultureland.api.repo.CultureRawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +32,7 @@ public class CultureServiceImpl implements CultureService {
     private CultureRawRepository cultureRawRepo;
 
     // 페이지로 전체 목록 조회
-    public CultureResponse getAll(Pageable page){
+    public CultureResponse getAll(Pageable page) {
 
         Page<CultureIdImgDto> pages = cultureRawRepo.findAll(page).map(CultureIdImgDto::new);
         CultureResponse cultureResponse = CultureResponse.builder()
@@ -41,9 +45,9 @@ public class CultureServiceImpl implements CultureService {
     }
 
     //카테고리별로 id, img 값 반환
-    public CultureResponse getByCategoryPage(String category,Pageable page) {
+    public CultureResponse getByCategoryPage(String category, Pageable page) {
 
-        Page<CultureIdImgDto> culturePage = cultureRawRepo.findAll(where(cultureName(category)),page).map(CultureIdImgDto::new);
+        Page<CultureIdImgDto> culturePage = cultureRawRepo.findAll(where(cultureName(category)), page).map(CultureIdImgDto::new);
 
         CultureResponse cultureResponse = CultureResponse.builder()
                 .contents(culturePage.getContent())
@@ -57,7 +61,7 @@ public class CultureServiceImpl implements CultureService {
     //상세페이지
     public CultureDetailDto getByCultureId(Long id) {
         CultureRawData c = cultureRawRepo.findById(id).orElseThrow(IllegalArgumentException::new);
-        CultureDetailDto dto = new CultureDetailDto(c.getId(),c.getImageUrl(),c.getTitle(),c.getPlace(),c.getStartDate(),c.getEndDate(),c.getCulture().getCultureName());
+        CultureDetailDto dto = new CultureDetailDto(c.getId(), c.getImageUrl(), c.getTitle(), c.getPlace(), c.getStartDate(), c.getEndDate(), c.getCulture().getCultureName());
         return dto;
     }
 

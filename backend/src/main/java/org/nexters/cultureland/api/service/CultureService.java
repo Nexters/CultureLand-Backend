@@ -12,7 +12,7 @@ public interface CultureService {
     CultureResponse getAll(Pageable page);
 
     //카테고리에 맞는 문화생활 조회
-    CultureResponse getByCategoryPage(String category,Pageable page);
+    CultureResponse getByCategoryPage(String category, Pageable page);
 
     //상세정보 조회
     CultureDetailDto getByCultureId(Long id);

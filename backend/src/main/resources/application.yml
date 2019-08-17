@@ -1,4 +1,3 @@
-
 debug: true
 jwtSecretKey: cultureLand  #실행시에 Argument로 주입
 spring:
@@ -54,4 +53,8 @@ spring:
     password: ${DB_PASSWORD:root}
     initialization-mode: always # 하면 안됨 prod일 땐
 
-cloud.aws.bucket: cultureland
+cloud:
+  aws:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+    bucket: cultureland

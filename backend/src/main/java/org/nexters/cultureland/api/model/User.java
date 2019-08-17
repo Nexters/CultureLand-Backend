@@ -1,7 +1,10 @@
 package org.nexters.cultureland.api.model;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "USER") @NoArgsConstructor
-@Getter @ToString
+@Entity(name = "USER")
+@NoArgsConstructor
+@Getter
+@ToString
 public class User {
     @Id
     @GeneratedValue
@@ -38,8 +43,10 @@ public class User {
         this.userName = userName;
     }
 
-    public void addDibsCulture(Dibs dibs){
-        if(this.dibses == null) {this.dibses = new ArrayList<>();}
+    public void addDibsCulture(Dibs dibs) {
+        if (this.dibses == null) {
+            this.dibses = new ArrayList<>();
+        }
         this.dibses.add(dibs);
     }
 }

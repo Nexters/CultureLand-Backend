@@ -24,12 +24,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public UserArugmentResolver userArugmentResolver(){
+    public UserArugmentResolver userArugmentResolver() {
         return new UserArugmentResolver();
     }
 
     @Bean
-    public TokenInterceptor tokenInterceptor(){
+    public TokenInterceptor tokenInterceptor() {
         return new TokenInterceptor(new JwtManager());
     }
 }

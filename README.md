@@ -23,7 +23,7 @@
 - Maven
 - git & slack & Zeplin
 - MySQL 8.0.11
-- AWS EC2
+- AWS EC2 & S3 bucket
 - jenkins
 
 ## 주요 기능
@@ -51,7 +51,7 @@ URL | 요청 | 설명
 
 URL | 요청 | 설명
 :--: | :--: | :--:
-/users/{userId} | GET | 마이페이지
+/users | GET | 마이페이지
 /users/{userid} | PUT | 회원 수정
 /users/{userid} | DELETE | 회원 탈퇴
 
@@ -59,11 +59,13 @@ URL | 요청 | 설명
 
 URL | 요청 | 설명
 :--: | :--: | :--:
-/users/{userId}/diarys | GET |  유저의 모든 소감을 조회하는 uri
-/users/{userId}/diarys/{diaryId} | GET |  유저의 기록 중 `diaryid`에 해당하는 소감을 상세 조회하는 uri
-/users/{userId}/diarys | POST | 로그인한 유저가 소감을 작성하는 uri
-/users/{userId}/diarys/{diaryId} | PUT | 이미 기록한 소감을 수정하는 uri
-/users/{userId}/diarys/{diaryId} | DELETE | 이미 기록한 소감을 삭제하는 uri
+/diarys | GET |  유저의 모든 소감을 조회하는 uri
+/diarys/{diaryId} | GET |  유저의 기록 중 `diaryid`에 해당하는 소감을 상세 조회하는 uri
+/diarys | POST | 로그인한 유저가 소감을 작성하는 uri
+/diarys/upload/image | POST | `diary`를 생성하기 전 image를 먼저 s3에 올리는 uri 
+/diarys/{diaryId} | PUT | 이미 기록한 소감을 수정하는 uri
+/diarys/{diaryId} | DELETE | 이미 기록한 소감을 삭제하는 uri
+/diarys/{diaryId}/like | GET | `diaryId`에 해당하는 기록에 좋아요 표시하는 uri 
 
 ### CultureInfo (R)
 

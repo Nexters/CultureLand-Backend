@@ -1,25 +1,26 @@
 package org.nexters.cultureland.api.controller;
 
-import lombok.extern.java.Log;
 import org.nexters.cultureland.api.dto.DibsDto;
 import org.nexters.cultureland.api.service.UserService;
-import org.nexters.cultureland.common.ResponseMessage;
 import org.nexters.cultureland.common.LoginUser;
+import org.nexters.cultureland.common.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-    private UserService userService;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<ResponseMessage> requestUserInfos(@LoginUser long userId) {
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/dibs")
-    public ResponseMessage allDibsCultures(@LoginUser long userId){
+    public ResponseMessage allDibsCultures(@LoginUser long userId) {
         log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
         List<DibsDto> dibsDtos = userService.findAllDibs(userId);
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/dibs/{dibsId}")
-    public ResponseMessage allDibsCultures(@LoginUser long userId, @PathVariable long dibsId){
+    public ResponseMessage allDibsCultures(@LoginUser long userId, @PathVariable long dibsId) {
         log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
         DibsDto dibsDto = userService.findDibsDetail(userId, dibsId);
@@ -58,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/dibs")
-    public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody DibsDto dibsDto){
+    public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody DibsDto dibsDto) {
         log.info(dibsDto.toString());
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         userService.addUserDibs(userId, dibsDto);
@@ -67,15 +68,11 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/dibs/{dibsId}")
-    public ResponseMessage deleteUserDibs(@LoginUser long userId, @PathVariable long dibsId){
+    public ResponseMessage deleteUserDibs(@LoginUser long userId, @PathVariable long dibsId) {
         log.info(userId + " " + dibsId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         userService.deleteUserDibs(userId, dibsId);
         responseMessage.setMessage("SUCCESS");
         return responseMessage;
-    }
-
-    public UserController(UserService userService) {
-        this.userService = userService;
     }
 }

@@ -18,7 +18,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
-        switch (clientHttpResponse.getStatusCode()){
+        switch (clientHttpResponse.getStatusCode()) {
             case BAD_REQUEST:
                 throw new AccessTokenNotFoundException("YOUR REQUEST IS BAD REQUEST, PLEASE CHECK YOUR ACCESS TOKEN");
             case UNAUTHORIZED:
