@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.nexters.cultureland.common.FileName;
+import org.nexters.cultureland.config.AwsCredientials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +26,8 @@ public class S3Service {
     @Value("${cloud.aws.bucket}")
     private String bucket;
 
-    public S3Service() {
-        AWSCredentials awsCredentials = new BasicAWSCredentials("", "");
+    public S3Service(AwsCredientials awsCredientials) {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(awsCredientials.getAccessKey(), awsCredientials.getSecretKey());
         AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
         amazonS3 = AmazonS3Client.builder()
                 .withCredentials(awsCredentialsProvider)
@@ -42,6 +43,8 @@ public class S3Service {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, fileName, image);
 
         amazonS3.putObject(putObjectRequest);
+
+        image.delete();
         return amazonS3.getUrl(bucket, fileName)
                 .toString();
     }
