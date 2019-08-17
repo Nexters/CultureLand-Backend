@@ -1,6 +1,6 @@
 drop table if exists diary;
-drop table if exists user;
 drop table if exists dibs;
+drop table if exists user;
 
 create table diary (
     id bigint auto_increment,
@@ -21,5 +21,5 @@ create table dibs (id bigint auto_increment, start_date varchar(255), end_date v
 alter table user add constraint UK_USERID unique (user_id);
 
 alter table diary add constraint DIARY_USER_FK foreign key (user_seq) references user (seq);
-alter table dibs add constraint DIBS_USER_FK foreign key(user_seq) references user(seq);
+alter table dibs add constraint DIBS_USER_FK foreign key(user_seq) references user (seq);
 alter table diary add constraint DIARY_CULTURE_FK foreign key (culture_id) references culture (id);
