@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(path = "/cultureInfos")
 public class CultureController {
 
-    private final int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 9;
 
     @Autowired
     private CultureServiceImpl cultureService;
@@ -79,15 +79,4 @@ public class CultureController {
 
         return responseMessage;
     }
-
-    //페이지로 반환 전체 리스트
-/*    @GetMapping("/test")
-    public ResponseMessage testall() {
-        //@PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 5)
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        Pageable p = PageRequest.of(1, PAGE_SIZE);
-        cultureService.getByCategoryPage("play", p);
-        return responseMessage;
-    }*/
-
 }

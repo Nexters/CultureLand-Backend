@@ -7,7 +7,7 @@ create table diary (
     content text not null,
     created_by timestamp,
     place varchar(255) not null,
-    sometime timestamp not null,
+    sometime date not null,
     title varchar(30) not null,
     with_who varchar(255) not null,
     image_url varchar(255),

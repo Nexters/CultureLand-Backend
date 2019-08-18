@@ -28,8 +28,8 @@ spring:
 server:
   port: 8081
 spring:
-  profiles:
-    active: dev
+  profiles: dev
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
@@ -41,6 +41,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
@@ -48,3 +49,16 @@ spring:
     username: root
     password: root
     initialization-mode: always
+---
+spring:
+  profiles: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_USER_NAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none

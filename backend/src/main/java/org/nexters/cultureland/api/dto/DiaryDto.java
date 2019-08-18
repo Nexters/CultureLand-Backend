@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.nexters.cultureland.api.model.Culture;
 import org.nexters.cultureland.api.model.Diary;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,13 +15,13 @@ import java.time.LocalDateTime;
 public class DiaryDto {
     private long id;
     private String title;
-    private LocalDateTime sometime;
+    private LocalDate sometime;
     private String place;
     private String withWho;
     private String content;
     private String imageUrl;
     private boolean favorite;
-    private Culture culture;
+    private String culture;
 
     public DiaryDto(Diary diary) {
         this.id = diary.getId();
@@ -33,6 +32,6 @@ public class DiaryDto {
         this.withWho = diary.getWithWho();
         this.favorite = diary.isFavorite();
         this.imageUrl = diary.getImageUrl();
-        this.culture = diary.getCulture();
+        this.culture = diary.getCulture().getCultureName();
     }
 }

@@ -1,9 +1,6 @@
 package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.api.dto.Diaries;
-import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
-import org.nexters.cultureland.api.dto.DiatyUpdateDto;
+import org.nexters.cultureland.api.dto.*;
 import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.api.model.Culture;
@@ -13,9 +10,13 @@ import org.nexters.cultureland.api.repo.CultureRepository;
 import org.nexters.cultureland.api.repo.DiaryRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepositoryService {
@@ -33,16 +34,17 @@ public class RepositoryService {
         this.cultureRepository = cultureRepository;
     }
 
-    public Diaries readAllDiaries() {
-        return diaryEntityToDto(diaryRepository.findAll());
-    }
-
-    public Diaries readUserDiaries(long userId) {
+    public Page<DiaryDto> readUserDiaries(long userId, Category category, String date, Pageable pageable) {
         User user = findUser(userId);
 
-        List<Diary> diaryEntites = diaryRepository.findByUser(user);
-        Diaries diaries = diaryEntityToDto(diaryEntites);
-        return diaries;
+        if (category != Category.NONE) {
+            return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
+        } else if (date != null) {
+            Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, userId, pageable);
+            return diaryPage.map(DiaryDto::new);
+        }
+
+        return Page.empty(pageable);
     }
 
     public DiaryDto readDiary(long userId, final Long diaryId) {
@@ -104,5 +106,35 @@ public class RepositoryService {
         diary.like();
 
         return new DiaryDto(diary);
+    }
+
+    public List<DiaryCountDto> countByUserGroupedMonth(Long userId, String year) {
+        List<Object[]> queryResult = diaryRepository.countByUser(userId, year);
+
+        return queryResult.stream()
+                .map((result) ->
+                        DiaryCountDto.builder()
+                                .monthTime((String) result[0])
+                                .count((int) result[1])
+                                .build()
+                ).collect(Collectors.toList());
+    }
+
+    public HashMap<String, Integer> countByUserGroupedCategory(final Long userId) {
+        HashMap<String, Integer> diaryCategoryCount = new HashMap<>();
+        List<Object[]> countOfGroupedCategory = diaryRepository.countByCategories(userId);
+
+        int total = 0;
+
+        for (Object[] countOfCategory : countOfGroupedCategory) {
+            Integer count = (Integer) countOfCategory[1];
+            diaryCategoryCount.put(countOfCategory[0] + "Count", count);
+            total += count;
+        }
+
+        diaryCategoryCount.put("totalNumberOfDiaryCount", total);
+        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(userId));
+
+        return diaryCategoryCount;
     }
 }

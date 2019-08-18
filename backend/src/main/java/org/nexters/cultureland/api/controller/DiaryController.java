@@ -1,18 +1,20 @@
 package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.api.dto.Diaries;
-import org.nexters.cultureland.api.dto.DiaryCreateDto;
-import org.nexters.cultureland.api.dto.DiaryDto;
-import org.nexters.cultureland.api.dto.DiatyUpdateDto;
+import org.nexters.cultureland.api.dto.*;
 import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.api.service.S3Service;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/diaries")
@@ -26,24 +28,40 @@ public class DiaryController {
         this.s3Service = s3Service;
     }
 
-    // TODO : 모든 유저 기록 보여주기 삭제
-    @GetMapping("/all")
-    public ResponseMessage readAllUserDiaries() {
-        Diaries diaries = diaryService.fetchDiaries();
-        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        responseMessage.setMessage(diaries);
-        return responseMessage;
-    }
-
     @GetMapping
-    public ResponseMessage readUserDiaries(@LoginUser long userId) {
+    public ResponseMessage readUserDiaries(@LoginUser long userId, @RequestParam(required = false) Category category,
+                                           @RequestParam(required = false) String date, Pageable pageable) {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
-        Diaries diaries = diaryService.fetchUserDiaries(userId);
+        Page<DiaryDto> diaries = diaryService.fetchUserDiaries(userId, category, date, pageable);
         responseMessage.setMessage(diaries);
         return responseMessage;
     }
+
+    @GetMapping("/counts")
+    public ResponseMessage countByUserGroupedCategory(@LoginUser long userId) {
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+//        responseMessage.setPath(request.getServletPath());
+
+        HashMap<String, Integer> counts = diaryService.countByUserGroupedCategory(userId);
+        responseMessage.setMessage(counts);
+        return responseMessage;
+    }
+
+    @GetMapping("/summaries")
+    public ResponseMessage summaryUserDiaries(@LoginUser long userId, @RequestParam(defaultValue = "today") String year) {
+        if (year.equals("today")) {
+            year = LocalDate.now().getYear() + "";
+        }
+
+        List<DiaryCountDto> diaryCountDtos = diaryService.countByUserGroupedMonth(userId, year);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        responseMessage.setMessage(diaryCountDtos);
+
+        return responseMessage;
+    }
+
 
     @GetMapping("/{diaryId}")
     public ResponseMessage readUserDiary(@PathVariable Long diaryId,
