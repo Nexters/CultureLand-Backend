@@ -1,8 +1,11 @@
 package org.nexters.cultureland.api.repo;
 
 import org.junit.jupiter.api.Test;
+import org.nexters.cultureland.api.model.Diary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -40,5 +43,12 @@ public class DiaryRepositoryTest {
         Integer result = diaryRepository.countByUserFavoriteDiary(1L);
 
         System.out.println(result);
+    }
+
+    @Test
+    void 월별_내가_쓴글_조회() {
+        Page<Diary> byUserAndSometime = diaryRepository.findByUserAndSometime("201907", 1, PageRequest.of(0, 2));
+
+        byUserAndSometime.getContent().forEach(System.out::println);
     }
 }
