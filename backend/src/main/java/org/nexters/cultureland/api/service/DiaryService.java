@@ -1,6 +1,8 @@
 package org.nexters.cultureland.api.service;
 
 import org.nexters.cultureland.api.dto.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +18,8 @@ public class DiaryService {
         this.repositoryService = repositoryService;
     }
 
-    public Diaries fetchUserDiaries(long userId) {
-        Diaries diaries = repositoryService.readUserDiaries(userId);
-        return diaries;
+    public Page<DiaryDto> fetchUserDiaries(long userId, Category category, String date, Pageable pageable) {
+        return repositoryService.readUserDiaries(userId, category, date, pageable);
     }
 
     public DiaryDto create(long userId, final DiaryCreateDto diaryDto) {

@@ -10,6 +10,8 @@ import org.nexters.cultureland.api.repo.CultureRepository;
 import org.nexters.cultureland.api.repo.DiaryRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -32,12 +34,17 @@ public class RepositoryService {
         this.cultureRepository = cultureRepository;
     }
 
-    public Diaries readUserDiaries(long userId) {
+    public Page<DiaryDto> readUserDiaries(long userId, Category category, String date, Pageable pageable) {
         User user = findUser(userId);
 
-        List<Diary> diaryEntites = diaryRepository.findByUser(user);
-        Diaries diaries = diaryEntityToDto(diaryEntites);
-        return diaries;
+        if (category != Category.NONE) {
+            return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
+        } else if (date != null) {
+            Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, userId, pageable);
+            return diaryPage.map(DiaryDto::new);
+        }
+
+        return Page.empty(pageable);
     }
 
     public DiaryDto readDiary(long userId, final Long diaryId) {

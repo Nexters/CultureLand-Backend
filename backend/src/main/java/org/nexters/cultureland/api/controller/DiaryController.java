@@ -5,6 +5,8 @@ import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.api.service.S3Service;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,11 +29,12 @@ public class DiaryController {
     }
 
     @GetMapping
-    public ResponseMessage readUserDiaries(@LoginUser long userId) {
+    public ResponseMessage readUserDiaries(@LoginUser long userId, @RequestParam(required = false) Category category,
+                                           @RequestParam(required = false) String date, Pageable pageable) {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
-        Diaries diaries = diaryService.fetchUserDiaries(userId);
+        Page<DiaryDto> diaries = diaryService.fetchUserDiaries(userId, category, date, pageable);
         responseMessage.setMessage(diaries);
         return responseMessage;
     }
@@ -58,6 +61,7 @@ public class DiaryController {
 
         return responseMessage;
     }
+
 
     @GetMapping("/{diaryId}")
     public ResponseMessage readUserDiary(@PathVariable Long diaryId,
