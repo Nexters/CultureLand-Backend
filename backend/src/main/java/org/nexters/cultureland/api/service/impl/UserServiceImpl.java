@@ -20,6 +20,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private DibsRepository dibsRepository;
+
+    public UserServiceImpl(UserRepository userRepository, DibsRepository dibsRepository) {
+        this.userRepository = userRepository;
+        this.dibsRepository = dibsRepository;
+    }
+
     @Override
     public UserDto findUserbyuserId(long userId) {
         userExist(userId);
@@ -60,7 +66,7 @@ public class UserServiceImpl implements UserService {
         User user = this.findUser(userId);
 
         Dibs dibs = dibsRepository.findById(dibsId).orElseThrow(() -> new DibsNotFoundException("찜 목록을 찾을 수 없습니다."));
-        if(dibs.getUser().getUserId() != userId){
+        if (dibs.getUser().getUserId() != userId) {
             throw new ForbiddenException("권한이 없습니다. 다시 시도해주세요");
         }
 
@@ -74,7 +80,7 @@ public class UserServiceImpl implements UserService {
         User user = this.findUser(userId);
 
         Dibs dibs = dibsRepository.findById(dibsId).orElseThrow(() -> new DibsNotFoundException("찜 목록을 찾을 수 없습니다."));
-        if(dibs.getUser().getUserId() != userId){
+        if (dibs.getUser().getUserId() != userId) {
             throw new ForbiddenException("권한이 없습니다. 다시 시도해주세요");
         }
 
@@ -82,26 +88,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<DibsDto> findAllDibs(long userId){
+    public List<DibsDto> findAllDibs(long userId) {
         userExist(userId);
         User user = this.findUser(userId);
         List<DibsDto> dibsDtos = new ArrayList<>();
         List<Dibs> userDibses = user.getDibses();
-        for(Dibs dibs : userDibses){
+        for (Dibs dibs : userDibses) {
             dibsDtos.add(new DibsDto(dibs));
         }
         return dibsDtos;
     }
-    private void userExist(long userId){
+
+    private void userExist(long userId) {
         boolean existUser = userRepository.existsByuserId(userId);
-        if(!existUser) throw new UserNotFoundException("YOUR ID IS NOT FOUND");
+        if (!existUser) throw new UserNotFoundException("YOUR ID IS NOT FOUND");
     }
-    private User findUser(long userId){
+
+    private User findUser(long userId) {
         return userRepository.findByuserId(userId)
                 .orElseThrow(() -> new UserNotFoundException("USER NOT FOUND"));
-    }
-    public UserServiceImpl(UserRepository userRepository, DibsRepository dibsRepository) {
-        this.userRepository = userRepository;
-        this.dibsRepository = dibsRepository;
     }
 }

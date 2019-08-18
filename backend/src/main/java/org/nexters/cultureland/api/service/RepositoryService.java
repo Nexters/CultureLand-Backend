@@ -1,17 +1,22 @@
 package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.api.dto.Diaries;
-import org.nexters.cultureland.api.dto.DiaryDto;
-import org.nexters.cultureland.api.model.Diary;
-import org.nexters.cultureland.api.repo.DiaryRepository;
+import org.nexters.cultureland.api.dto.*;
+import org.nexters.cultureland.api.exception.NotFoundDiaryException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
+import org.nexters.cultureland.api.model.Culture;
+import org.nexters.cultureland.api.model.Diary;
 import org.nexters.cultureland.api.model.User;
+import org.nexters.cultureland.api.repo.CultureRepository;
+import org.nexters.cultureland.api.repo.DiaryRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
-import org.nexters.cultureland.api.exception.NotFoundDiaryException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepositoryService {
@@ -20,35 +25,44 @@ public class RepositoryService {
 
     private final DiaryRepository diaryRepository; // repository 리팩토링 필요
     private final UserRepository userRepository;
+    private final CultureRepository cultureRepository;
 
-    public RepositoryService(DiaryRepository diaryRepository, UserRepository userRepository) {
+    public RepositoryService(final DiaryRepository diaryRepository,
+                             final UserRepository userRepository, final CultureRepository cultureRepository) {
         this.diaryRepository = diaryRepository;
         this.userRepository = userRepository;
+        this.cultureRepository = cultureRepository;
     }
-    public Diaries readAllDiaries(){
-        return diaryEntityToDto(diaryRepository.findAll());
-    }
-    public Diaries readUserDiaries(long userId) {
+
+    public Page<DiaryDto> readUserDiaries(long userId, Category category, String date, Pageable pageable) {
         User user = findUser(userId);
 
-        List<Diary> diaryEntites = diaryRepository.findByUser(user);
-        Diaries diaries = diaryEntityToDto(diaryEntites);
-        return diaries;
+        if (category != Category.NONE) {
+            return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
+        } else if (date != null) {
+            Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, userId, pageable);
+            return diaryPage.map(DiaryDto::new);
+        }
+
+        return Page.empty(pageable);
     }
 
-    public DiaryDto readDiary(long userId, final Long diaryId){
+    public DiaryDto readDiary(long userId, final Long diaryId) {
         Diary diary = findDiaryEntity(userId, diaryId);
         return new DiaryDto(diary);
     }
 
-    public DiaryDto createDiary(DiaryDto diaryDto, long userId) {
+    // TODO : culture Service로 메서드 이동 (리펙토링)
+    public DiaryDto createDiary(DiaryCreateDto diaryDto, long userId) {
         User user = findUser(userId);
-        Diary diary = diaryRepository.save(new Diary(diaryDto, user));
+        Culture culture = cultureRepository.findByCultureName(diaryDto.getCultureName())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+        Diary diary = diaryRepository.save(new Diary(diaryDto, culture, user));
 
         return new DiaryDto(diary);
     }
 
-    public DiaryDto updateDiary(long userId, final Long diaryId, DiaryDto diaryDto) {
+    public DiaryDto updateDiary(long userId, final Long diaryId, DiatyUpdateDto diaryDto) {
         Diary diary = findDiaryEntity(userId, diaryId);
         diary.update(diaryDto);
         Diary savedDiary = diaryRepository.save(diary);
@@ -56,7 +70,7 @@ public class RepositoryService {
         return new DiaryDto(savedDiary);
     }
 
-    public void deleteDiary(long userId, final Long diaryId){
+    public void deleteDiary(long userId, final Long diaryId) {
         Diary diary = findDiaryEntity(userId, diaryId);
         diaryRepository.delete(diary);
     }
@@ -81,9 +95,46 @@ public class RepositoryService {
         return diary;
     }
 
-    private void checkForbiddenRequest(long userId, Diary diary){
-        if(!diary.getUser().equals(findUser(userId))){
+    private void checkForbiddenRequest(long userId, Diary diary) {
+        if (!diary.getUser().equals(findUser(userId))) {
             throw new ForbiddenException(FORBIDDEN_ERROR_MESSAGE);
         }
+    }
+
+    public DiaryDto like(final long userId, final Long diaryId) {
+        Diary diary = findDiaryEntity(userId, diaryId);
+        diary.like();
+
+        return new DiaryDto(diary);
+    }
+
+    public List<DiaryCountDto> countByUserGroupedMonth(Long userId, String year) {
+        List<Object[]> queryResult = diaryRepository.countByUser(userId, year);
+
+        return queryResult.stream()
+                .map((result) ->
+                        DiaryCountDto.builder()
+                                .monthTime((String) result[0])
+                                .count((int) result[1])
+                                .build()
+                ).collect(Collectors.toList());
+    }
+
+    public HashMap<String, Integer> countByUserGroupedCategory(final Long userId) {
+        HashMap<String, Integer> diaryCategoryCount = new HashMap<>();
+        List<Object[]> countOfGroupedCategory = diaryRepository.countByCategories(userId);
+
+        int total = 0;
+
+        for (Object[] countOfCategory : countOfGroupedCategory) {
+            Integer count = (Integer) countOfCategory[1];
+            diaryCategoryCount.put(countOfCategory[0] + "Count", count);
+            total += count;
+        }
+
+        diaryCategoryCount.put("totalNumberOfDiaryCount", total);
+        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(userId));
+
+        return diaryCategoryCount;
     }
 }

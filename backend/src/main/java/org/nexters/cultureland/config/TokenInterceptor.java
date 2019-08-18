@@ -18,14 +18,18 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     final private JwtManager jwtService;
     final private int BEARER_LENGTH = 6;
 
+    public TokenInterceptor(JwtManager jwtService) {
+        this.jwtService = jwtService;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if(token == null || token.length() <= BEARER_LENGTH){
+        if (token == null || token.length() <= BEARER_LENGTH) {
             throw new UnauthorizedException("Token is not valid, check your token");
         }
         String tokenType = token.substring(0, BEARER_LENGTH);
-        if(!tokenType.equals("Bearer")){
+        if (!tokenType.equals("Bearer")) {
             throw new UnauthorizedException("Token is not valid, check your token type(bearer)");
         }
         String tokenBody = token.substring(BEARER_LENGTH + 1);
@@ -34,9 +38,5 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         Claims claims = jwtService.checkJwt(tokenBody);
         request.setAttribute("userId", claims.get("userId"));
         return true;
-    }
-
-    public TokenInterceptor(JwtManager jwtService) {
-        this.jwtService = jwtService;
     }
 }

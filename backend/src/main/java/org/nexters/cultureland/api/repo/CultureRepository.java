@@ -5,9 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CultureRepo extends JpaRepository<Culture, Long>{
-
-    //카테고리에 맞는 문화생활 조회
-    public Optional<Culture> findByCultureName(String cultureName);
-
+public interface CultureRepository extends JpaRepository<Culture, Long> {
+    Optional<Culture> findByCultureName(String cultureName);
 }

@@ -26,7 +26,8 @@ public class DibsDto {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-    public DibsDto(Dibs dibs){
+
+    public DibsDto(Dibs dibs) {
         this.id = dibs.getId();
         this.endDate = dibs.getEndDate();
         this.imageUrl = dibs.getImageUrl();

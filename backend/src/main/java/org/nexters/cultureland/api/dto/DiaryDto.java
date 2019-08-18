@@ -1,9 +1,12 @@
 package org.nexters.cultureland.api.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.nexters.cultureland.api.model.Diary;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,26 +15,23 @@ import java.time.LocalDateTime;
 public class DiaryDto {
     private long id;
     private String title;
-    private LocalDateTime sometime;
+    private LocalDate sometime;
     private String place;
     private String withWho;
     private String content;
+    private String imageUrl;
+    private boolean favorite;
+    private String culture;
 
-    @Builder
-    public DiaryDto(String title, LocalDateTime sometime, String place, String withWho, String content) {
-        this.title = title;
-        this.sometime = sometime;
-        this.place = place;
-        this.withWho = withWho;
-        this.content = content;
-    }
-
-    public DiaryDto(Diary diary){
+    public DiaryDto(Diary diary) {
         this.id = diary.getId();
         this.title = diary.getTitle();
         this.sometime = diary.getSometime();
         this.content = diary.getContent();
         this.place = diary.getPlace();
         this.withWho = diary.getWithWho();
+        this.favorite = diary.isFavorite();
+        this.imageUrl = diary.getImageUrl();
+        this.culture = diary.getCulture().getCultureName();
     }
 }
