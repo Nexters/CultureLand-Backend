@@ -5,6 +5,7 @@ import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.GoogleUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
+import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.JwtManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,12 @@ public class GoogleSSOServiceImpl implements SSOService {
     private final static String baseUrl = "https://www.googleapis.com";
     private final static String userUrl = "/oauth2/v2/tokeninfo";
     private RestTemplate restTemplate;
-    private UserRepository userRepository;
+    private UserService userService;
     private JwtManager jwtManager;
 
-    public GoogleSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+    public GoogleSSOServiceImpl(RestTemplate restTemplate, UserService userService, JwtManager jwtManager) {
         this.restTemplate = restTemplate;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.jwtManager = jwtManager;
     }
 
@@ -35,16 +36,7 @@ public class GoogleSSOServiceImpl implements SSOService {
         long userId = requestUserid(accessToken);
         User user = null;
         synchronized (this) {
-            boolean userExists = userRepository.existsByuserId(userId);
-            if (!userExists) {
-                user = User.builder()
-                        .userId(userId)
-                        .build();
-                userRepository.save(user);
-            } else {
-                user = userRepository.findByuserId(userId)
-                        .orElseThrow(RuntimeException::new);
-            }
+            user = userService.createUser(userId);
             return jwtManager.makeJwt(user);
         }
     }

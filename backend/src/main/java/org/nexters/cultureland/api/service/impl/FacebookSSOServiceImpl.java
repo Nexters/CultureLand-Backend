@@ -22,14 +22,13 @@ public class FacebookSSOServiceImpl implements SSOService {
     private String baseUrl = "https://graph.facebook.com";
     private String userUrl = "/me";
     private RestTemplate restTemplate;
-    private UserRepository userRepository;
-    private JwtManager jwtManager;
     private UserService userService;
+    private JwtManager jwtManager;
 
-    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+    public FacebookSSOServiceImpl(RestTemplate restTemplate, UserService userService, JwtManager jwtManager) {
         this.jwtManager = jwtManager;
         this.restTemplate = restTemplate;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
@@ -38,16 +37,7 @@ public class FacebookSSOServiceImpl implements SSOService {
         long userId = requestUserid(accessToken);
         User user = null;
         synchronized (this) {
-            boolean userExists = userRepository.existsByuserId(userId);
-            if (!userExists) {
-                user = User.builder()
-                        .userId(userId)
-                        .build();
-                userRepository.save(user);
-            } else {
-                user = userRepository.findByuserId(userId)
-                        .orElseThrow(RuntimeException::new);
-            }
+            user = userService.createUser(userId);
             return jwtManager.makeJwt(user);
         }
     }
