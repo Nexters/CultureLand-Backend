@@ -1,7 +1,6 @@
 package org.nexters.cultureland.api.service.impl;
 
 import org.nexters.cultureland.api.model.User;
-import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.KakaoUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.api.service.UserService;
