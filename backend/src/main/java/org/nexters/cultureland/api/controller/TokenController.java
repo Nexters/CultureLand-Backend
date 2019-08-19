@@ -3,6 +3,7 @@ package org.nexters.cultureland.api.controller;
 import org.nexters.cultureland.api.exception.AccessTokenNotFoundException;
 import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.api.service.impl.FacebookSSOServiceImpl;
+import org.nexters.cultureland.api.service.impl.GoogleSSOServiceImpl;
 import org.nexters.cultureland.api.service.impl.KakaoSSOServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.slf4j.Logger;
@@ -55,6 +56,9 @@ public class TokenController {
                 break;
             case "FACEBOOK":
                 ssoService = appContext.getBean(FacebookSSOServiceImpl.class);
+                break;
+            case "GOOGLE":
+                ssoService = appContext.getBean(GoogleSSOServiceImpl.class);
                 break;
         }
         return ssoService;

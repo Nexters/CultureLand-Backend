@@ -4,6 +4,7 @@ import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.FacebookUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
+import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.JwtManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class FacebookSSOServiceImpl implements SSOService {
     private RestTemplate restTemplate;
     private UserRepository userRepository;
     private JwtManager jwtManager;
+    private UserService userService;
 
     public FacebookSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
         this.jwtManager = jwtManager;
