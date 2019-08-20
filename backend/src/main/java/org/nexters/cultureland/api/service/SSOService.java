@@ -1,7 +1,7 @@
 package org.nexters.cultureland.api.service;
 
-public interface SSOService {
-    String signInOrSignUp(String accessToken);
+import org.nexters.cultureland.api.dto.SignDto;
 
-    long requestUserid(String accessToken);
+public interface SSOService {
+    SignDto signInOrSignUp(String accessToken);
 }

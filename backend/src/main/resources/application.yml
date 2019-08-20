@@ -4,8 +4,8 @@ spring:
     name: '@artifactId@'
 cloud:
   aws:
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_KEY}
+    access-key: ${AWS_ACCESS_KEY:none}
+    secret-key: ${AWS_SECRET_KEY:none}
     bucket: cultureland
 ---
 server:
@@ -26,7 +26,7 @@ spring:
     database-platform: H2
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
       use-new-id-generator-mappings: false
     properties:
       hibernate:
