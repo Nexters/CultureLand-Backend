@@ -28,16 +28,16 @@ public class CultureController {
     ///cultureInfos?category={category}&sort={sort}&page={page} 문화생활 전체 목록 조회(기본값: 최신순(new)), 카테고리에 맞는 문화생활 조회
     @GetMapping
     public ResponseMessage readCultures(@RequestParam(value = "category", required = false, defaultValue = "") String category,
-                                        @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
+                                        @RequestParam(value = "sort", required = false, defaultValue = "new") String sort,
+                                        @RequestParam(value = "page", required = false, defaultValue = "0") int page){
 
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
-/*        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
-                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));*/
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE, new Sort(Sort.Direction.DESC, "startDate"));
+        Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
+                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));
 
         //id,imgUrl 전체 목록 조회
-        if (category.equals("")) {
+        if(category.equals("")) {
             responseMessage.setMessage(cultureService.getAll(pageable));
         }
 
@@ -50,8 +50,9 @@ public class CultureController {
     }
 
     //검색어`title`에 맞는 문화생활 조회
-    @GetMapping("/title/{title}")
-    public ResponseMessage readListByTitle(@PathVariable("title") String title) {
+    @GetMapping("/title")
+    public ResponseMessage readListByTitle(@RequestParam(value ="title", required = false, defaultValue = "") String title) {
+        System.out.println("title = " + title);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         List<CultureIdImgDto> cultureRawDatas = cultureService.getBySearch(title);
         responseMessage.setMessage(cultureRawDatas);
