@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -51,10 +53,12 @@ public class CultureController {
 
     //검색어`title`에 맞는 문화생활 조회
     @GetMapping("/title")
-    public ResponseMessage readListByTitle(@RequestParam(value ="title", required = false, defaultValue = "") String title) {
-        System.out.println("title = " + title);
+    public ResponseMessage readListByTitle(@RequestParam(value ="title", required = false, defaultValue = "") String title)
+            throws UnsupportedEncodingException {
+
+        String decodeResult = URLDecoder.decode(title, "UTF-8");
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        List<CultureIdImgDto> cultureRawDatas = cultureService.getBySearch(title);
+        List<CultureIdImgDto> cultureRawDatas = cultureService.getBySearch(decodeResult);
         responseMessage.setMessage(cultureRawDatas);
         return responseMessage;
     }
@@ -62,10 +66,12 @@ public class CultureController {
 
     //검색어`query`에 맞는 제목 조회
     @GetMapping("/search")
-    public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query) {
+    public ResponseMessage readBySearch(@RequestParam(value = "query", required = false, defaultValue = "") String query)
+            throws UnsupportedEncodingException {
 
+        String decodeResult = URLDecoder.decode(query, "UTF-8");
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        List<CultureIdImgDto> cultureRawDatas = cultureService.getTitleBySearch(query);
+        List<CultureIdImgDto> cultureRawDatas = cultureService.getTitleBySearch(decodeResult);
         responseMessage.setMessage(cultureRawDatas);
         return responseMessage;
     }
