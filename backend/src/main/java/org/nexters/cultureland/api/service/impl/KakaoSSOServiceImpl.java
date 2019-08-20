@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.service.impl;
 
+import org.nexters.cultureland.api.dto.SignDto;
 import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.response.KakaoUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
@@ -32,16 +33,17 @@ public class KakaoSSOServiceImpl implements SSOService {
 
     @Transactional
     @Override
-    public String signInOrSignUp(String accessToken) {
-        long userId = requestUserid(accessToken);
+    public SignDto signInOrSignUp(String accessToken) {
+        KakaoUserResponse userResponse = this.getUserInfoFromKakao(accessToken);
+
         User user = null;
         synchronized (this) {
-            user = userService.createUser(userId);
-            return jwtManager.makeJwt(user);
+            user = userService.createUser(userResponse.getId(), userResponse.getProperties().getNickname());
+            return new SignDto(jwtManager.makeJwt(user), user.getUserName());
         }
     }
 
-    public KakaoUserResponse getUserInfoFromKakao(String accessToken) {
+    private KakaoUserResponse getUserInfoFromKakao(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         log.info("Request user Information from Kakao - " + baseUrl + userUrl);
@@ -49,11 +51,5 @@ public class KakaoSSOServiceImpl implements SSOService {
         log.info("Response user information from Facebook - " + kakaoResponse);
 
         return kakaoResponse.getBody();
-    }
-
-    @Override
-    public long requestUserid(String accessToken) {
-        KakaoUserResponse kakaoUserResponse = getUserInfoFromKakao(accessToken);
-        return kakaoUserResponse.getId();
     }
 }

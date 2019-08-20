@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.controller;
 
+import org.nexters.cultureland.api.dto.SignDto;
 import org.nexters.cultureland.api.exception.AccessTokenNotFoundException;
 import org.nexters.cultureland.api.service.SSOService;
 import org.nexters.cultureland.api.service.impl.FacebookSSOServiceImpl;
@@ -41,9 +42,9 @@ public class TokenController {
             throw new AccessTokenNotFoundException("No AccessToken");
         }
         ssoService = this.getSSOService(snsName);
-        String jwtToken = ssoService.signInOrSignUp(accessToken);
+        SignDto signDto = ssoService.signInOrSignUp(accessToken);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
-        resp.setMessage(jwtToken);
+        resp.setMessage(signDto);
         resp.setPath(request.getServletPath());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }

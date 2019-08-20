@@ -10,11 +10,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class GoogleUserResponse {
-    private String issued_to;
-    private String audience;
-    private String user_id;
-    private String scope;
-    private String expires_in;
+    private String id;
+    private String email;
     private String verified_email;
-    private String access_type;
+    private String name;
+    private String given_name;
+    private String family_name;
+    private String picture;
+    private String locale;
 }

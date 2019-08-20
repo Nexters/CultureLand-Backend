@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class KakaoUserResponse {
     private Long id;
+    private Properties properties;
 }
 
 

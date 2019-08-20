@@ -28,12 +28,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User createUser(long userId) {
+    public User createUser(long userId, String userName) {
         User user;
         boolean userExists = userRepository.existsByuserId(userId);
         if (!userExists) {
             user = User.builder()
                     .userId(userId)
+                    .userName(userName)
                     .build();
             userRepository.save(user);
         } else {
