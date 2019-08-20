@@ -1,9 +1,10 @@
 package org.nexters.cultureland.api.service.impl;
 
+import org.nexters.cultureland.api.dto.SignDto;
 import org.nexters.cultureland.api.model.User;
-import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.response.KakaoUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
+import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.JwtManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,36 +22,28 @@ public class KakaoSSOServiceImpl implements SSOService {
     private String baseUrl = "https://kapi.kakao.com";
     private String userUrl = "/v2/user/me";
     private RestTemplate restTemplate;
-    private UserRepository userRepository;
+    private UserService userService;
     private JwtManager jwtManager;
 
-    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserRepository userRepository, JwtManager jwtManager) {
+    public KakaoSSOServiceImpl(RestTemplate restTemplate, UserService userService, JwtManager jwtManager) {
         this.jwtManager = jwtManager;
         this.restTemplate = restTemplate;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
     @Override
-    public String signInOrSignUp(String accessToken) {
-        long userId = requestUserid(accessToken);
+    public SignDto signInOrSignUp(String accessToken) {
+        KakaoUserResponse userResponse = this.getUserInfoFromKakao(accessToken);
 
+        User user = null;
         synchronized (this) {
-            boolean userExists = userRepository.existsByuserId(userId);
-            User user = null;
-            if (!userExists) {
-                user = User.builder()
-                        .userId(userId)
-                        .build();
-                userRepository.save(user);
-            } else {
-                userRepository.findByuserId(userId);
-            }
-            return jwtManager.makeJwt(user);
+            user = userService.createUser(userResponse.getId(), userResponse.getProperties().getNickname());
+            return new SignDto(jwtManager.makeJwt(user), user.getUserName());
         }
     }
 
-    public KakaoUserResponse getUserInfoFromKakao(String accessToken) {
+    private KakaoUserResponse getUserInfoFromKakao(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         log.info("Request user Information from Kakao - " + baseUrl + userUrl);
@@ -58,11 +51,5 @@ public class KakaoSSOServiceImpl implements SSOService {
         log.info("Response user information from Facebook - " + kakaoResponse);
 
         return kakaoResponse.getBody();
-    }
-
-    @Override
-    public long requestUserid(String accessToken) {
-        KakaoUserResponse kakaoUserResponse = getUserInfoFromKakao(accessToken);
-        return kakaoUserResponse.getId();
     }
 }

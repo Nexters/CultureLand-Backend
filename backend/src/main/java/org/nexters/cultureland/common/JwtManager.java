@@ -25,7 +25,7 @@ public class JwtManager {
     public String makeJwt(User user) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         Date expireTime = new Date();
-        expireTime.setTime(expireTime.getTime() + 1000 * 60 * 5); // 현재 5분 -> 1시간
+        expireTime.setTime(expireTime.getTime() + 1000 * 60 * 60); // 현재 5분 -> 1시간
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 

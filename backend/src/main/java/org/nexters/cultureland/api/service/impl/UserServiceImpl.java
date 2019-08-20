@@ -26,6 +26,24 @@ public class UserServiceImpl implements UserService {
         this.dibsRepository = dibsRepository;
     }
 
+    @Transactional
+    @Override
+    public User createUser(long userId, String userName) {
+        User user;
+        boolean userExists = userRepository.existsByuserId(userId);
+        if (!userExists) {
+            user = User.builder()
+                    .userId(userId)
+                    .userName(userName)
+                    .build();
+            userRepository.save(user);
+        } else {
+            user = userRepository.findByuserId(userId)
+                    .orElseThrow(RuntimeException::new);
+        }
+        return user;
+    }
+
     @Override
     public UserDto findUserbyuserId(long userId) {
         userExist(userId);
