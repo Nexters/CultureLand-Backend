@@ -56,8 +56,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${DB_USER_NAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_PROD_USER_NAME}
+    password: ${DB_PROD_PASSWORD}
 
   jpa:
     hibernate:

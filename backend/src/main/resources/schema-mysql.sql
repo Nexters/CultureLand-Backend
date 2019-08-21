@@ -1,6 +1,11 @@
 drop table if exists diary;
 drop table if exists dibs;
 drop table if exists user;
+drop table if exists culture_rowdata ;
+drop table if exists culture;
+
+CREATE TABLE culture (id bigint auto_increment, culture_name varchar(255), primary key (id));
+create table culture_rowdata (id bigint auto_increment, start_date varchar(255), end_date varchar(255), image_url varchar(255), place varchar(255), title varchar(255), culture_id bigint, primary key (id));
 
 create table diary (
     id bigint auto_increment,
@@ -36,9 +41,9 @@ create table dibs (
     primary key (id)
 );
 
+alter table culture add constraint Uniquekey_constraint unique (culture_name);
+alter table culture_rowdata add constraint rawdata_key_constraint foreign key (culture_id) references culture(id);
 alter table user add constraint UK_USERID unique (user_id);
-
 alter table diary add constraint DIARY_USER_FK foreign key (user_seq) references user (seq);
-
 alter table dibs add constraint DIBS_USER_FK foreign key(user_seq) references user (seq);
 alter table diary add constraint DIARY_CULTURE_FK foreign key (culture_id) references culture (id);
