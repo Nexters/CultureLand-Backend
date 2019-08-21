@@ -36,7 +36,7 @@ public class CultureController {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 
         Pageable pageable = sort.equals("new") ? PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.DESC,"startDate"))
-                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"id"));
+                :  PageRequest.of(page, PAGE_SIZE,new Sort(Sort.Direction.ASC,"popular"));
 
         //id,imgUrl 전체 목록 조회
         if(category.equals("")) {
