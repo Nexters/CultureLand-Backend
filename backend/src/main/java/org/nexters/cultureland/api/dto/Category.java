@@ -5,7 +5,7 @@ public enum Category {
 
     public static Category getCategoryFrom(String input) {
         for (Category category : Category.values()) {
-            if (category.equals(input)) {
+            if (category.equals(input.toUpperCase())) {
                 return category;
             }
         }

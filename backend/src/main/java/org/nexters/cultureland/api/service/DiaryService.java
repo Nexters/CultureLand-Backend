@@ -49,7 +49,7 @@ public class DiaryService {
         return repositoryService.countByUserGroupedMonth(userId, year);
     }
 
-    public HashMap<String, Integer> countByUserGroupedCategory(Long userId) {
+    public HashMap<String, Long> countByUserGroupedCategory(Long userId) {
         return repositoryService.countByUserGroupedCategory(userId);
     }
 }

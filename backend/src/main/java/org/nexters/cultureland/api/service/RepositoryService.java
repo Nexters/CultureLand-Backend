@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,10 +38,10 @@ public class RepositoryService {
     public Page<DiaryDto> readUserDiaries(long userId, Category category, String date, Pageable pageable) {
         User user = findUser(userId);
 
-        if (category != Category.NONE) {
+        if (category != null) {
             return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
         } else if (date != null) {
-            Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, userId, pageable);
+            Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, user.getSeq(), pageable);
             return diaryPage.map(DiaryDto::new);
         }
 
@@ -109,25 +110,27 @@ public class RepositoryService {
     }
 
     public List<DiaryCountDto> countByUserGroupedMonth(Long userId, String year) {
-        List<Object[]> queryResult = diaryRepository.countByUser(userId, year);
+        User user = findUser(userId);
+        List<Object[]> queryResult = diaryRepository.countByUser(user.getSeq(), year);
 
         return queryResult.stream()
                 .map((result) ->
                         DiaryCountDto.builder()
                                 .monthTime((String) result[0])
-                                .count((int) result[1])
+                                .count(((BigInteger) result[1]).intValue())
                                 .build()
                 ).collect(Collectors.toList());
     }
 
-    public HashMap<String, Integer> countByUserGroupedCategory(final Long userId) {
-        HashMap<String, Integer> diaryCategoryCount = new HashMap<>();
-        List<Object[]> countOfGroupedCategory = diaryRepository.countByCategories(userId);
+    public HashMap<String, Long> countByUserGroupedCategory(final Long userId) {
+        HashMap<String, Long> diaryCategoryCount = new HashMap<>();
+        User user = findUser(userId);
+        List<Object[]> countOfGroupedCategory = diaryRepository.countByCategories(user.getSeq());
 
-        int total = 0;
+        long total = 0;
 
         for (Object[] countOfCategory : countOfGroupedCategory) {
-            Integer count = (Integer) countOfCategory[1];
+            Long count = (Long) countOfCategory[1];
             diaryCategoryCount.put(countOfCategory[0] + "Count", count);
             total += count;
         }
