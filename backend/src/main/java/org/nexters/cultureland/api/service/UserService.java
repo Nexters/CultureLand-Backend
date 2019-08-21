@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.service;
 
-import org.nexters.cultureland.api.dto.DibsDto;
+import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.dto.UserDto;
 import org.nexters.cultureland.api.model.User;
 
@@ -13,11 +13,11 @@ public interface UserService {
 
     void deleteUserbyId(long userId);
 
-    List<DibsDto> findAllDibs(long userId);
+    List<WishListDto> findAllDibs(long userId);
 
-    void addUserDibs(long userId, DibsDto dibsDto);
+    void addUserDibs(long userId, WishListDto wishListDto);
 
     void deleteUserDibs(long userId, long dibsId);
 
-    DibsDto findDibsDetail(long userId, long dibsId);
+    WishListDto findDibsDetail(long userId, long dibsId);
 }

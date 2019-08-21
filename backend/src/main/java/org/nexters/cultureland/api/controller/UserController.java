@@ -1,6 +1,6 @@
 package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.api.dto.DibsDto;
+import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
@@ -44,8 +44,8 @@ public class UserController {
     public ResponseMessage allDibsCultures(@LoginUser long userId) {
         log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
-        List<DibsDto> dibsDtos = userService.findAllDibs(userId);
-        responseMessage.setMessage(dibsDtos);
+        List<WishListDto> wishListDtos = userService.findAllDibs(userId);
+        responseMessage.setMessage(wishListDtos);
         return responseMessage;
     }
 
@@ -53,16 +53,16 @@ public class UserController {
     public ResponseMessage allDibsCultures(@LoginUser long userId, @PathVariable long dibsId) {
         log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
-        DibsDto dibsDto = userService.findDibsDetail(userId, dibsId);
-        responseMessage.setMessage(dibsDto);
+        WishListDto wishListDto = userService.findDibsDetail(userId, dibsId);
+        responseMessage.setMessage(wishListDto);
         return responseMessage;
     }
 
     @PostMapping(value = "/dibs")
-    public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody DibsDto dibsDto) {
-        log.info(dibsDto.toString());
+    public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody WishListDto wishListDto) {
+        log.info(wishListDto.toString());
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        userService.addUserDibs(userId, dibsDto);
+        userService.addUserDibs(userId, wishListDto);
         responseMessage.setMessage("SUCCESS");
         return responseMessage;
     }
