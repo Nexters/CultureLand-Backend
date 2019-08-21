@@ -20,7 +20,8 @@ public class CrawlingScheduler {
     public void runner(){
         this.startScheduler();
     }
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 3 * * ?")
+
     public void startScheduler(){
         long start = System.currentTimeMillis(); //시작하는 시점 계산
         rawDataRepository.deleteAll();
