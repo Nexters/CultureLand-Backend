@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 public class FacebookSSOServiceImpl implements SSOService {
     private static final Logger log = LoggerFactory.getLogger(FacebookSSOServiceImpl.class);
     private String baseUrl = "https://graph.facebook.com";
-    private String userUrl = "/me?fields=email,name,accounts";
+    private String userUrl = "/me?fields=name";
     private RestTemplate restTemplate;
     private UserService userService;
     private JwtManager jwtManager;

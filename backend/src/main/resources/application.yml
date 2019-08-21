@@ -1,7 +1,13 @@
 jwtSecretKey: cultureLand  #실행시에 Argument로 주입
+
 spring:
   application:
     name: '@artifactId@'
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 cloud:
   aws:
     access-key: ${AWS_ACCESS_KEY:none}
