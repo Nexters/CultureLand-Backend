@@ -10,12 +10,12 @@ import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 
-@Entity(name = "WISH_LIST")
+@Entity(name = "wish_list")
+@Table(name = "wish_list")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WishList {
     @Id
-    //@Column(name = "rowId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

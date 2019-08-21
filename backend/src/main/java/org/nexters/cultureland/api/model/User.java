@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "USER")
+@Entity
+@Table(name = "USER")
 @NoArgsConstructor
 @Getter
 @ToString
