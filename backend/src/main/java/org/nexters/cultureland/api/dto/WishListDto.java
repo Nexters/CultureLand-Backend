@@ -13,15 +13,19 @@ import org.nexters.cultureland.api.model.WishList;
 @ToString
 public class WishListDto {
     private Long wishListId;
-    private CultureIdImgDto cultureInfo;
 
-    public WishListDto(long id, CultureRawData cultureRawData) {
-        this.wishListId = id;
-        cultureInfo = CultureIdImgDto.builder()
-                .id(cultureRawData.getId())
-                .startDate(cultureRawData.getStartDate())
+    private WIshListCultureDto cultureInfo;
+
+    public WishListDto(long wishListId, CultureRawData cultureRawData) {
+        this.wishListId = wishListId;
+        cultureInfo = WIshListCultureDto.builder()
+                .cultureName(cultureRawData.getCulture().getCultureName())
                 .endDate(cultureRawData.getEndDate())
+                .id(cultureRawData.getId())
                 .imageUrl(cultureRawData.getImageUrl())
+                .place(cultureRawData.getPlace())
+                .startDate(cultureRawData.getStartDate())
+                .title(cultureRawData.getTitle())
                 .build();
     }
 }

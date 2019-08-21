@@ -13,11 +13,9 @@ public interface UserService {
 
     void deleteUserbyId(long userId);
 
-    List<WishListDto> findAllDibs(long userId);
+    List<WishListDto> findAllWishList(long userId);
 
-    void addUserDibs(long userId, WishListDto wishListDto);
+    void addUserWishList(long userId, long cultureInfoId);
 
-    void deleteUserDibs(long userId, long dibsId);
-
-    WishListDto findDibsDetail(long userId, long dibsId);
+    void deleteUserWishList(long userId, long dibsId);
 }

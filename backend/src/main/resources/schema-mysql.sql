@@ -32,11 +32,7 @@ create table user (
 
 create table wishList (
     id bigint auto_increment,
-    start_date varchar(255),
-    end_date varchar(255),
-    image_url varchar(255),
-    place varchar(255),
-    title varchar(255),
+    culture_rowdata_id bigint not null,
     user_seq bigint not null,
     primary key (id)
 );
@@ -45,5 +41,6 @@ alter table culture add constraint Uniquekey_constraint unique (culture_name);
 alter table culture_rowdata add constraint rawdata_key_constraint foreign key (culture_id) references culture(id);
 alter table user add constraint UK_USERID unique (user_id);
 alter table diary add constraint DIARY_USER_FK foreign key (user_seq) references user (seq);
-alter table wishList add constraint DIBS_USER_FK foreign key(user_seq) references user (seq);
+alter table wishList add constraint WISHLIST_USER_FK foreign key(user_seq) references user (seq);
+alter table wishList add constraint WISHLIST_CULTURE_FK foreign key(culture_rowdata_id) references culture_rowdata (id);
 alter table diary add constraint DIARY_CULTURE_FK foreign key (culture_id) references culture (id);
