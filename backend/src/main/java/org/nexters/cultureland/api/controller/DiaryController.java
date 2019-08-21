@@ -39,17 +39,17 @@ public class DiaryController {
         return responseMessage;
     }
 
-    @GetMapping("/counts")
+    @GetMapping("/all/counts")
     public ResponseMessage countByUserGroupedCategory(@LoginUser long userId) {
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
-        HashMap<String, Integer> counts = diaryService.countByUserGroupedCategory(userId);
+        HashMap<String, Long> counts = diaryService.countByUserGroupedCategory(userId);
         responseMessage.setMessage(counts);
         return responseMessage;
     }
 
-    @GetMapping("/summaries")
+    @GetMapping("/all/summaries")
     public ResponseMessage summaryUserDiaries(@LoginUser long userId, @RequestParam(defaultValue = "today") String year) {
         if (year.equals("today")) {
             year = LocalDate.now().getYear() + "";

@@ -40,14 +40,14 @@ public class DiaryRepositoryTest {
 
     @Test
     void 좋아요_갯수() {
-        Integer result = diaryRepository.countByUserFavoriteDiary(1L);
+        Long result = diaryRepository.countByUserFavoriteDiary(1L);
 
         System.out.println(result);
     }
 
     @Test
     void 월별_내가_쓴글_조회() {
-        Page<Diary> byUserAndSometime = diaryRepository.findByUserAndSometime("201907", 1, PageRequest.of(0, 2));
+        Page<Diary> byUserAndSometime = diaryRepository.findByUserAndSometime("201908", 1, PageRequest.of(0, 2));
 
         byUserAndSometime.getContent().forEach(System.out::println);
     }
