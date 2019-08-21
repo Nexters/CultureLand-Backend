@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter @ToString @NoArgsConstructor
 public class Culture {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)

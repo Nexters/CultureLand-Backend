@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long seq;
 
     @Column(unique = true, nullable = false)

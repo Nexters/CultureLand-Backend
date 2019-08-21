@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Culture {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
