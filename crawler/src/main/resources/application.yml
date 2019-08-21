@@ -50,6 +50,8 @@ spring:
     password: root
     initialization-mode: always
 ---
+server:
+  port: 8081
 spring:
   profiles: prod
 
