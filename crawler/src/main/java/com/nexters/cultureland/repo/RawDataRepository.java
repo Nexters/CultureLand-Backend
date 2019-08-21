@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RawDataRepository extends JpaRepository<CultureRawData, Long> {
+    CultureRawData findByTitle(String title);
 }
