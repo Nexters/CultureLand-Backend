@@ -1,5 +1,6 @@
 package org.nexters.cultureland.api.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class CultureIdImgDto {
     private String startDate;
     private String endDate;
 
+    @Builder
     public CultureIdImgDto(Long id, String imageUrl, String startDate, String endDate) {
         this.id = id;
         this.imageUrl = imageUrl;

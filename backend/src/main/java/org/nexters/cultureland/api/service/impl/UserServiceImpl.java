@@ -1,12 +1,15 @@
 package org.nexters.cultureland.api.service.impl;
 
-import org.nexters.cultureland.api.dto.DibsDto;
+import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.dto.UserDto;
+import org.nexters.cultureland.api.exception.CultureNotFoundException;
 import org.nexters.cultureland.api.exception.DibsNotFoundException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
-import org.nexters.cultureland.api.model.Dibs;
+import org.nexters.cultureland.api.model.CultureRawData;
+import org.nexters.cultureland.api.model.WishList;
 import org.nexters.cultureland.api.model.User;
-import org.nexters.cultureland.api.repo.DibsRepository;
+import org.nexters.cultureland.api.repo.CultureRawRepository;
+import org.nexters.cultureland.api.repo.WishListRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
 import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
@@ -19,11 +22,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-    private DibsRepository dibsRepository;
-
-    public UserServiceImpl(UserRepository userRepository, DibsRepository dibsRepository) {
+    private WishListRepository wishListRepository;
+    private CultureRawRepository rawRepository;
+    public UserServiceImpl(UserRepository userRepository, WishListRepository wishListRepository, CultureRawRepository rawRepository) {
+        this.rawRepository = rawRepository;
         this.userRepository = userRepository;
-        this.dibsRepository = dibsRepository;
+        this.wishListRepository = wishListRepository;
     }
 
     @Transactional
@@ -46,75 +50,52 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findUserbyuserId(long userId) {
-        userExist(userId);
+        this.userExist(userId);
         User user = this.findUser(userId);
+
         return new UserDto(user);
     }
 
     @Transactional
     @Override
     public void deleteUserbyId(long userId) {
-        userExist(userId);
-        userRepository.deleteByuserId(userId);
-    }
-
-    @Transactional
-    @Override
-    public void addUserDibs(long userId, DibsDto dibsDto) {
-        userExist(userId);
-        User user = this.findUser(userId);
-
-        Dibs dibs = Dibs.builder()
-                .endDate(dibsDto.getEndDate())
-                .imageUrl(dibsDto.getImageUrl())
-                .place(dibsDto.getPlace())
-                .startDate(dibsDto.getStartDate())
-                .title(dibsDto.getTitle())
-                .user(user)
-                .build();
-//        user.addDibsCulture(dibs);
-
-        dibsRepository.save(dibs);
-    }
-
-    @Transactional
-    @Override
-    public void deleteUserDibs(long userId, long dibsId) {
         this.userExist(userId);
-        User user = this.findUser(userId);
+        this.userRepository.deleteByuserId(userId);
+    }
 
-        Dibs dibs = dibsRepository.findById(dibsId).orElseThrow(() -> new DibsNotFoundException("찜 목록을 찾을 수 없습니다."));
-        if (dibs.getUser().getUserId() != userId) {
+    @Transactional
+    @Override
+    public void addUserWishList(long userId, long cultureInfoId) {
+        User user =  this.findUser(userId);
+        CultureRawData cultureRawData = rawRepository.findById(cultureInfoId)
+                                            .orElseThrow(() -> new CultureNotFoundException("CULTURE DATA NOT FOUND"));
+        WishList wishList = new WishList(cultureRawData, user);
+        this.wishListRepository.save(wishList);
+    }
+
+    @Transactional
+    @Override
+    public void deleteUserWishList(long userId, long wishListId) {
+        this.userExist(userId);
+//        User user = this.findUser(userId);
+        WishList wishList = wishListRepository.findById(wishListId).orElseThrow(() -> new DibsNotFoundException("위시리스트 목록을 찾을 수 없습니다."));
+        if (wishList.getUser().getUserId() != userId) {
             throw new ForbiddenException("권한이 없습니다. 다시 시도해주세요");
         }
 
-        dibsRepository.delete(dibs);
+        this.wishListRepository.delete(wishList);
     }
 
-    @Transactional
     @Override
-    public DibsDto findDibsDetail(long userId, long dibsId) {
+    public List<WishListDto> findAllWishList(long userId) {
         this.userExist(userId);
         User user = this.findUser(userId);
-
-        Dibs dibs = dibsRepository.findById(dibsId).orElseThrow(() -> new DibsNotFoundException("찜 목록을 찾을 수 없습니다."));
-        if (dibs.getUser().getUserId() != userId) {
-            throw new ForbiddenException("권한이 없습니다. 다시 시도해주세요");
+        List<WishListDto> wishListDtos = new ArrayList<>();
+        List<WishList> userWishList = user.getWishLists();
+        for (WishList wishList : userWishList) {
+            wishListDtos.add(new WishListDto(wishList.getId(), wishList.getCultureRawData()));
         }
-
-        return new DibsDto(dibs);
-    }
-
-    @Override
-    public List<DibsDto> findAllDibs(long userId) {
-        userExist(userId);
-        User user = this.findUser(userId);
-        List<DibsDto> dibsDtos = new ArrayList<>();
-        List<Dibs> userDibses = user.getDibses();
-        for (Dibs dibs : userDibses) {
-            dibsDtos.add(new DibsDto(dibs));
-        }
-        return dibsDtos;
+        return wishListDtos;
     }
 
     private void userExist(long userId) {
