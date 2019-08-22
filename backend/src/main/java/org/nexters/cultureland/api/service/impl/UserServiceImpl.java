@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         }
         return wishListDtos;
     }
-
+    
     private void userExist(long userId) {
         boolean existUser = userRepository.existsByuserId(userId);
         if (!existUser) throw new UserNotFoundException("YOUR ID IS NOT FOUND");
