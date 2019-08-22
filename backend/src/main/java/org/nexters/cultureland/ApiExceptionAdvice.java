@@ -3,6 +3,7 @@ package org.nexters.cultureland;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.nexters.cultureland.common.excepion.DuplicationException;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.nexters.cultureland.common.excepion.NotFoundResouceException;
 import org.nexters.cultureland.common.excepion.UnauthorizedException;
@@ -58,4 +59,15 @@ public class ApiExceptionAdvice {
         return new ResponseMessage(e.getMessage(), HttpStatus.FORBIDDEN.value(),
                 null, request.getServletPath());
     }
+
+    @ExceptionHandler(DuplicationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseMessage duplicationException(HttpServletRequest request, DuplicationException e) {
+        //String error, int code, String message, String path
+        log.info(e.getMessage());
+        return new ResponseMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+                null, request.getServletPath());
+    }
+
 }

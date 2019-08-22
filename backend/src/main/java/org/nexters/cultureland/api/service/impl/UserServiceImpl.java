@@ -5,6 +5,7 @@ import org.nexters.cultureland.api.dto.UserDto;
 import org.nexters.cultureland.api.exception.CultureNotFoundException;
 import org.nexters.cultureland.api.exception.DibsNotFoundException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
+import org.nexters.cultureland.api.exception.WishListDuplicationException;
 import org.nexters.cultureland.api.model.CultureRawData;
 import org.nexters.cultureland.api.model.WishList;
 import org.nexters.cultureland.api.model.User;
@@ -67,8 +68,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUserWishList(long userId, long cultureInfoId) {
         User user =  this.findUser(userId);
+
+        List<WishList> wishLists = this.wishListRepository.findByUser(user);
+        for(WishList wishList : wishLists){
+            if(wishList.getCultureRawData().getId() == cultureInfoId){
+                throw new WishListDuplicationException("중복된 WishList 입니다.");
+            }
+        }
         CultureRawData cultureRawData = rawRepository.findById(cultureInfoId)
-                                            .orElseThrow(() -> new CultureNotFoundException("CULTURE DATA NOT FOUND"));
+                .orElseThrow(() -> new CultureNotFoundException("CULTURE DATA NOT FOUND"));
+
         WishList wishList = new WishList(cultureRawData, user);
         this.wishListRepository.save(wishList);
     }
