@@ -1,22 +1,6 @@
-jwtSecretKey: cultureLand  #실행시에 Argument로 주입
-
-spring:
-  application:
-    name: '@artifactId@'
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-cloud:
-  aws:
-    access-key: ${AWS_ACCESS_KEY:none}
-    secret-key: ${AWS_SECRET_KEY:none}
-    bucket: cultureland
 ---
 server:
   port: 8080
-
 spring:
   profiles: local
 
@@ -26,32 +10,30 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-
   jpa:
     show-sql=true: true
     database-platform: H2
     show-sql: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       use-new-id-generator-mappings: false
+
     properties:
       hibernate:
-        format_sql: true
-  h2:
+        show_sql=true:h2:
     console:
       enabled: true
-      path: /h2-console
 
-debug: true
 ---
 server:
-  port: 8080
-
+  port: 8081
 spring:
   profiles: dev
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
+      use-new-id-generator-mappings: false
       ddl-auto: none
     properties:
       hibernate:
@@ -59,14 +41,17 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     url: jdbc:mysql://localhost:3306/testdb?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${DB_USER_NAME:root}
-    password: ${DB_PASSWORD:root}
-    initialization-mode: always # 하면 안됨 prod일 땐
+    username: root
+    password: root
+    initialization-mode: always
 ---
+server:
+  port: 8081
 spring:
   profiles: prod
 
