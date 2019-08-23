@@ -1,22 +1,23 @@
 package org.nexters.cultureland.api.service.impl;
 
-import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.dto.UserDto;
+import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.exception.CultureNotFoundException;
 import org.nexters.cultureland.api.exception.DibsNotFoundException;
 import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.api.exception.WishListDuplicationException;
 import org.nexters.cultureland.api.model.CultureRawData;
-import org.nexters.cultureland.api.model.WishList;
 import org.nexters.cultureland.api.model.User;
+import org.nexters.cultureland.api.model.WishList;
 import org.nexters.cultureland.api.repo.CultureRawRepository;
-import org.nexters.cultureland.api.repo.WishListRepository;
 import org.nexters.cultureland.api.repo.UserRepository;
+import org.nexters.cultureland.api.repo.WishListRepository;
 import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private WishListRepository wishListRepository;
     private CultureRawRepository rawRepository;
+
     public UserServiceImpl(UserRepository userRepository, WishListRepository wishListRepository, CultureRawRepository rawRepository) {
         this.rawRepository = rawRepository;
         this.userRepository = userRepository;
@@ -64,22 +66,21 @@ public class UserServiceImpl implements UserService {
         this.userRepository.deleteByuserId(userId);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public void addUserWishList(long userId, long cultureInfoId) {
-        User user =  this.findUser(userId);
-
-        List<WishList> wishLists = this.wishListRepository.findByUser(user);
-        for(WishList wishList : wishLists){
-            if(wishList.getCultureRawData().getId() == cultureInfoId){
-                throw new WishListDuplicationException("중복된 WishList 입니다.");
+            User user = this.findUser(userId);
+            List<WishList> wishLists = this.wishListRepository.findByUser(user);
+            for (WishList wishList : wishLists) {
+                if (wishList.getCultureRawData().getId() == cultureInfoId) {
+                    throw new WishListDuplicationException("중복된 WishList 입니다.");
+                }
             }
-        }
-        CultureRawData cultureRawData = rawRepository.findById(cultureInfoId)
-                .orElseThrow(() -> new CultureNotFoundException("CULTURE DATA NOT FOUND"));
+            CultureRawData cultureRawData = rawRepository.findById(cultureInfoId)
+                    .orElseThrow(() -> new CultureNotFoundException("CULTURE DATA NOT FOUND"));
 
-        WishList wishList = new WishList(cultureRawData, user);
-        this.wishListRepository.save(wishList);
+            WishList wishList = new WishList(cultureRawData, user);
+            this.wishListRepository.save(wishList);
     }
 
     @Transactional
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
         }
         return wishListDtos;
     }
-    
+
     private void userExist(long userId) {
         boolean existUser = userRepository.existsByuserId(userId);
         if (!existUser) throw new UserNotFoundException("YOUR ID IS NOT FOUND");
