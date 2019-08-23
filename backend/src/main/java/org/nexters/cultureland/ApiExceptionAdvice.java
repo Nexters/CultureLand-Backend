@@ -1,7 +1,6 @@
 package org.nexters.cultureland;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.nexters.cultureland.api.exception.UserNotFoundException;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.nexters.cultureland.common.excepion.DuplicationException;
 import org.nexters.cultureland.common.excepion.ForbiddenException;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLException;
 
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -54,7 +52,7 @@ public class ApiExceptionAdvice {
                 null, request.getServletPath());
     }
 
-    @ExceptionHandler({UnauthorizedException.class})
+    @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ResponseMessage unAuthorizedException(HttpServletRequest request, UnauthorizedException e) {

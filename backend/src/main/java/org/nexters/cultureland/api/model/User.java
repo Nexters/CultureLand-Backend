@@ -35,7 +35,7 @@ public class User {
        OneTomMany 설정
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Diary> posts;
+    private List<Diary> diaries;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WishList> wishLists;

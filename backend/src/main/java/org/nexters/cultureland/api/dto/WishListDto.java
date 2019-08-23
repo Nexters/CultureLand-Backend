@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.nexters.cultureland.api.model.CultureRawData;
-import org.nexters.cultureland.api.model.WishList;
 
 @Getter
 @Setter
