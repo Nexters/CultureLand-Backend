@@ -11,9 +11,11 @@ import java.time.LocalDateTime;
 public class UserDto {
     private Long userId;
     private String userName;
+    private String eMail;
     private LocalDateTime createdBy;
 
     public UserDto(User user) {
+        this.eMail = user.getEMail();
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.createdBy = user.getCreatedBy();

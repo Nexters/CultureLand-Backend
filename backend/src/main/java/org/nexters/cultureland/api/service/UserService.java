@@ -7,7 +7,7 @@ import org.nexters.cultureland.api.model.User;
 import java.util.List;
 
 public interface UserService {
-    User createUser(long userId, String userName);
+    User createUser(long userId, String userName, String userEmail);
 
     UserDto findUserbyuserId(long userId);
 

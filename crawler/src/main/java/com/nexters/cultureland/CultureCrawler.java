@@ -83,6 +83,8 @@ public class CultureCrawler {
                 return "/Product/List?genreId=14121";
             case "EXHIBITION":
                 return "/Product/List?genreId=14126";
+            case "ETC":
+                return "/Product/List?genreId=14307";
             default: return "";
         }
     }
