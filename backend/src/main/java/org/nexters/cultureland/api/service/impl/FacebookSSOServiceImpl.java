@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 public class FacebookSSOServiceImpl implements SSOService {
     private static final Logger log = LoggerFactory.getLogger(FacebookSSOServiceImpl.class);
     private String baseUrl = "https://graph.facebook.com";
-    private String userUrl = "/me?fields=name";
+    private String userUrl = "/me?fields=id,name,email";
     private RestTemplate restTemplate;
     private UserService userService;
     private JwtManager jwtManager;
@@ -37,7 +37,7 @@ public class FacebookSSOServiceImpl implements SSOService {
         FacebookUserResponse userResponse = getUserInfoFromFacebook(accessToken);
         User user = null;
         synchronized (this) {
-            user = userService.createUser(userResponse.getId(), userResponse.getName());
+            user = userService.createUser(userResponse.getId(), userResponse.getName(), userResponse.getEmail());
             return new SignDto(jwtManager.makeJwt(user), user.getUserName());
         }
     }
