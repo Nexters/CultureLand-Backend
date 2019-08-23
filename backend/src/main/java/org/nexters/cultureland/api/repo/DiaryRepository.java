@@ -26,7 +26,7 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     @Query("select count(d) from Diary d where d.favorite = true and d.user.seq = :userId")
     Long countByUserFavoriteDiary(@Param("userId") Long userId);
 
-    Page<DiaryDto> findByFavoriteIsTrue(Pageable pageable);
+    Page<DiaryDto> findByFavoriteIsTrueAndUser(Pageable pageable, User user);
 
     Page<DiaryDto> findByCulture_CultureNameAndUser(String cultureName, User user, Pageable pageable);
 

@@ -40,7 +40,7 @@ public class RepositoryService {
 
         if (category != null) {
             if (category == Category.LIKE) {
-                return diaryRepository.findByFavoriteIsTrue(pageable);
+                return diaryRepository.findByFavoriteIsTrueAndUser(pageable, user);
             }
 
             return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
@@ -142,7 +142,7 @@ public class RepositoryService {
         }
 
         diaryCategoryCount.put("totalNumberOfDiaryCount", total);
-        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(userId));
+        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(user.getSeq()));
 
         return diaryCategoryCount;
     }
