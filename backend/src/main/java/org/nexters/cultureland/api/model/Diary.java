@@ -82,6 +82,9 @@ public class Diary {
 
         String content = diaryDto.getContent();
         this.content = content == null ? this.content : content;
+
+        String imageUrl = diaryDto.getImageUrl();
+        this.imageUrl = imageUrl == null ? this.imageUrl : imageUrl;
     }
 
     public void like() {
