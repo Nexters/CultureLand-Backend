@@ -8,15 +8,14 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.nexters.cultureland.api.dto.Image;
 import org.nexters.cultureland.common.FileName;
 import org.nexters.cultureland.config.AwsCredientials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Optional;
 
 @Service
@@ -45,6 +44,28 @@ public class S3Service {
         amazonS3.putObject(putObjectRequest);
 
         image.delete();
+        return amazonS3.getUrl(bucket, fileName)
+                .toString();
+    }
+
+    public String upload(Image image) throws IOException {
+        BufferedInputStream in = new BufferedInputStream(new ByteArrayInputStream(image.getImage()));
+        File file = new File(image.getFilename());
+        FileOutputStream out = new FileOutputStream(file);
+        byte[] readBuffer = new byte[1024];
+        while (in.read(readBuffer, 0, readBuffer.length) != -1) {
+            out.write(readBuffer);
+        }
+        in.close();
+        out.close();
+
+        String fileName = convertFileNameForSave(file.getName());
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, fileName, file);
+
+        amazonS3.putObject(putObjectRequest);
+
+        file.delete();
         return amazonS3.getUrl(bucket, fileName)
                 .toString();
     }
