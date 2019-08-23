@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "USER")
+@Entity
+@Table(name = "USER")
 @NoArgsConstructor
 @Getter
 @ToString
@@ -32,10 +33,10 @@ public class User {
        OneTomMany 설정
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Diary> posts;
+    private List<Diary> diaries;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Dibs> dibses;
+    private List<WishList> wishLists;
 
     @Builder
     public User(Long userId, String userName) {
@@ -43,10 +44,10 @@ public class User {
         this.userName = userName;
     }
 
-    public void addDibsCulture(Dibs dibs) {
-        if (this.dibses == null) {
-            this.dibses = new ArrayList<>();
+    public void addDibsCulture(WishList wishList) {
+        if (this.wishLists == null) {
+            this.wishLists = new ArrayList<>();
         }
-        this.dibses.add(dibs);
+        this.wishLists.add(wishList);
     }
 }

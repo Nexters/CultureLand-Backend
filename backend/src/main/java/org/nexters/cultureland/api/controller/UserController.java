@@ -1,7 +1,8 @@
 package org.nexters.cultureland.api.controller;
 
-import org.nexters.cultureland.api.dto.DibsDto;
+import org.nexters.cultureland.api.dto.WishListDto;
 import org.nexters.cultureland.api.service.UserService;
+import org.nexters.cultureland.api.service.WishListService;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.slf4j.Logger;
@@ -10,18 +11,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private UserService userService;
+    private final UserService userService;
+    private final WishListService wishListService;
 
-    public UserController(UserService userService) {
+    public UserController(final UserService userService, final WishListService wishListService) {
         this.userService = userService;
+        this.wishListService = wishListService;
     }
 
+    /**
+     * /users
+     * 유저정보 조회
+     *
+     * @param userId
+     * @return
+     */
     @GetMapping
     public ResponseEntity<ResponseMessage> requestUserInfos(@LoginUser long userId) {
         log.info("Call user information params {" + userId + "}");
@@ -31,6 +42,13 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
+    /**
+     * /users/:userId
+     * 유저정보 삭제
+     *
+     * @param userId
+     * @return
+     */
     @DeleteMapping
     public ResponseEntity<ResponseMessage> deleteUserInfos(@LoginUser long userId) {
         log.info("Call delete user information params {" + userId + "}");
@@ -40,38 +58,73 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/dibs")
-    public ResponseMessage allDibsCultures(@LoginUser long userId) {
+    /**
+     * /users/wishList
+     * wish list 전체 조회
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping(value = "/wishList")
+    public ResponseMessage getAllWishlist(@LoginUser long userId) {
         log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
-        List<DibsDto> dibsDtos = userService.findAllDibs(userId);
-        responseMessage.setMessage(dibsDtos);
+        List<WishListDto> wishListDtos = userService.findAllWishList(userId);
+        responseMessage.setMessage(wishListDtos);
         return responseMessage;
     }
 
-    @GetMapping(value = "/dibs/{dibsId}")
-    public ResponseMessage allDibsCultures(@LoginUser long userId, @PathVariable long dibsId) {
-        log.info("Call delete user information params {" + userId + "}");
-        ResponseMessage responseMessage = new ResponseMessage();
-        DibsDto dibsDto = userService.findDibsDetail(userId, dibsId);
-        responseMessage.setMessage(dibsDto);
-        return responseMessage;
-    }
-
-    @PostMapping(value = "/dibs")
-    public ResponseMessage addUserDibs(@LoginUser long userId, @RequestBody DibsDto dibsDto) {
-        log.info(dibsDto.toString());
+    /**
+     * /users/wishList?cultureInfoId={}
+     * wishList 여부확인
+     *
+     * @param userId
+     * @param cultureInfoId
+     * @return
+     */
+    @GetMapping(value = "/wishList/find")
+    public ResponseMessage isMyWishList(@LoginUser long userId, @RequestParam long cultureInfoId) {
+        log.info(userId + " " + cultureInfoId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        userService.addUserDibs(userId, dibsDto);
+        boolean isMyWishList = wishListService.isWishlistByCultureInfoId(userId, cultureInfoId);
+//        userService.addUserWishList(userId, cultureInfoId);
+        HashMap<String, Boolean> returnValue = new HashMap<>();
+        returnValue.put("isMyWishList", isMyWishList);
+        responseMessage.setMessage(returnValue);
+
+        return responseMessage;
+    }
+
+    /**
+     * /users/wishList?cultureInfoId={}
+     * wish list 등록
+     *
+     * @param userId
+     * @param cultureInfoId
+     * @return
+     */
+    @PostMapping(value = "/wishList")
+    public ResponseMessage addUserWishlist(@LoginUser long userId, @RequestParam long cultureInfoId) {
+        log.info(userId + " " + cultureInfoId);
+        ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
+        userService.addUserWishList(userId, cultureInfoId);
         responseMessage.setMessage("SUCCESS");
         return responseMessage;
     }
 
-    @DeleteMapping(value = "/dibs/{dibsId}")
-    public ResponseMessage deleteUserDibs(@LoginUser long userId, @PathVariable long dibsId) {
-        log.info(userId + " " + dibsId);
+    /**
+     * /users/wishList/:wishListId
+     * wish list 삭제
+     *
+     * @param userId
+     * @param wishListId
+     * @return
+     */
+    @DeleteMapping(value = "/wishList/{wishListId}")
+    public ResponseMessage deleteUserWishlist(@LoginUser long userId, @PathVariable long wishListId) {
+        log.info(userId + " " + wishListId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
-        userService.deleteUserDibs(userId, dibsId);
+        userService.deleteUserWishList(userId, wishListId);
         responseMessage.setMessage("SUCCESS");
         return responseMessage;
     }

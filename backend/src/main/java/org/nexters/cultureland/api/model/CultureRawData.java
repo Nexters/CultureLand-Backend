@@ -6,6 +6,7 @@ import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "culture_rowdata")
@@ -35,20 +36,26 @@ public class CultureRawData {
     @Column
     private String endDate;
 
+    @Column
+    private Long popular;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "culture_id")
     @LazyToOne(value = LazyToOneOption.NO_PROXY)
     @JsonBackReference
     private Culture culture;
 
+    @OneToMany(mappedBy = "cultureRawData", cascade = CascadeType.ALL)
+    private List<WishList> wishLists;
+
     @Builder
-    public CultureRawData(String imageUrl, String title, String place, String startDate, String endDate, Culture culture) {
+    public CultureRawData(String imageUrl, String title, String place, String startDate, String endDate, Long popular, Culture culture) {
         this.imageUrl = imageUrl;
         this.title = title;
         this.place = place;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.popular = popular;
         this.culture = culture;
     }
-
 }
