@@ -38,7 +38,7 @@ public class KakaoSSOServiceImpl implements SSOService {
 
         User user = null;
         synchronized (this) {
-            user = userService.createUser(userResponse.getId(), userResponse.getProperties().getNickname());
+            user = userService.createUser(userResponse.getId(), userResponse.getProperties().getNickname(), userResponse.getProperties().getNickname());
             return new SignDto(jwtManager.makeJwt(user), user.getUserName());
         }
     }

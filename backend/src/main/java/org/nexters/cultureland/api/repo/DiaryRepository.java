@@ -10,17 +10,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     @Query(value = "select date_format(sometime,'%m') as d, count(*) from diary where user_seq = :userId and year(sometime) = :year group by d", nativeQuery = true)
     List<Object[]> countByUser(@Param("userId") Long userId, @Param("year") String year);
 
+    @Query(value = "select image_url from diary where user_seq = :userId and date_format(sometime, '%Y%m') = :date order by sometime desc limit 1", nativeQuery = true)
+    Optional<String> findDefaultImageByMonth(@Param("userId") Long UserId, @Param("date") String date);
+
     @Query("select d.culture.cultureName, count(d.culture) from Diary d where d.user.seq = :userId group by d.culture.id")
     List<Object[]> countByCategories(@Param("userId") Long userId);
 
     @Query("select count(d) from Diary d where d.favorite = true and d.user.seq = :userId")
     Long countByUserFavoriteDiary(@Param("userId") Long userId);
+
+    Page<DiaryDto> findByFavoriteIsTrueAndUser(Pageable pageable, User user);
 
     Page<DiaryDto> findByCulture_CultureNameAndUser(String cultureName, User user, Pageable pageable);
 

@@ -39,6 +39,10 @@ public class RepositoryService {
         User user = findUser(userId);
 
         if (category != null) {
+            if (category == Category.LIKE) {
+                return diaryRepository.findByFavoriteIsTrueAndUser(pageable, user);
+            }
+
             return diaryRepository.findByCulture_CultureNameAndUser(category.name(), user, pageable);
         } else if (date != null) {
             Page<Diary> diaryPage = diaryRepository.findByUserAndSometime(date, user.getSeq(), pageable);
@@ -113,11 +117,13 @@ public class RepositoryService {
         User user = findUser(userId);
         List<Object[]> queryResult = diaryRepository.countByUser(user.getSeq(), year);
 
+
         return queryResult.stream()
                 .map((result) ->
                         DiaryCountDto.builder()
                                 .monthTime((String) result[0])
                                 .count(((BigInteger) result[1]).intValue())
+                                .imageUrl(diaryRepository.findDefaultImageByMonth(user.getSeq(), year + result[0]).orElse(""))
                                 .build()
                 ).collect(Collectors.toList());
     }
@@ -136,7 +142,7 @@ public class RepositoryService {
         }
 
         diaryCategoryCount.put("totalNumberOfDiaryCount", total);
-        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(userId));
+        diaryCategoryCount.put("likedDiaryCount", diaryRepository.countByUserFavoriteDiary(user.getSeq()));
 
         return diaryCategoryCount;
     }

@@ -7,9 +7,7 @@ import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -87,8 +85,8 @@ public class DiaryController {
         return responseMessage;
     }
 
-    @PostMapping(value = "/upload/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseMessage uploadDiaryImage(@RequestPart MultipartFile image) throws IOException {
+    @PostMapping("/upload/image")
+    public ResponseMessage uploadDiaryImage(@RequestBody Image image) throws IOException {
         String imageUrl = s3Service.upload(image);
         return ResponseMessage.builder()
                 .code(200)

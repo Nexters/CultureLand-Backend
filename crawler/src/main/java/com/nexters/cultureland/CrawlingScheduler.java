@@ -20,16 +20,16 @@ public class CrawlingScheduler {
     public void runner(){
         this.startScheduler();
     }
-    @Scheduled(cron = "0 0 3 * * ?")
 
+    @Scheduled(cron = "0 0 3 * * ?")
     public void startScheduler(){
         long start = System.currentTimeMillis(); //시작하는 시점 계산
-        rawDataRepository.deleteAll();
+        //rawDataRepository.deleteAll();
         cultureCrawler.getCultureRawdatas("musical");
         cultureCrawler.getCultureRawdatas("concert");
         cultureCrawler.getCultureRawdatas("play");
         cultureCrawler.getCultureRawdatas("exhibition");
-
+        cultureCrawler.getCultureRawdatas("etc");
         long end = System.currentTimeMillis(); //프로그램이 끝나는 시점 계산
         System.out.println("실행 시간 : "+ ( end - start )/1000.0 +"");
     }

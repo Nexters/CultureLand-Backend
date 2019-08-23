@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "USER")
+@Entity
+@Table(name = "USER")
 @NoArgsConstructor
 @Getter
 @ToString
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     @Column(unique = true, nullable = false)
@@ -26,27 +27,28 @@ public class User {
 
     private String userName;
 
+    private String eMail;
+
     private LocalDateTime createdBy = LocalDateTime.now();
 
     /*
        OneTomMany 설정
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Diary> posts;
+    private List<Diary> diaries;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Dibs> dibses;
+    private List<WishList> wishLists;
 
     @Builder
-    public User(Long userId, String userName) {
+    public User(Long userId, String userName, String eMail) {
+        this.eMail = eMail;
         this.userId = userId;
         this.userName = userName;
     }
 
-    public void addDibsCulture(Dibs dibs) {
-        if (this.dibses == null) {
-            this.dibses = new ArrayList<>();
-        }
-        this.dibses.add(dibs);
+    public void updateUser(String userName, String eMail) {
+        this.eMail = eMail;
+        this.userName = userName;
     }
 }

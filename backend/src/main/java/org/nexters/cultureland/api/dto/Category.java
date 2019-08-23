@@ -1,7 +1,7 @@
 package org.nexters.cultureland.api.dto;
 
 public enum Category {
-    MUSICAL, CONCERT, PLAY, EXHIBITION, ETC, NONE;
+    MUSICAL, CONCERT, PLAY, EXHIBITION, LIKE, ETC, NONE;
 
     public static Category getCategoryFrom(String input) {
         for (Category category : Category.values()) {
