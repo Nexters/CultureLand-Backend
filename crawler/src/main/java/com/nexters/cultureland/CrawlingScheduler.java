@@ -29,7 +29,7 @@ public class CrawlingScheduler {
         cultureCrawler.getCultureRawdatas("concert");
         cultureCrawler.getCultureRawdatas("play");
         cultureCrawler.getCultureRawdatas("exhibition");
-
+        cultureCrawler.getCultureRawdatas("etc");
         long end = System.currentTimeMillis(); //프로그램이 끝나는 시점 계산
         System.out.println("실행 시간 : "+ ( end - start )/1000.0 +"");
     }

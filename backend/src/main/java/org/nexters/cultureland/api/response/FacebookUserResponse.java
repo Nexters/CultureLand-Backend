@@ -10,4 +10,5 @@ import lombok.Setter;
 public class FacebookUserResponse {
     private long id;
     private String name;
+    private String email;
 }

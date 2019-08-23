@@ -2,6 +2,7 @@ package org.nexters.cultureland.api.service.impl;
 
 
 import org.nexters.cultureland.api.dto.SignDto;
+import org.nexters.cultureland.api.dto.UserDto;
 import org.nexters.cultureland.api.model.User;
 import org.nexters.cultureland.api.response.GoogleUserResponse;
 import org.nexters.cultureland.api.service.SSOService;
@@ -34,10 +35,10 @@ public class GoogleSSOServiceImpl implements SSOService {
     @Override
     public SignDto signInOrSignUp(String accessToken) {
         GoogleUserResponse userResponse = this.getUserInfoFromGoogle(accessToken);
-        User user = null;
+
         synchronized (this) {
             long userId = Long.parseLong(userResponse.getId().substring(2));
-            user = userService.createUser(userId, userResponse.getName());
+            User user = userService.createUser(userId, userResponse.getName(), userResponse.getEmail());
             return new SignDto(jwtManager.makeJwt(user), user.getUserName());
         }
     }
