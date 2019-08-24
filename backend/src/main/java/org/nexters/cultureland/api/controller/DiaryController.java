@@ -5,6 +5,8 @@ import org.nexters.cultureland.api.service.DiaryService;
 import org.nexters.cultureland.api.service.S3Service;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/diaries")
 public class DiaryController {
+    private static final Logger log = LoggerFactory.getLogger(DiaryController.class);
 
     private final DiaryService diaryService;
     private final S3Service s3Service;
@@ -78,18 +81,22 @@ public class DiaryController {
     @PostMapping
     public ResponseMessage createUserDiary(@RequestBody DiaryCreateDto diaryDto,
                                            @LoginUser long userId) {
+        log.info("create diary: {} by {}", diaryDto, userId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
         DiaryDto diaryResponse = diaryService.create(userId, diaryDto);
         responseMessage.setMessage(diaryResponse);
 
+        log.info("diary created");
         return responseMessage;
     }
 
     @PostMapping(value = "/upload/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseMessage uploadDiaryImage(@RequestPart MultipartFile image) throws IOException {
+        log.info("image: {}", image);
         String imageUrl = s3Service.upload(image);
+        log.info("image uploaded");
         return ResponseMessage.builder()
                 .code(200)
                 .message(imageUrl)

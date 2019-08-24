@@ -5,6 +5,8 @@ import org.nexters.cultureland.api.dto.CultureDetailDto;
 import org.nexters.cultureland.api.dto.CultureIdImgDto;
 import org.nexters.cultureland.api.service.CultureServiceImpl;
 import org.nexters.cultureland.common.ResponseMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
