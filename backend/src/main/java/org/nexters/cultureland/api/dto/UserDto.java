@@ -2,11 +2,13 @@ package org.nexters.cultureland.api.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.nexters.cultureland.api.model.User;
 
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
 @NoArgsConstructor
 public class UserDto {
     private Long userId;

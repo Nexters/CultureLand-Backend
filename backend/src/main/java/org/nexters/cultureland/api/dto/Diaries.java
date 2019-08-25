@@ -1,10 +1,12 @@
 package org.nexters.cultureland.api.dto;
 
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @NoArgsConstructor
 public class Diaries {
     private List<DiaryDto> diaries;

@@ -2,7 +2,10 @@ package org.nexters.cultureland.api.dto;
 
 import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class WIshListCultureDto {
     private long id;
 
