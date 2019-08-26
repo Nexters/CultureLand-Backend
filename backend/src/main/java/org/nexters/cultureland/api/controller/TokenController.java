@@ -37,7 +37,6 @@ public class TokenController {
                                                           @RequestBody Map<String, String> req,
                                                           HttpServletRequest request) {
         String accessToken = req.get("accessToken");
-        log.info("sign in params {" + accessToken + "}");
         if (accessToken == null) {
             throw new AccessTokenNotFoundException("No AccessToken");
         }

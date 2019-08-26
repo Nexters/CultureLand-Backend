@@ -3,8 +3,11 @@ package org.nexters.cultureland.api.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Getter @NoArgsConstructor
+@Getter
+@ToString
+@NoArgsConstructor
 public class SignDto {
     private String token;
     private String userName;

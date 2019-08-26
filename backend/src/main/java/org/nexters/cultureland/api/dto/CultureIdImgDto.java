@@ -1,15 +1,13 @@
 package org.nexters.cultureland.api.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.nexters.cultureland.api.model.CultureRawData;
 
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class CultureIdImgDto {
     private Long id;
     private String imageUrl;
