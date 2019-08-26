@@ -81,22 +81,19 @@ public class DiaryController {
     @PostMapping
     public ResponseMessage createUserDiary(@RequestBody DiaryCreateDto diaryDto,
                                            @LoginUser long userId) {
-        log.info("create diary: {} by {}", diaryDto, userId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
 //        responseMessage.setPath(request.getServletPath());
 
         DiaryDto diaryResponse = diaryService.create(userId, diaryDto);
         responseMessage.setMessage(diaryResponse);
 
-        log.info("diary created");
         return responseMessage;
     }
 
     @PostMapping(value = "/upload/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseMessage uploadDiaryImage(@RequestPart MultipartFile image) throws IOException {
-        log.info("image: {}", image);
         String imageUrl = s3Service.upload(image);
-        log.info("image uploaded");
+
         return ResponseMessage.builder()
                 .code(200)
                 .message(imageUrl)
