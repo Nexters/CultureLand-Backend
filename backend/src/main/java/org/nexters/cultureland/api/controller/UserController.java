@@ -5,8 +5,6 @@ import org.nexters.cultureland.api.service.UserService;
 import org.nexters.cultureland.api.service.WishListService;
 import org.nexters.cultureland.common.LoginUser;
 import org.nexters.cultureland.common.ResponseMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final WishListService wishListService;
 
@@ -35,7 +32,6 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<ResponseMessage> requestUserInfos(@LoginUser long userId) {
-        log.info("Call user information params {" + userId + "}");
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
         resp.setMessage(userService.findUserbyuserId(userId));
 //        resp.setPath(request.getServletPath());
@@ -51,7 +47,6 @@ public class UserController {
      */
     @DeleteMapping
     public ResponseEntity<ResponseMessage> deleteUserInfos(@LoginUser long userId) {
-        log.info("Call delete user information params {" + userId + "}");
         userService.deleteUserbyId(userId);
         ResponseMessage resp = ResponseMessage.getOkResponseMessage();
 //        resp.setPath(request.getServletPath());
@@ -67,7 +62,6 @@ public class UserController {
      */
     @GetMapping(value = "/wishList")
     public ResponseMessage getAllWishlist(@LoginUser long userId) {
-        log.info("Call delete user information params {" + userId + "}");
         ResponseMessage responseMessage = new ResponseMessage();
         List<WishListDto> wishListDtos = userService.findAllWishList(userId);
         responseMessage.setMessage(wishListDtos);
@@ -84,7 +78,6 @@ public class UserController {
      */
     @GetMapping(value = "/wishList/find")
     public ResponseMessage isMyWishList(@LoginUser long userId, @RequestParam long cultureInfoId) {
-        log.info(userId + " " + cultureInfoId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         boolean isMyWishList = wishListService.isWishlistByCultureInfoId(userId, cultureInfoId);
 //        userService.addUserWishList(userId, cultureInfoId);
@@ -105,7 +98,6 @@ public class UserController {
      */
     @PostMapping(value = "/wishList")
     public ResponseMessage addUserWishlist(@LoginUser long userId, @RequestParam long cultureInfoId) {
-        log.info(userId + " " + cultureInfoId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         userService.addUserWishList(userId, cultureInfoId);
         responseMessage.setMessage("SUCCESS");
@@ -122,7 +114,6 @@ public class UserController {
      */
     @DeleteMapping(value = "/wishList/{wishListId}")
     public ResponseMessage deleteUserWishlist(@LoginUser long userId, @PathVariable long wishListId) {
-        log.info(userId + " " + wishListId);
         ResponseMessage responseMessage = ResponseMessage.getOkResponseMessage();
         userService.deleteUserWishList(userId, wishListId);
         responseMessage.setMessage("SUCCESS");
